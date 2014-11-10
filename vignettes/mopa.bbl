@@ -1,0 +1,165 @@
+\begin{thebibliography}{15}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Barbet-Massin et~al.(2012)Barbet-Massin, Jiguet, Albert, and
+  Thuiller]{barbet-massin_selecting_2012}
+M.a Barbet-Massin, F.a Jiguet, C.H.b~c Albert, and W.c Thuiller.
+\newblock Selecting pseudo-absences for species distribution models: How, where
+  and how many?
+\newblock \emph{Methods in Ecology and Evolution}, 3\penalty0 (2):\penalty0
+  327--338, 2012.
+\newblock URL
+  \url{http://www.scopus.com/inward/record.url?eid=2-s2.0-84867148221&partnerID=40&md5=7e5e3c04a4fd9630c4e6ac6a3783f965}.
+\newblock cited By (since 1996)83.
+
+\bibitem[Chefaoui and Lobo(2008)]{chefaoui_assessing_2008}
+Rosa~M. Chefaoui and Jorge~M. Lobo.
+\newblock Assessing the effects of pseudo-absences on predictive distribution
+  model performance.
+\newblock \emph{Ecological Modelling}, 210\penalty0 (4):\penalty0 478--486,
+  February 2008.
+\newblock ISSN 0304-3800.
+\newblock \doi{10.1016/j.ecolmodel.2007.08.010}.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S030438000700419X}.
+
+\bibitem[Elith et~al.(2006)Elith, Graham, Anderson, Dudik, Ferrier, Guisan,
+  Hijmans, Huettmann, Leathwick, Lehmann, Li, Lohmann, Loiselle, Manion,
+  Moritz, Nakamura, Nakazawa, Overton, Peterson, Phillips, Richardson,
+  Scachetti-Pereira, Schapire, Soberon, Williams, Wisz, and
+  Zimmermann]{elith_novel_2006}
+J.~Elith, C.~H. Graham, R.~P. Anderson, M.~Dudik, S.~Ferrier, A.~Guisan, R.~J.
+  Hijmans, F.~Huettmann, J.~R. Leathwick, A.~Lehmann, J.~Li, L.~G. Lohmann,
+  B.~A. Loiselle, G.~Manion, C.~Moritz, M.~Nakamura, Y.~Nakazawa, J.~M.
+  Overton, A.~T. Peterson, S.~J. Phillips, K.~Richardson, R.~Scachetti-Pereira,
+  R.~E. Schapire, J.~Soberon, S.~Williams, M.~S. Wisz, and N.~E. Zimmermann.
+\newblock Novel methods improve prediction of species' distributions from
+  occurrence data.
+\newblock \emph{Ecography}, 29:\penalty0 129–151, 2006.
+
+\bibitem[Engler et~al.(2004)Engler, Guisan, and
+  Rechsteiner]{engler_improved_2004}
+Robin Engler, Antoine Guisan, and Luca Rechsteiner.
+\newblock An improved approach for predicting the distribution of rare and
+  endangered species from occurrence and pseudo-absence data.
+\newblock \emph{Journal of Applied Ecology}, 41\penalty0 (2):\penalty0
+  263–274, 2004.
+\newblock ISSN 1365-2664.
+\newblock \doi{10.1111/j.0021-8901.2004.00881.x}.
+\newblock URL
+  \url{http://onlinelibrary.wiley.com/doi/10.1111/j.0021-8901.2004.00881.x/abstract}.
+
+\bibitem[Gonzalez et~al.(2011)Gonzalez, Soto-Centeno, and
+  Reed]{gonzalez_population_2011}
+S.C.a~c Gonzalez, J.A.a~b Soto-Centeno, and D.L.a Reed.
+\newblock Population distribution models: Species distributions are better
+  modeled using biologically relevant data partitions.
+\newblock \emph{{BMC} Ecology}, 11, 2011.
+\newblock URL
+  \url{http://www.scopus.com/inward/record.url?eid=2-s2.0-80052849534&partnerID=40&md5=e3e612b2339e279eb9ba7de593016c22}.
+\newblock cited By (since 1996)5.
+
+\bibitem[Hernandez et~al.(2006)Hernandez, Graham, Master, and
+  Albert]{hernandez_effect_2006}
+Pilar~A. Hernandez, Catherine~H. Graham, Lawrence~L. Master, and Deborah~L.
+  Albert.
+\newblock The effect of sample size and species characteristics on performance
+  of different species distribution modeling methods.
+\newblock \emph{Ecography}, 29\penalty0 (5):\penalty0 773--785, October 2006.
+\newblock ISSN 1600-0587.
+\newblock \doi{10.1111/j.0906-7590.2006.04700.x}.
+\newblock URL
+  \url{http://onlinelibrary.wiley.com/doi/10.1111/j.0906-7590.2006.04700.x/abstract}.
+
+\bibitem[Hirzel et~al.(2001)Hirzel, Helfer, and Metral]{hirzel_assessing_2001}
+A.~H. Hirzel, V.~Helfer, and F.~Metral.
+\newblock Assessing habitat-suitability models with a virtual species.
+\newblock \emph{Ecological modelling}, 145\penalty0 (2):\penalty0 111–121,
+  2001.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S0304380001003969}.
+
+\bibitem[Jeremy~VanDerWal(2009)]{jeremy_vanderwal_selecting_2009}
+Luke P.~Shoo Jeremy~VanDerWal.
+\newblock Selecting pseudo-absence data for presence-only distribution
+  modeling: How far should you stray from what you know?
+\newblock \emph{Ecological Modelling}, \penalty0 (4):\penalty0 589--594, 2009.
+\newblock \doi{10.1016/j.ecolmodel.2008.11.010}.
+
+\bibitem[Jiang et~al.(2014)Jiang, Wang, De~Bie, Skidmore, Liu, Song, Zhang,
+  Wang, and Shao]{jiang_satellite-derived_2014}
+Y.a~b Jiang, T.c Wang, C.A.J.M.c De~Bie, A.K.c Skidmore, X.d Liu, S.a Song, L.e
+  Zhang, J.f Wang, and X.a Shao.
+\newblock Satellite-derived vegetation indices contribute significantly to the
+  prediction of epiphyllous liverworts.
+\newblock \emph{Ecological Indicators}, 38:\penalty0 72--80, 2014.
+\newblock URL
+  \url{http://www.scopus.com/inward/record.url?eid=2-s2.0-84888585922&partnerID=40&md5=dabc8cdf6c15fd51d8f84e3aa47a4c3c}.
+\newblock cited By (since 1996)0.
+
+\bibitem[Liu et~al.(2013)Liu, White, Newell, and Griffioen]{liu_species_2013}
+C.a Liu, M.a White, G.a Newell, and P.b Griffioen.
+\newblock Species distribution modelling for conservation planning in victoria,
+  australia.
+\newblock \emph{Ecological Modelling}, 249:\penalty0 68--74, 2013.
+\newblock URL
+  \url{http://www.scopus.com/inward/record.url?eid=2-s2.0-84872138736&partnerID=40&md5=53f2d771b5ee5f5a33a7ce2eb6a05b6a}.
+\newblock cited By (since 1996)3.
+
+\bibitem[Lobo et~al.(2010)Lobo, Jiménez-Valverde, and
+  Hortal]{lobo_uncertain_2010}
+Jorge~M. Lobo, Alberto Jiménez-Valverde, and Joaquín Hortal.
+\newblock The uncertain nature of absences and their importance in species
+  distribution modelling.
+\newblock \emph{Ecography}, 33\penalty0 (1):\penalty0 103–114, 2010.
+\newblock ISSN 1600-0587.
+\newblock \doi{10.1111/j.1600-0587.2009.06039.x}.
+\newblock URL
+  \url{http://onlinelibrary.wiley.com/doi/10.1111/j.1600-0587.2009.06039.x/abstract}.
+
+\bibitem[Maria~Teresa et~al.(2014)Maria~Teresa, Antoine, Carmen, Tiziana, Anna,
+  and Maria~Laura]{maria_teresa_multi-temporal_2014}
+C.a Maria~Teresa, G.b Antoine, C.b Carmen, S.c Tiziana, L.a Anna, and C.a
+  Maria~Laura.
+\newblock A multi-temporal approach to model endangered species distribution in
+  europe. the case of the eurasian otter in italy.
+\newblock \emph{Ecological Modelling}, 274:\penalty0 21--28, 2014.
+\newblock URL
+  \url{http://www.scopus.com/inward/record.url?eid=2-s2.0-84890835735&partnerID=40&md5=9a63121595387a5cd6864d48e07fbde7}.
+\newblock cited By (since 1996)0.
+
+\bibitem[Sequeira et~al.(2014)Sequeira, Mellin, Fordham, Meekan, and
+  Bradshaw]{sequeira_predicting_2014}
+A.M.M.a Sequeira, C.a~b Mellin, D.A.a Fordham, M.G.c Meekan, and C.J.A.a~d
+  Bradshaw.
+\newblock Predicting current and future global distributions of whale sharks.
+\newblock \emph{Global Change Biology}, 20\penalty0 (3):\penalty0 778--789,
+  2014.
+\newblock URL
+  \url{http://www.scopus.com/inward/record.url?eid=2-s2.0-84893703315&partnerID=40&md5=d5f92a9819f1daca8ca7e109c475f6f3}.
+\newblock cited By (since 1996)0.
+
+\bibitem[Wisz and Guisan(2009)]{wisz_pseudo-absence_2009}
+Mary~S. Wisz and Antoine Guisan.
+\newblock Do pseudo-absence selection strategies influence species distribution
+  models and their predictions? an information-theoretic approach based on
+  simulated data.
+\newblock \emph{{BMC} Ecology}, 9\penalty0 (1):\penalty0 8, April 2009.
+\newblock ISSN 1472-6785.
+\newblock \doi{10.1186/1472-6785-9-8}.
+\newblock URL \url{http://www.biomedcentral.com/1472-6785/9/8/abstract}.
+
+\bibitem[Zaniewski et~al.(2002)Zaniewski, Lehmann, and
+  Overton]{zaniewski_predicting_2002}
+A.E. Zaniewski, A.~Lehmann, and J.M. Overton.
+\newblock Predicting species spatial distributions using presence-only data: a
+  case study of native new zealand ferns.
+\newblock \emph{Ecological Modelling}, 157\penalty0 (2):\penalty0 261--280,
+  November 2002.
+\newblock \doi{10.1016/S0304-3800(02)00199-0}.
+
+\end{thebibliography}
