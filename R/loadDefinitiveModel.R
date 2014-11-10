@@ -1,7 +1,7 @@
 
 
 
-#' @title Load definitive fitted model from Rdata 
+#' @title Load Rdata files storing definitive fitted model 
 #' @description Load information from Rdata generated with function allModelling based 
 #' in an index to select the definitive fitted model/s, ideally, the index returned by 
 #' function indextent should be used.
