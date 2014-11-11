@@ -7,7 +7,7 @@
 #' @param data Object returned by function biomat. 2D matrix with the dependent variable 
 #' (presence/absence) in the first column and the independent variables in the rest 
 #' (extracted from varstack) 
-#' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
+#' @param algorithm Any character of the following: \code{"glm"}, "svm", "maxent", "mars", "randomForest", "cart.rpart" 
 #' or "cart.tree"
 #'
 #'  
@@ -20,17 +20,13 @@
 #'  \item{mod }{fitted model with partitioned data}
 #'  \item{p }{cross model prediction}
 #' 
-#' @details This function calculates the AUC with the function “auc” from package 
-#' “PresenceAbsence”. Package SDMTools must be detached.
+#' @details This function calculates the AUC with the function "auc" from package 
+#' "PresenceAbsence". Package SDMTools must be detached.
 #' 
 #' 
 #' 
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
-#' @examples
-#' ##SpatialPoints grid 
-#' data(sp_grid)
-#' class(sp_grid)
 #'
 #' @export
 #' @keywords internal

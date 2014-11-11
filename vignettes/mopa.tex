@@ -6,16 +6,17 @@
 \usepackage{amsmath}
 \usepackage{indentfirst}
 \usepackage{hanging}
-\usepackage[utf8]{inputenc}
+%\usepackage{zi4}
+%\usepackage[utf8]{inputenc}
 \usepackage{hyperref}
-
+\usepackage[T1]{fontenc}
 \DeclareGraphicsExtensions{.png,.pdf,.jpg}
 
 \begin{document}
 
-\VignetteIndexEntry{Species distribution modeling with three-step pseudo--absences}
-\VignetteDepends{mopa,sp,raster,earth}
-% \VignetteKeyword{spatial}
+%\VignetteIndexEntry{Species distribution modeling with three-step pseudo--absences}
+%\VignetteDepends{mopa,sp,raster,earth}
+%\VignetteKeyword{spatial}
 
 %\newcommand{\super}[1]{\ensuremath{^{\textrm{#1}}}}
 %\newcommand{\sub}[1]{\ensuremath{_{\textrm{#1}}}}
@@ -65,7 +66,8 @@ Regarding presence data, \citet{hernandez_effect_2006} suggested that research i
 > data(Oak_phylo2)
 > plot(eu, col="grey")
 > for (i in 1:length(Oak_phylo2)){
-+   points(Oak_phylo2[[i]], pch="*", cex=0.5, col = colors()[i*50])
++   points(Oak_phylo2[[i]], pch="*", cex=0.5, 
++          col = colors()[i*50])
 + }
 \end{Sinput}
 \end{Schunk}
@@ -130,8 +132,9 @@ Intersection of the background point grid with the bounding boxes. A list with t
 
 \begin{Schunk}
 \begin{Sinput}
-> unsuitable.bg <-OCSVMprofiling(xy = Oak_phylo2, varstack = biostack, 
-+  bbs.grid = box.grid$bbs.grid)
+> unsuitable.bg <-OCSVMprofiling(xy = Oak_phylo2, 
++                     varstack = biostack, 
++                     bbs.grid = box.grid$bbs.grid)
 > plot(unsuitable.bg$absence$H11, pch="*")
 > points(unsuitable.bg$presence$H11, pch="*", col= "pink2")
 \end{Sinput}
@@ -169,7 +172,8 @@ Sequence of 100 km between distances, from 20 km to the length of the half diago
 \begin{Schunk}
 \begin{Sinput}
 > pa_random <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext, 
-+ 	exclusion.buffer = 0.0083, prevalence = 0.5, kmeans = FALSE)
++ 	exclusion.buffer = 0.0083, prevalence = 0.5, 
++   kmeans = FALSE)
 \end{Sinput}
 \begin{Soutput}
 [1] "generating pseudo-absences for species 1 out of 2"
@@ -189,7 +193,8 @@ Sequence of 100 km between distances, from 20 km to the length of the half diago
 \begin{Schunk}
 \begin{Sinput}
 > pa_kmeans <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext, 
-+ 	exclusion.buffer = 0.0083, prevalence = 0.5, kmeans = TRUE)
++ 	exclusion.buffer = 0.0083, prevalence = 0.5, 
++   kmeans = TRUE)
 \end{Sinput}
 \begin{Soutput}
 [1] "generating pseudo-absences for species 1 out of 2"
@@ -207,7 +212,8 @@ Sequence of 100 km between distances, from 20 km to the length of the half diago
 
 \begin{Schunk}
 \begin{Sinput}
-> presaus <-bindPresAbs(presences = Oak_phylo2, absences = pa_random)
+> presaus <-bindPresAbs(presences = Oak_phylo2, 
++                       absences = pa_random)
 \end{Sinput}
 \end{Schunk}
 
@@ -219,7 +225,9 @@ The \texttt{allModeling} function.Modelling and cross validation. Algorithms sup
 
 \begin{Schunk}
 \begin{Sinput}
-> modirs <-allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars", destdir = getwd(), projection = CRS("+proj=longlat +init=epsg:4326"))
+> modirs <-allModeling(data = presaus, varstack = biostack, 
++               k = 10, algorithm = "mars", destdir = getwd(), 
++               projection = CRS("+proj=longlat +init=epsg:4326"))
 \end{Sinput}
 \end{Schunk}
 
@@ -237,7 +245,8 @@ To selected the model corresponding to the geographical extent beyond which the 
 
 \begin{Schunk}
 \begin{Sinput}
-> auc_mars <-loadTestValues(data = presaus, test = "auc", algorithm = "mars")
+> auc_mars <-loadTestValues(data = presaus, test = "auc", 
++                           algorithm = "mars")
 \end{Sinput}
 \begin{Soutput}
 [1] "loading values for species 1"
@@ -245,8 +254,9 @@ To selected the model corresponding to the geographical extent beyond which the 
 \end{Soutput}
 \begin{Sinput}
 > library(lattice)
-> levelplot(auc_mars ,aspect=5 ,at =seq(0.5,1,0.01), col.regions=bpy.colors,
-+ xlab="Haplogroups" ,ylab="Background extent (km)", main = "AUC")
+> levelplot(auc_mars ,aspect=5 ,at =seq(0.5,1,0.01), 
++           col.regions=bpy.colors, xlab="Haplogroups", 
++           ylab="Background extent (km)", main = "AUC")
 \end{Sinput}
 \end{Schunk}
 \includegraphics{mopa-mopa13}
@@ -259,8 +269,8 @@ To extract the extent at which maximum AUC values is scored:
 > ind
 \end{Sinput}
 \begin{Soutput}
-km1520 km1120 
-    16     12 
+km1220 km1120 
+    13     12 
 \end{Soutput}
 \end{Schunk}
 
@@ -270,9 +280,12 @@ Thus, the \texttt{ind} object in this example gives the index of the background 
 \begin{Sinput}
 > def <-loadDefinitiveModel(presaus, ind, "allmod", "mars")
 > #example of prediction
-> projectionland <-biomat(cbind(box.grid[[2]][[1]], rep(1,nrow(box.grid[[2]][[1]]))), biostack)
+> projectionland <-biomat(cbind(box.grid[[2]][[1]], 
++                     rep(1,nrow(box.grid[[2]][[1]]))), 
++                     biostack)
 > p <-predict(def[[1]], projectionland[,-1])->p
-> spp<-SpatialPixelsDataFrame(box.grid[[2]][[1]], as.data.frame(p))
+> spp<-SpatialPixelsDataFrame(box.grid[[2]][[1]], 
++                             as.data.frame(p))
 > ras<-raster(spp)
 > plot(ras)
 \end{Sinput}

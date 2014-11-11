@@ -53,8 +53,7 @@
 #' @export
 #' 
 #' @import sp
-#' @import splancs bboxx
-
+#' @importFrom splancs bboxx
 
 delimit<-function(bounding.coords, grid, names){
   

@@ -1,7 +1,7 @@
 Package: mopa
 Type: Package
 Title: Species distribution modeling with three-step pseudo-absences
-Version: 1.0.0
+Version: 0.0.0
 Date: 2014-9-9
 Depends:
     R (>= 3.1.1),
@@ -22,12 +22,12 @@ Imports:
 Suggests:
     rJava (>= 0.5-0),
     lattice
-Author: Maialen Iturbide [aut, cre, cph], Joaquin Bedia [aut, cph]
+Author: Maialen Iturbide [aut, cre], Joaquin Bedia [aut]
 Maintainer: Maialen Iturbide <maibide@gmail.com>
 Description: Functions for three step pseudo-absence generation and species
     distribution modeling
+BugReports: https://github.com/miturbide/mopa/issues
 License: GPL (>= 3)
 LazyLoad: yes
 Packaged: 2014-09-10 05:53:24 UTC; miturbide
 NeedsCompilation: yes
-Repository: CRAN

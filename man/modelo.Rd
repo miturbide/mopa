@@ -13,7 +13,7 @@ modelo(kdata, data, algorithm = c("glm", "svm", "maxent", "mars",
 (presence/absence) in the first column and the independent variables in the rest
 (extracted from varstack)}
 
-\item{algorithm}{Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart"
+\item{algorithm}{Any character of the following: \code{"glm"}, "svm", "maxent", "mars", "randomForest", "cart.rpart"
 or "cart.tree"}
 }
 \value{
@@ -31,13 +31,8 @@ Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.r
 and "cart.tree"
 }
 \details{
-This function calculates the AUC with the function “auc” from package
-“PresenceAbsence”. Package SDMTools must be detached.
-}
-\examples{
-##SpatialPoints grid
-data(sp_grid)
-class(sp_grid)
+This function calculates the AUC with the function "auc" from package
+"PresenceAbsence". Package SDMTools must be detached.
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

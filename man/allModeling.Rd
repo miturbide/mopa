@@ -45,8 +45,8 @@ extent. Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest",
 and "cart.tree"
 }
 \details{
-This function calculates the AUC with the function “auc” from package
-“PresenceAbsence”. Package SDMTools must be detached.
+This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package
+. \strong{Note:} Package \pkg{SDMTools} must be detached.
 }
 \examples{
 \donttest{

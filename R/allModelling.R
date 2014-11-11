@@ -33,8 +33,8 @@
 #'  \item{p }{cross model prediction}
 #'  
 #' 
-#' @details This function calculates the AUC with the function “auc” from package 
-#' “PresenceAbsence”. Package SDMTools must be detached.
+#' @details This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package 
+#' . \strong{Note:} Package \pkg{SDMTools} must be detached.
 #' 
 #' 
 #' 

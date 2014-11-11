@@ -6,22 +6,23 @@
 \usepackage{amsmath}
 \usepackage{indentfirst}
 \usepackage{hanging}
-\usepackage[utf8]{inputenc}
+%\usepackage{zi4}
+%\usepackage[utf8]{inputenc}
 \usepackage{hyperref}
-
+\usepackage[T1]{fontenc}
 \DeclareGraphicsExtensions{.png,.pdf,.jpg}
 
 \begin{document}
 
 %\VignetteIndexEntry{Species distribution modeling with three-step pseudo--absences}
 %\VignetteDepends{mopa,sp,raster,earth}
-% \VignetteKeyword{spatial}
+%\VignetteKeyword{spatial}
 
 %\newcommand{\super}[1]{\ensuremath{^{\textrm{#1}}}}
 %\newcommand{\sub}[1]{\ensuremath{_{\textrm{#1}}}}
 %\newcommand{\R}{{\normalfont\textsf{R }}{}}
 
-\SweaveOpts{pdf=FALSE, png=TRUE}
+\SweaveOpts{pdf=TRUE, png=TRUE}
 \SweaveOpts{resolution=100}
 \SweaveOpts{keep.source=TRUE}
 
@@ -64,7 +65,8 @@ data(eu)
 data(Oak_phylo2)
 plot(eu, col="grey")
 for (i in 1:length(Oak_phylo2)){
-  points(Oak_phylo2[[i]], pch="*", cex=0.5, col = colors()[i*50])
+  points(Oak_phylo2[[i]], pch="*", cex=0.5, 
+         col = colors()[i*50])
 }
 @
 
@@ -116,8 +118,9 @@ for (i in 1:length(Oak_phylo2)){
 \section{STEP1: environmental profiling}
 
 <<mopa7, fig=TRUE, echo=TRUE>>=
-unsuitable.bg <-OCSVMprofiling(xy = Oak_phylo2, varstack = biostack, 
- bbs.grid = box.grid$bbs.grid)
+unsuitable.bg <-OCSVMprofiling(xy = Oak_phylo2, 
+                    varstack = biostack, 
+                    bbs.grid = box.grid$bbs.grid)
 plot(unsuitable.bg$absence$H11, pch="*")
 points(unsuitable.bg$presence$H11, pch="*", col= "pink2")
 @
@@ -144,7 +147,8 @@ points(Oak_phylo2$H11, col="red", pch= ".", cex=1.5)
 <<mopa9, fig=TRUE, echo=TRUE>>=
 
 pa_random <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext, 
-	exclusion.buffer = 0.0083, prevalence = 0.5, kmeans = FALSE)
+	exclusion.buffer = 0.0083, prevalence = 0.5, 
+  kmeans = FALSE)
 plot(ext$H11[[5]], pch="*", col= "grey", cex=.5)
 points(pa_random$H11[[5]], col="red", pch=".", cex=4)
 points(Oak_phylo2$H11, col="blue", pch=".", cex=3)
@@ -156,7 +160,8 @@ points(Oak_phylo2$H11, col="blue", pch=".", cex=3)
 <<mopa10, fig=TRUE, echo=TRUE>>=
 
 pa_kmeans <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext, 
-	exclusion.buffer = 0.0083, prevalence = 0.5, kmeans = TRUE)
+	exclusion.buffer = 0.0083, prevalence = 0.5, 
+  kmeans = TRUE)
 plot(ext$H11[[5]], pch="*", col= "grey", cex=.5)
 points(pa_kmeans$H11[[5]], col="red", pch=".", cex=4)
 points(Oak_phylo2$H11, col="blue", pch=".", cex=3)
@@ -165,7 +170,8 @@ points(Oak_phylo2$H11, col="blue", pch=".", cex=3)
 \section{Put presences and pseudo--absences together}
 
 <<mopa11>>=
-presaus <-bindPresAbs(presences = Oak_phylo2, absences = pa_random)
+presaus <-bindPresAbs(presences = Oak_phylo2, 
+                      absences = pa_random)
 @
 
 
@@ -175,7 +181,9 @@ presaus <-bindPresAbs(presences = Oak_phylo2, absences = pa_random)
 The \texttt{allModeling} function.Modelling and cross validation. Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" and "cart.tree"
 
 <<mopa12>>=
-modirs <-allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars", destdir = getwd(), projection = CRS("+proj=longlat +init=epsg:4326"))
+modirs <-allModeling(data = presaus, varstack = biostack, 
+              k = 10, algorithm = "mars", destdir = getwd(), 
+              projection = CRS("+proj=longlat +init=epsg:4326"))
 @
 
 Named Rdata objects are stored in the specified path. Each Object is given the a name indicating the algorithm, background extent, and species in this order (if a single species is provided no name is given for de species). Character object with listed files is returned. Each Rdata consists of a list with six components:
@@ -191,10 +199,12 @@ Named Rdata objects are stored in the specified path. Each Object is given the a
 To selected the model corresponding to the geographical extent beyond which the AUC scored by the model does not increase we need to load the generated data and extract auc values.
 
 <<mopa13, fig=TRUE, echo=TRUE>>=
-auc_mars <-loadTestValues(data = presaus, test = "auc", algorithm = "mars")
+auc_mars <-loadTestValues(data = presaus, test = "auc", 
+                          algorithm = "mars")
 library(lattice)
-levelplot(auc_mars ,aspect=5 ,at =seq(0.5,1,0.01), col.regions=bpy.colors,
-xlab="Haplogroups" ,ylab="Background extent (km)", main = "AUC")
+levelplot(auc_mars ,aspect=5 ,at =seq(0.5,1,0.01), 
+          col.regions=bpy.colors, xlab="Haplogroups", 
+          ylab="Background extent (km)", main = "AUC")
 @
 
 To extract the extent at which maximum AUC values is scored:
@@ -210,9 +220,12 @@ Thus, the \texttt{ind} object in this example gives the index of the background 
 def <-loadDefinitiveModel(presaus, ind, "allmod", "mars")
 
 #example of prediction
-projectionland <-biomat(cbind(box.grid[[2]][[1]], rep(1,nrow(box.grid[[2]][[1]]))), biostack)
+projectionland <-biomat(cbind(box.grid[[2]][[1]], 
+                    rep(1,nrow(box.grid[[2]][[1]]))), 
+                    biostack)
 p <-predict(def[[1]], projectionland[,-1])->p
-spp<-SpatialPixelsDataFrame(box.grid[[2]][[1]], as.data.frame(p))
+spp<-SpatialPixelsDataFrame(box.grid[[2]][[1]], 
+                            as.data.frame(p))
 ras<-raster(spp)
 plot(ras)
 @
