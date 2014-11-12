@@ -4,7 +4,7 @@ Title: Species distribution modeling with three-step pseudo-absences
 Version: 0.0.0
 Date: 2014-9-9
 Depends:
-    R (>= 3.1.1),
+    R (>= 3.1.0),
     raster,
     sp
 Imports:
