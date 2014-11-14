@@ -26,7 +26,7 @@ CRS("+proj=longlat +init=epsg:4326")}
 }
 \value{
 Named Rdata objects are stored in the
-specified path. Each Object is given the a name indicating the algorithm, background
+specified path. Each Object is given a name indicating the algorithm, background
 extent, and species in this order (if a single species is provided no name is given
 for de species). Character object with listed files is returned.
 Each Rdata consists of a list with six components:
@@ -46,18 +46,13 @@ and "cart.tree"
 }
 \details{
 This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package
-. \strong{Note:} Package \pkg{SDMTools} must be detached.
+\pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached.
 }
 \examples{
-\donttest{
-##delimit study area
-data(Oak_phylo2)
-data(sp_grid)
 data(presaus)
 data(biostack)
-##modelling
+##modeling
 modirs <-allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars")
-}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

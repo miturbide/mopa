@@ -27,15 +27,9 @@ Load model validation statistics from Rdata generated with function allModelling
 detail.
 }
 \examples{
-\donttest{
-##delimit study area
-data(Oak_phylo2)
-data(sp_grid)
 data(presaus)
 data(biostack)
-oak.extension<-boundingCoords(Oak_phylo2)
-box.grid<-delimit(oak.extension, sp_grid, names(Oak_phylo2))
-##modelling
+##modeling
 modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars")
 ##loading
 auc_mars <-loadTestValues(data = presaus, test = "auc", algorithm = "mars")
@@ -43,7 +37,6 @@ auc_mars <-loadTestValues(data = presaus, test = "auc", algorithm = "mars")
 library(lattice)
 levelplot(auc_mars ,aspect=5 ,at =seq(0.5,1,0.01), col.regions=bpy.colors,
 xlab="Haplogroups" ,ylab="Background extent (km)", main = "AUC")
-}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

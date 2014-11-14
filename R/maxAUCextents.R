@@ -18,14 +18,9 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
-#' ##delimit study area
-#' data(Oak_phylo2)
-#' data(sp_grid)
 #' data(presaus)
 #' data(biostack)
-#' oak.extension<-boundingCoords(Oak_phylo2)
-#' box.grid<-delimit(oak.extension, sp_grid, names(Oak_phylo2))
-#' ##modelling
+#' ##modeling
 #' modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars") 
 #' ##loading#'  
 #' auc_mars <-loadTestValues(data = presaus, "auc", "mars") 

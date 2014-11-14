@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.11.10)  10 NOV 2014 19:39
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.11.10)  14 NOV 2014 13:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -451,224 +451,122 @@ LaTeX Info: Redefining \nameref on input line 15.
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 Chapter 1.
-LaTeX Font Info:    Try loading font information for T1+aett on input line 51.
+LaTeX Font Info:    Try loading font information for T1+aett on input line 52.
 (/usr/share/texlive/texmf-dist/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 )pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.60 
+l.53 
       [1
 
-] <mopa-mopa2.png, id=123, 433.62pt x 433.62pt>
+] [2]
+Chapter 2.
+<mopa-mopa2.png, id=159, 433.62pt x 433.62pt>
 File: mopa-mopa2.png Graphic file (type png)
  <use mopa-mopa2.png>
-Package pdftex.def Info: mopa-mopa2.png used on input line 74.
+Package pdftex.def Info: mopa-mopa2.png used on input line 85.
 (pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
+ [3
 
-[2 <./mopa-mopa2.png (PNG copy)>]
-<mopa-mopa3.png, id=132, 433.62pt x 433.62pt>
+]
+<mopa-mopa3.png, id=168, 433.62pt x 433.62pt>
 File: mopa-mopa3.png Graphic file (type png)
  <use mopa-mopa3.png>
-Package pdftex.def Info: mopa-mopa3.png used on input line 87.
+Package pdftex.def Info: mopa-mopa3.png used on input line 98.
 (pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
- [3 <./mopa-mopa3.png (PNG copy)>]
-Chapter 2.
+ [4 <./mopa-mopa2.png (PNG copy)>] [5 <./mopa-mopa3.png (PNG copy)>]
+Chapter 3.
 
-Overfull \hbox (16.65215pt too wide) in paragraph at lines 105--105
+Overfull \hbox (16.65215pt too wide) in paragraph at lines 118--118
 []\T1/aer/bx/n/14.4 Limit study area to the bound-ing boxes around
  []
 
-<mopa-mopa6.png, id=137, 433.62pt x 433.62pt>
+
+Overfull \hbox (1.77615pt too wide) in paragraph at lines 120--121
+[]\T1/aer/m/n/10 Function \T1/aett/m/n/10 bound-ing-Co-ords \T1/aer/m/n/10 cre-
+ates the ma-trix of bound-ing co-or-di-nates around
+ []
+
+<mopa-mopa6.png, id=177, 433.62pt x 433.62pt>
 File: mopa-mopa6.png Graphic file (type png)
  <use mopa-mopa6.png>
-Package pdftex.def Info: mopa-mopa6.png used on input line 125.
-(pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
- [4
-
-] [5 <./mopa-mopa6.png (PNG copy)>]
-Chapter 3.
-<mopa-mopa7.png, id=146, 433.62pt x 433.62pt>
-File: mopa-mopa7.png Graphic file (type png)
- <use mopa-mopa7.png>
-Package pdftex.def Info: mopa-mopa7.png used on input line 142.
+Package pdftex.def Info: mopa-mopa6.png used on input line 140.
 (pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
  [6
 
- <./mopa-mopa7.png (PNG copy)>] <mopa-mopa8.png, id=152, 433.62pt x 433.62pt>
+] [7 <./mopa-mopa6.png (PNG copy)>]
+Chapter 4.
+<mopa-mopa7.png, id=189, 433.62pt x 433.62pt>
+File: mopa-mopa7.png Graphic file (type png)
+ <use mopa-mopa7.png>
+Package pdftex.def Info: mopa-mopa7.png used on input line 159.
+(pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
+ [8
+
+]
+<mopa-mopa8.png, id=195, 433.62pt x 433.62pt>
 File: mopa-mopa8.png Graphic file (type png)
-
-<use mopa-mopa8.png>
-Package pdftex.def Info: mopa-mopa8.png used on input line 166.
+ <use mopa-mopa8.png>
+Package pdftex.def Info: mopa-mopa8.png used on input line 184.
 (pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
- [7 <./mopa-mopa8.png (PNG copy)>]
-<mopa-mopa9.png, id=157, 433.62pt x 433.62pt>
+ [9 <./mopa-mopa7.png (PNG copy)>] <mopa-mopa9.png, id=200, 433.62pt x 433.62pt
+>
 File: mopa-mopa9.png Graphic file (type png)
- <use mopa-mopa9.png>
-Package pdftex.def Info: mopa-mopa9.png used on input line 189.
-(pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
 
-<mopa-mopa10.png, id=158, 433.62pt x 433.62pt>
+<use mopa-mopa9.png>
+Package pdftex.def Info: mopa-mopa9.png used on input line 211.
+(pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
+ [10 <./mopa-mopa8.png (PNG copy)>]
+<mopa-mopa10.png, id=205, 433.62pt x 433.62pt>
 File: mopa-mopa10.png Graphic file (type png)
  <use mopa-mopa10.png>
-Package pdftex.def Info: mopa-mopa10.png used on input line 209.
+Package pdftex.def Info: mopa-mopa10.png used on input line 233.
 (pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
- [8 <./mopa-mopa9.png>]
-Overfull \hbox (1.92085pt too wide) in paragraph at lines 211--211
+ [11 <./mopa-mopa9.png>]
+Overfull \hbox (1.92085pt too wide) in paragraph at lines 235--235
 []\T1/aer/bx/n/14.4 Put pres-ences and pseudo--absences to-gether 
  []
 
-[9 <./mopa-mopa10.png>]
-Chapter 4.
-<mopa-mopa13.png, id=170, 433.62pt x 433.62pt>
+[12 <./mopa-mopa10.png>]
+Chapter 5.
+<mopa-mopa13.png, id=217, 433.62pt x 433.62pt>
 File: mopa-mopa13.png Graphic file (type png)
  <use mopa-mopa13.png>
-Package pdftex.def Info: mopa-mopa13.png used on input line 262.
+Package pdftex.def Info: mopa-mopa13.png used on input line 292.
 (pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
- [10
+ [13
 
 ]
-<mopa-mopa15.png, id=175, 433.62pt x 433.62pt>
+<mopa-mopa15.png, id=222, 433.62pt x 433.62pt>
 File: mopa-mopa15.png Graphic file (type png)
  <use mopa-mopa15.png>
-Package pdftex.def Info: mopa-mopa15.png used on input line 293.
+Package pdftex.def Info: mopa-mopa15.png used on input line 323.
 (pdftex.def)             Requested size: 276.00105pt x 276.0139pt.
 
-(./mopa.bbl [11 <./mopa-mopa13.png (PNG copy)>] [12 <./mopa-mopa15.png (PNG cop
-y)>]
-Underfull \hbox (badness 10000) in paragraph at lines 10--18
-[]$\T1/aett/m/n/10 http : / / www . scopus . com / inward / record . url ? eid 
-= 2-[]s2 . 0-[]84867148221 &
- []
+(./mopa.bbl [14 <./mopa-mopa13.png (PNG copy)>] [15 <./mopa-mopa15.png (PNG cop
+y)>] [16
 
-
-Underfull \hbox (badness 1005) in paragraph at lines 58--65
-[]\T1/aer/m/n/10 S.C.a c Gon-za-lez, J.A.a b Soto-Centeno, and D.L.a Reed.  Pop
--u-la-tion
- []
-
-
-Underfull \hbox (badness 2951) in paragraph at lines 58--65
-\T1/aer/m/n/10 dis-tri-bu-tion mod-els: Species dis-tri-bu-tions are bet-ter mo
-d-eled us-ing
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 58--65
-[]$\T1/aett/m/n/10 http : / / www . scopus . com / inward / record . url ? eid 
-= 2-[]s2 . 0-[]80052849534 &
- []
-
-[13
-
-]
-Underfull \hbox (badness 1038) in paragraph at lines 95--103
-[]\T1/aer/m/n/10 Y.a b Jiang, T.c Wang, C.A.J.M.c De Bie, A.K.c Skid-more, X.d 
-Liu,
- []
-
-
-Underfull \hbox (badness 2753) in paragraph at lines 95--103
-\T1/aer/m/n/10 S.a Song, L.e Zhang, J.f Wang, and X.a Shao.  Satellite-derived
- []
-
-
-Underfull \hbox (badness 4217) in paragraph at lines 95--103
-\T1/aer/m/n/10 veg-e-ta-tion in-dices con-tribute sig-nif-i-cantly to the pre-d
-ic-tion of epi-
- []
-
-
-Underfull \hbox (badness 3758) in paragraph at lines 95--103
-\T1/aer/m/n/10 phyl-lous liv-er-worts.  \T1/aer/m/it/10 Eco-log-i-cal In-di-ca-
-tors\T1/aer/m/n/10 , 38:72--80, 2014.  URL
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 95--103
-[]$\T1/aett/m/n/10 http : / / www . scopus . com / inward / record . url ? eid 
-= 2-[]s2 . 0-[]84888585922 &
- []
-
-
-Underfull \hbox (badness 1248) in paragraph at lines 105--112
-\T1/aer/m/n/10 tion mod-elling for con-ser-va-tion plan-ning in vic-to-ria, aus
--tralia.  \T1/aer/m/it/10 Eco-
- []
-
-
-Underfull \hbox (badness 3657) in paragraph at lines 105--112
-\T1/aer/m/it/10 log-i-cal Mod-elling\T1/aer/m/n/10 , 249:68--74, 2013.  URL []$
-\T1/aett/m/n/10 http : / / www . scopus . com /
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 105--112
-\T1/aett/m/n/10 inward / record . url ? eid = 2-[]s2 . 0-[]84872138736 & partne
-rID = 40 & md5 =
- []
-
-
-Underfull \hbox (badness 1515) in paragraph at lines 126--134
-[]\T1/aer/m/n/10 C.a Maria Teresa, G.b An-toine, C.b Car-men, S.c Tiziana, L.a 
-Anna,
- []
-
-
-Underfull \hbox (badness 3078) in paragraph at lines 126--134
-\T1/aer/m/n/10 and C.a Maria Laura.  A multi-temporal ap-proach to model en-
- []
-
-
-Underfull \hbox (badness 4886) in paragraph at lines 126--134
-\T1/aer/m/n/10 dan-gered species dis-tri-bu-tion in eu-rope. the case of the eu
-rasian
- []
-
-
-Underfull \hbox (badness 7944) in paragraph at lines 126--134
-\T1/aer/m/n/10 ot-ter in italy.  \T1/aer/m/it/10 Eco-log-i-cal Mod-elling\T1/ae
-r/m/n/10 , 274:21--28, 2014.  URL
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 126--134
-[]$\T1/aett/m/n/10 http : / / www . scopus . com / inward / record . url ? eid 
-= 2-[]s2 . 0-[]84890835735 &
- []
-
-
-Underfull \hbox (badness 1275) in paragraph at lines 137--145
-[]\T1/aer/m/n/10 A.M.M.a Se-queira, C.a b Mellin, D.A.a Ford-ham, M.G.c Meekan,
- and
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 137--145
-[]$\T1/aett/m/n/10 http : / / www . scopus . com / inward / record . url ? eid 
-= 2-[]s2 . 0-[]84893703315 &
- []
-
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 304.
- [14] [15]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 304.
+])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 334.
+ [17]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 334.
  (./mopa.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 304.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 304.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 334.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 334.
 Package rerunfilecheck Info: File `mopa.out' has not changed.
-(rerunfilecheck)             Checksum: 79EDC0E9B0705C5D1A6A313E2D2435DD;1029.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 304.
+(rerunfilecheck)             Checksum: 93FF5B3C23FE343AE7FEEB8DAEBE648A;1139.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 334.
  ) 
 Here is how much of TeX's memory you used:
- 7389 strings out of 494515
- 106969 string characters out of 6173717
- 189927 words of memory out of 5000000
- 10423 multiletter control sequences out of 15000+600000
- 36841 words of font info for 77 fonts, out of 8000000 for 9000
+ 7422 strings out of 494515
+ 107804 string characters out of 6173717
+ 187156 words of memory out of 5000000
+ 10445 multiletter control sequences out of 15000+600000
+ 36387 words of font info for 75 fonts, out of 8000000 for 9000
  430 hyphenation exceptions out of 8191
- 35i,6n,32p,840b,487s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 35i,6n,32p,1488b,442s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texliv
@@ -676,10 +574,10 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsltt10.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on mopa.pdf (16 pages, 658631 bytes).
+Output written on mopa.pdf (18 pages, 655401 bytes).
 PDF statistics:
- 261 PDF objects out of 1000 (max. 8388607)
- 221 compressed objects within 3 object streams
- 46 named destinations out of 1000 (max. 500000)
- 162 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 280 PDF objects out of 1000 (max. 8388607)
+ 238 compressed objects within 3 object streams
+ 57 named destinations out of 1000 (max. 500000)
+ 178 words of extra memory for PDF output out of 10000 (max. 10000000)
 
