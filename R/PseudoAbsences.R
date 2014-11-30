@@ -60,69 +60,77 @@
 
 
 
-PseudoAbsences<-function(xy, bg.grids, exclusion.buffer=0.0166, prevalence = 0.5, 
-                         kmeans= FALSE, projection= CRS("+proj=longlat +init=epsg:4326")){
-  polybuffs<-list()
+PseudoAbsences<-function (xy, bg.grids, exclusion.buffer = 0.0166, prevalence = 0.5, 
+                          kmeans = FALSE, varstack, projection = CRS("+proj=longlat +init=epsg:4326")) 
+{
+  polybuffs <- list()
   r <- exclusion.buffer
-  prev<-(1-prevalence)*2
- 
-  if (class(bg.grids[[1]]) == "matrix"){
-    bg2 <-list(bg.grids)
-  }else{bg2 <-bg.grids}
-  
-  if (class(xy) == "data.frame"){
-    pres.list <-list(xy)} else {pres.list <-xy}
-  
-    for (j in 1:length(pres.list)){
-      pres.1km <- pres.list[[j]]
-      polys <- list()
-        for(i in 1:nrow(pres.1km)) {
-          discbuff <- disc(radius=r, centre=c(pres.1km[i,1], pres.1km[i,2]))
-          discpoly <- Polygon(rbind(cbind(discbuff$bdry[[1]]$x, 
-                                      y=discbuff$bdry[[1]]$y), c(discbuff$bdry[[1]]$x[1],
-                                                                 y=discbuff$bdry[[1]]$y[1])))
-          polys <- c(polys, discpoly)
-        }
-      
-      spolys<-list()
-        
-        for(i in 1:length(polys)) {
-          spolybuff <- Polygons(list(polys[[i]]), ID=i)
-          spolys <- c(spolys, spolybuff)
-          spol<-SpatialPolygons(spolys)
-          proj4string(spol)<-projection
-        }
-    
-      polybuffs[[j]] <- spol
-    }
-  aa<-list()
-  
-  for(j in 1:length(bg2)){
-    print(paste("generating pseudo-absences for species", j, "out of", length(bg2)))
-    aus<-list()
-    coords.l<-bg2[[j]]
-    polpol<-polybuffs[[j]]
-    pr<-pres.list[[j]]
-      for (i in 1:length(coords.l)){
-        coords<-coords.l[[i]]
-        SpatialPoints(coords)->sp.coords
-        proj4string(sp.coords)<-projection
-        a<-over(sp.coords,polpol) 
-        abs.bg<-coords[which(is.na(a)),1:2]
-      
-        if (kmeans == TRUE){
-          aus[[i]]<-kmeans(abs.bg,centers=prev*nrow(pr))$centers
-        }else {aus[[i]]<-abs.bg[sample(1:nrow(abs.bg), size=prev*nrow(pr)), ] }
-      
-      }
-    names(aus)<-names(coords.l)
-    aa[[j]]<-aus
+  prev <- (1 - prevalence) * 2
+  if (class(bg.grids[[1]]) == "matrix") {
+    bg2 <- list(bg.grids)
   }
-  
-  if (length(aa) == 1){
-    aa<-aa[[1]]
-  }else{names(aa)<-names(pres.list)}
-  
+  else {
+    bg2 <- bg.grids
+  }
+  if (class(xy) == "data.frame") {
+    pres.list <- list(xy)
+  }
+  else {
+    pres.list <- xy
+  }
+  for (j in 1:length(pres.list)) {
+    pres.1km <- pres.list[[j]]
+    polys <- list()
+    for (i in 1:nrow(pres.1km)) {
+      discbuff <- disc(radius = r, centre = c(pres.1km[i, 
+                                                       1], pres.1km[i, 2]))
+      discpoly <- Polygon(rbind(cbind(discbuff$bdry[[1]]$x, 
+                                      y = discbuff$bdry[[1]]$y), c(discbuff$bdry[[1]]$x[1], 
+                                                                   y = discbuff$bdry[[1]]$y[1])))
+      polys <- c(polys, discpoly)
+    }
+    spolys <- list()
+    for (i in 1:length(polys)) {
+      spolybuff <- Polygons(list(polys[[i]]), ID = i)
+      spolys <- c(spolys, spolybuff)
+      spol <- SpatialPolygons(spolys)
+      proj4string(spol) <- projection
+    }
+    polybuffs[[j]] <- spol
+  }
+  aa <- list()
+  for (j in 1:length(bg2)) {
+    print(paste("generating pseudo-absences for species", 
+                j, "out of", length(bg2)))
+    aus <- list()
+    coords.l <- bg2[[j]]
+    polpol <- polybuffs[[j]]
+    pr <- pres.list[[j]]
+    for (i in 1:length(coords.l)) {
+      coords <- coords.l[[i]]
+      sp.coords <- SpatialPoints(coords)
+      proj4string(sp.coords) <- projection
+      a <- over(sp.coords, polpol)
+      abs.bg <- coords[which(is.na(a)), 1:2]
+      abs.aus<-cbind(abs.bg, rep(0, nrow(abs.bg)))
+      abs.bio<-biomat(data = abs.aus, varstack, projection)
+      if (kmeans == TRUE) {
+        aus[[i]] <- kmeans(cbind(abs.bg, abs.bio[,-1]), centers = prev * nrow(pr))$centers[,1:2]
+        
+      }
+      else {
+        aus[[i]] <- abs.bg[sample(1:nrow(abs.bg), size = prev * 
+                                    nrow(pr)), ]
+      }
+    }
+    names(aus) <- names(coords.l)
+    aa[[j]] <- aus
+  }
+  if (length(aa) == 1) {
+    aa <- aa[[1]]
+  }
+  else {
+    names(aa) <- names(pres.list)
+  }
   return(aa)
 }
-
