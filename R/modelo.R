@@ -112,6 +112,6 @@ modelo<-function(kdata, data, algorithm = c("glm","svm","maxent","mars","randomF
   mod.kappa <-Kappa(cmx(dat), st.dev = FALSE)
   mod.tss <- sensitivity(cmx(dat),st.dev = FALSE) + 
     specificity (cmx(dat),st.dev = FALSE) - 1
-  rm(dat, ori)
+  rm(ori, p)
   return(list("allmod"=allmod, "auc" = mod.auc, "kappa"=mod.kappa, "tss"= mod.tss ,"mod" = mod,"p" = dat)) # behar dira ere modeloak
 }
