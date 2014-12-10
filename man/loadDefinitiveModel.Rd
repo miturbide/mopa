@@ -52,10 +52,12 @@ modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars")
 auc_mars <-loadTestValues(data = presaus, "auc", "mars")
 ind <-indextent(auc_mars)
 def <-loadDefinitiveModel(presaus, ind, "allmod", "mars")
-##example of prediction
-projectionland <-biomat(cbind(box.grid[[2]][[1]], rep(1,nrow(box.grid[[2]][[1]]))), biostack)
-p <-predict(def[[1]], projectionland[,-1])->p
-spp<-SpatialPixelsDataFrame(box.grid[[2]][[1]], as.data.frame(p))
+##suitability map for the oak group H11
+projectionland <-biomat(cbind(box.grid$bbs.grid$H11, rep(1,nrow(box.grid$bbs.grid$H11))), biostack)
+p <-predict(def$H11, projectionland[,-1])
+p[which(p < 0)]<- 0
+p[which(p > 1)]<- 1
+spp<-SpatialPixelsDataFrame(box.grid$bbs.grid$H11, as.data.frame(p))
 ras<-raster(spp)
 plot(ras)
 }

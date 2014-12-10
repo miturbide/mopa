@@ -17,7 +17,7 @@ List/s of matrixes with xy coordinates for presence/pseudo-absence data.
 Each matrix correspond to a different background extent
 }
 \description{
-Binds presence and absence data for each background extension being considered
+Binds presence and absence data for each background extension
 }
 \examples{
 \donttest{

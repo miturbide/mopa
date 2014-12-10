@@ -4,7 +4,8 @@
 \title{Pseudo-absences}
 \usage{
 PseudoAbsences(xy, bg.grids, exclusion.buffer = 0.0166, prevalence = 0.5,
-  kmeans = FALSE, projection = CRS("+proj=longlat +init=epsg:4326"))
+  kmeans = FALSE, varstack = NULL,
+  projection = CRS("+proj=longlat +init=epsg:4326"))
 }
 \arguments{
 \item{xy}{Data frame or list of data frames with coordinates (each row is a point)}
@@ -29,7 +30,7 @@ List/s of data frames
 }
 \description{
 Pseudo-absence data generation at random or by k-means clustering inside backgrounds of
-different extents
+different extent
 }
 \details{
 Details.The application of this function is the third step in a three-step proccess

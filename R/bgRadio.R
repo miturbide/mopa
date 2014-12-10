@@ -1,5 +1,5 @@
 
-#' @title Background extent delimitations from presence data
+#' @title Background extent restriction for a sequence of distances 
 #' @description Creation of point-grid backgrounds through the establishment of extent 
 #' limitations for a sequence of distances, with the length of the half diagonal of the 
 #' bounding box around xy records as the maximum distance
@@ -23,12 +23,11 @@
 #' background extent.
 #' 
 #' 
-#' @details Argument unit is only used to set extent names. This function constitutes the 
-#' second step from a three-step proccess to generate pseudo-absences, and is aimed at 
-#' creating backgrounds of different extent for pseudo-absence samplig from an initial 
+#' @details Argument unit is only used to set extent names. This function forms part of the 
+#' second step in a three-step proccess to generate pseudo-absences, and is aimed at 
+#' creating backgrounds of different extent for pseudo-absence samplig based on an initial 
 #' point grid (derived from function \code{\link[mopa]{OCSVMprofiling}} or function 
-#' \code{\link[mopa]{delimit}}). Extent limits are stablished for each presence point 
-#' in the xy data. 
+#' \code{\link[mopa]{delimit}}). 
 #' 
 #' 
 #' 

@@ -1,6 +1,6 @@
 
 #' @title Bind presences and absences  
-#' @description Binds presence and absence data for each background extension being considered
+#' @description Binds presence and absence data for each background extension 
 #' 
 #' @param presences Data frame or list of data frames with coordinates for presence data 
 #' (each row is a point)

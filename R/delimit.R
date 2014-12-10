@@ -1,6 +1,6 @@
 
 #' @title Delimit study area and background 
-#' @description Creation of polygon shapes from bounding coordinates and limitation of 
+#' @description Creation of polygon shapes from bounding coordinates and delimitation of 
 #' SpatialPoints data to the defined boundaries
 #' 
 #' @param bounding.coords Object returned by function \code{\link{boundingCoords}}. 
@@ -15,7 +15,7 @@
 #'  \item{bbs.grid}{list(s) of matrix(ces) of the background xy coordinates in columns}.
 #' }
 #' 
-#' @details This function is aimed at limiting the study area inside the bounding boxes 
+#' @details This function is aimed at restricting the study area inside the bounding boxes 
 #' of a group of points (presences). The study area can be represented as a SpatialPoints 
 #' object of a regular point grid, this grid also represents the background (excluding 
 #' presences) from which pseudo-absences can be sampled. 

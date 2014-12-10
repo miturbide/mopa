@@ -1,7 +1,7 @@
 
 #' @title Pseudo-absences 
 #' @description Pseudo-absence data generation at random or by k-means clustering inside backgrounds of 
-#' different extents
+#' different extent
 #' 
 #' @param xy Data frame or list of data frames with coordinates (each row is a point)
 #' @param bg.grids Object derived from function OCSVMprofiling or bgRadio. (List/s of matrixes 
@@ -61,7 +61,7 @@
 
 
 PseudoAbsences<-function (xy, bg.grids, exclusion.buffer = 0.0166, prevalence = 0.5, 
-                          kmeans = FALSE, varstack, projection = CRS("+proj=longlat +init=epsg:4326")) 
+                          kmeans = FALSE, varstack = NULL, projection = CRS("+proj=longlat +init=epsg:4326")) 
 {
   polybuffs <- list()
   r <- exclusion.buffer
@@ -112,9 +112,10 @@ PseudoAbsences<-function (xy, bg.grids, exclusion.buffer = 0.0166, prevalence = 
       proj4string(sp.coords) <- projection
       a <- over(sp.coords, polpol)
       abs.bg <- coords[which(is.na(a)), 1:2]
-      abs.aus<-cbind(abs.bg, rep(0, nrow(abs.bg)))
-      abs.bio<-biomat(data = abs.aus, varstack, projection)
+      
       if (kmeans == TRUE) {
+        abs.aus<-cbind(abs.bg, rep(0, nrow(abs.bg)))
+        abs.bio<-biomat(data = abs.aus, varstack, projection)
         aus[[i]] <- kmeans(cbind(abs.bg, abs.bio[,-1]), centers = prev * nrow(pr))$centers[,1:2]
         
       }
