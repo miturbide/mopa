@@ -54,7 +54,7 @@ indextent<-function (testmat, diagrams = FALSE) {
   if (diagrams == TRUE){
     
     dfa<-do.call("rbind", dat)
-    plot(dfa)
+
     pl<-xyplot( y ~ x|group, data = dfa, ylab="AUC", xlab="Background extent",
                 panel=function(x, y){
                   ## add lines to the graph which denote means of x and y
