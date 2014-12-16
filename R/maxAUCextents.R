@@ -35,15 +35,15 @@ indextent<-function (testmat, diagrams = FALSE) {
   dat<-list()
   
   for (i in 1:nrow(testmat)) {
-    
+    testmat<-auc_mars
     y<-na.omit(testmat[i,])
     x<-as.integer(sub("km", x=names(y), replacement= ""))[1:length(y)]
-    group<-as.numeric(rep(rownames(testmat)[i], length(y)))
+    group<-rep(rownames(testmat)[i], length(y))
     
     fm0 <- lm(y ~ x) # simpler model to get better starting values
     ken<-(fm0$fitted.values-coef(fm0)[1])
     micmen <- nls(y~Vm*x/(K+x), start=list(Vm=max(na.omit(y)), K=x[which(ken==min(ken))])) 
-    dat[[i]]<- as.data.frame(cbind(x,y, group))
+    dat[[i]]<- data.frame(x,y, group)
     
     #--------------------------
     a<-coef(micmen)[1] 
@@ -54,18 +54,18 @@ indextent<-function (testmat, diagrams = FALSE) {
   if (diagrams == TRUE){
     
     dfa<-do.call("rbind", dat)
-    dfa$group<-as.factor(dfa$group) 
     plot(dfa)
     pl<-xyplot( y ~ x|group, data = dfa, ylab="AUC", xlab="Background extent",
                 panel=function(x, y){
                   ## add lines to the graph which denote means of x and y
                   panel.xyplot(x,y)
                   panel.lines(x, predict(nls(y~Vm*x/(K+x), 
-                        start=list(Vm=max(na.omit(y)), 
-                          K=x[which(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]==
-                                min(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]))])), x),
+                                             start=list(Vm=max(na.omit(y)), 
+                                                        K=x[which(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]==
+                                                                    min(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]))])), x),
                               col="black")})
     print(pl)
   }
+  
   return(unlist(e))
 }
