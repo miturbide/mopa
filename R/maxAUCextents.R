@@ -49,12 +49,13 @@ indextent<-function (testmat, diagrams = FALSE) {
     a<-coef(micmen)[1] 
     qs <- which(na.omit(testmat[i, ]) > a)
     e[[i]] <- qs[which(qs == min(qs))]
+    
   }
   
   if (diagrams == TRUE){
     
     dfa<-do.call("rbind", dat)
-
+    
     pl<-xyplot( y ~ x|group, data = dfa, ylab="AUC", xlab="Background extent",
                 panel=function(x, y){
                   ## add lines to the graph which denote means of x and y
@@ -63,9 +64,24 @@ indextent<-function (testmat, diagrams = FALSE) {
                                              start=list(Vm=max(na.omit(y)), 
                                                         K=x[which(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]==
                                                                     min(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]))])), x),
-                              col="black")})
+                              col="black", lwd = 1.5)
+                  panel.abline(coef(nls(y~Vm*x/(K+x), 
+                                        start=list(Vm=max(na.omit(y)), 
+                                                   K=x[which(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]==
+                                                               min(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]))])))[1],
+                               lty = 5, col = "deeppink3", lwd = 1.5)
+                  
+                  panel.abline(v = min(x[which(y > coef(nls(y~Vm*x/(K+x), 
+                                                            start=list(Vm=max(na.omit(y)), 
+                                                                       K=x[which(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]==
+                                                                                   min(lm(y ~ x)$fitted.values-coef(lm(y ~ x))[1]))])))[1])]),
+                               lty = 5, col = "darkorange1", lwd = 1.5)
+                  
+                  
+                  
+                })
+    
     print(pl)
   }
-  
   return(unlist(e))
 }
