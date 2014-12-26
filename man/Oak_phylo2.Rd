@@ -3,10 +3,15 @@
 \name{Oak_phylo2}
 \alias{Oak_phylo2}
 \title{Oak distribution}
+\source{
+Oak_phylo2 is a modified subset of the \strong{Quercus sp Europe Petit 2002}
+database (Petit et al., 2002b), which is available in the \strong{Georeferenced Database
+of Genetic Diversity} or \strong{(GD)^2}.
+}
 \description{
 A dataset consisting of a list with two
 data frames with xy coordinates corresponding to the distribution of two
-groups of oaks (H7 and H10)
+phylogenetic groups of oaks (H7 and H10)
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}
