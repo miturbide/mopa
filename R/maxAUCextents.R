@@ -35,7 +35,6 @@ indextent<-function (testmat, diagrams = FALSE) {
   dat<-list()
   
   for (i in 1:nrow(testmat)) {
-    testmat<-auc_mars
     y<-na.omit(testmat[i,])
     x<-as.integer(sub("km", x=names(y), replacement= ""))[1:length(y)]
     group<-rep(rownames(testmat)[i], length(y))
