@@ -1,5 +1,5 @@
 % !Rnw weave = Sweave
-\documentclass[10pt,a4paper]{report}
+\documentclass[10pt,a4paper]{article}
 \usepackage{Sweave} 
 \usepackage{natbib}
 \usepackage{graphics}
@@ -38,16 +38,15 @@
 \maketitle
 
 
-\chapter{Introduction}
-
+\section{Introduction}
 This document provides an introduction to species distribution modeling (SDM) with three--step pseudo--absences. 
 
-Species distribution models (SDM) are statistical tools to predict the distribution of species in geographic space based on the relation of known species distribution to the environment. SDMs can be classified into \textit{profile techniques} that only use distribution of presence data and \textit{group discrimination techniques} that also require information of the environmental range where the species do not occur, that is, absence data. Due to the great effort involved in true absences sampling, most of the available datasets for predictive modeling are lacking in absence data (\citet{zaniewski_predicting_2002}; \citet{lobo_uncertain_2010}), thereby some authors apply profile techniques such as ecological niche factor analysis (ENFA; i.e. \citet{cianfrani_habitat_2010}; \citet{mckinney_feeding_2012}), Mahalanobis distance (MADIFA: i.e. \citet{kuo_unexpected_2010}; \citet{martin_brown_2012}) and environmental envelopes (BIOCLIM and DOMAIN: i.e. \citet{giovanelli_modeling_2010}; \citet{monk_habitat_2010}). However, given that group discrimination techniques generally perform better (\citet{elith_novel_2006}; \citet{engler_improved_2004}; \citet{chefaoui_assessing_2008}), the most common  methodological approach is to use group discrimination techniques relative to the available environment or background samples, also known as pseudo--absences, thus obtaining a representation of the environmental range in the region of study. 
+Species distribution models (SDM) are statistical tools to predict the distribution of species in geographic space based on the relation of known species distribution to the environment. SDMs can be classified into \textit{profile techniques} that only use distribution of presence data and \textit{group discrimination techniques} that also require information of the environmental range where the species do not occur, that is, absence data. Due to the great effort involved in true absences sampling, most of the available datasets for predictive modeling are lacking in absence data \citep{zaniewski_predicting_2002, lobo_uncertain_2010}, thereby some authors apply profile techniques such as ecological niche factor analysis \citep[ENFA; i.e.][]{cianfrani_habitat_2010, mckinney_feeding_2012}, Mahalanobis distance \citep[MADIFA: i.e.][]{kuo_unexpected_2010, martin_brown_2012} and environmental envelopes \citep[BIOCLIM and DOMAIN: i.e.][]{giovanelli_modeling_2010, monk_habitat_2010}. However, given that group discrimination techniques generally perform better \citep{elith_novel_2006, engler_improved_2004, chefaoui_assessing_2008}, the most common  methodological approach is to use group discrimination techniques relative to the available environment or background samples, also known as pseudo--absences, thus obtaining a representation of the environmental range in the region of study. 
 
 
-One of the most simple methods of generating pseudo--absences is to perform a random selection of the entire study area  (\citet{jiang_satellite-derived_2014}; \citet{maria_teresa_multi-temporal_2014}; \citet{sequeira_predicting_2014}). However, it rises the risk of introducing false absences into the model from locations that are suitable for the species. Faced with this problem, several authors employ a presence--only algorithm as a preliminary step to move pseudo--absences away in the environmental space (\citet{zaniewski_predicting_2002}; \citet{engler_improved_2004}; \citet{barbet-massin_selecting_2012}; \citet{liu_species_2013}). 
+One of the most simple methods of generating pseudo--absences is to perform a random selection of the entire study area \citep{jiang_satellite-derived_2014, maria_teresa_multi-temporal_2014, sequeira_predicting_2014}. However, it rises the risk of introducing false absences into the model from locations that are suitable for the species. Faced with this problem, several authors employ a presence--only algorithm as a preliminary step to move pseudo--absences away in the environmental space \citep{zaniewski_predicting_2002, engler_improved_2004, barbet-massin_selecting_2012, liu_species_2013}. 
 
-The way of generating pseudo--absences strongly influences the results obtained (\citet{lobo_uncertain_2010}; \citet{wisz_pseudo-absence_2009}; \citet{barbet-massin_selecting_2012}; \citet{hirzel_assessing_2001}), as well as the extent from which background is sampled, a constraint distribution of pseudo--absences around presence locations can lead to misleading models while the opposite, can inflate artificially test statistics and predictions, as well as potentially less informative response variables  (\citet{jeremy_vanderwal_selecting_2009}).
+The way of generating pseudo--absences strongly influences the results obtained \citep{lobo_uncertain_2010, wisz_pseudo-absence_2009, barbet-massin_selecting_2012, hirzel_assessing_2001}, as well as the extent from which background is sampled, a constraint distribution of pseudo--absences around presence locations can lead to misleading models while the opposite, can inflate artificially test statistics and predictions, as well as potentially less informative response variables \citep{jeremy_vanderwal_selecting_2009}.
 
 This document shows an example of a full Species distribution modeling process carried out with the \texttt{mopa} package in R. Pseudo--absences are generated in three-steps combining profiling techniques and background extent limitations. 
 
@@ -56,32 +55,14 @@ If you want to know more about SDM in R, you could consult, for example, documen
 
 \texttt{NOTE:} Most functions presented are implemented in `mopa`. In the few cases in which functions from other packages are used, the package name is always explicitly indicated.
 
-\chapter{Getting started}
+\section{Species occurrence data}
 
-\section{Install mopa}
+Regarding presence data, \citet{hernandez_effect_2006} suggested that research in environmental niche modeling should focus in broad distribution subunits that are based on distinct genetic linages, in this connection \citet{gonzalez_population_2011} demostrated that omission error is reduced when biologically meaningful data is modeled. Thus, functions in the \texttt{mopa} package are prepared to handle more than one group of presences at the same time (could be a list of either distribution subunits of a single species or distribution of multiple species), anyway, functions also perform with a single group or species (data frame). In this example we use a data set (list) available with the \texttt{mopa} package containing presence records of two phylogenetic groups (H11 and H5) of \textit{Quercus} sp in Europe. This is, R--object \texttt{Oak\_phylo2}, a modified subset of the \texttt{Quercus sp Europe Petit 2002} database \citep{petit_chloroplast_2002}, which is available in the \texttt{Georeferenced Database of Genetic Diversity} or (GD)$^{2}$. To aid in map representation, a dataset called \texttt{wrld} containing a World map is also included in the package. 
 
-The \texttt{mopa} is available on github. The `devtools` package can be used to download and install `mopa` directly from the master branch of the repository:
-
-\begin{Schunk}
-\begin{Sinput}
-> if (!require(devtools)) install.packages("devtools")
-> devtools::install_github("https://github.com/miturbide/mopa")
-\end{Sinput}
-\end{Schunk}
 
 \begin{Schunk}
 \begin{Sinput}
 > library(mopa)
-\end{Sinput}
-\end{Schunk}
-
-\section{Species occurrence data}
-
-Regarding presence data, \citet{hernandez_effect_2006} suggested that research in environmental niche modeling should focus in broad distribution subunits that are based on distinct genetic linages, in this connection \citet{gonzalez_population_2011} demostrated that omission error is reduced when biologically meaningful data is modeled. Thus, functions in the \texttt{mopa} package are prepared to handle more than one group of presences at the same time (could be a list of either distribution subunits of a single species or distribution of multiple species), anyway, functions also perform with a single group or species (data frame). In this example we use a data set (list) available with the \texttt{mopa} package containing presence records of two phylogenetic groups (H11 and H5) of \textit{Quercus} sp in Europe. This is, R--object \texttt{Oak\_phylo2}, a modified subset of the \texttt{Quercus sp Europe Petit 2002} database (\citet{petit_chloroplast_2002}), which is available in the \texttt{Georeferenced Database of Genetic Diversity} or (GD)$^{2}$. To aid in map representation, a dataset called \texttt{wrld} containing a World map is also included in the package. 
-
-
-\begin{Schunk}
-\begin{Sinput}
 > data(wrld)
 > data(Oak_phylo2)
 > # Map 
@@ -107,7 +88,6 @@ Predictor variables are typically organized as raster (grid) type files. The set
 \end{Schunk}
 \includegraphics{mopa-mopa3}
 
-\chapter{Study area and background}
 
 \section{Creation of the background grid}
 
@@ -152,13 +132,13 @@ Function \texttt{delimit} creates polygon shapes from bounding coordinates and l
 \includegraphics{mopa-mopa6}
 
 
-\chapter{Three--step pseudo--absences generation}
+\section{Three--step pseudo--absences generation}
 
-In this chapter we illustrate the steps to generate pseudo-absences in three-steps combining profiling techniques and background extent limitations. 
+In this section we illustrate the steps to generate pseudo-absences in three-steps combining profiling techniques and background extent limitations. 
 
-\section{STEP1: environmental profiling}
+\subsection{STEP1: environmental profiling}
 
-The first step is the selection of the environmentally unsuitable areas with a presence only algorithm. function \texttt{OCSVMprofiling} uses One-class support vector machines (OCSVM) (\citet{scholkopf_learning_2001}) to perform a preliminary binary classification of the study region (suitable/unsuitable) using as input the environmental conditions of the presence localities.
+The first step is the selection of the environmentally unsuitable areas with a presence only algorithm. function \texttt{OCSVMprofiling} uses One-class support vector machines \citep[OCSVM:][]{scholkopf_learning_2001} to perform a preliminary binary classification of the study region (suitable/unsuitable) using as input the environmental conditions of the presence localities.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -174,7 +154,7 @@ The first step is the selection of the environmentally unsuitable areas with a p
 \includegraphics{mopa-mopa7}
 
 
-\section{STEP2: SDM performing with pseudo--absences generated into different extents of the unsuitable background}
+\subsection{STEP2: SDM performing with pseudo--absences generated into different extents of the unsuitable background}
 
 In the second step, SDMs are performed with pseudo--absences generated into different extents of the unsuitable background. Several functions are involved in this step. Function \texttt{bgRadio} performs the partition of the background space considering multiple distance thresholds. In other words, it creates backgrounds of different spatial extent for each species/population. In the example below, extents are created for a sequence of 10 km between distances, from 20 km to half the length of the diagonal of the bounding box, as described in Sec. 2.4 of the manuscript. A list of matrices containing xy coordinates is returned, each matrix corresponding to a different background extent tested.
 
@@ -202,7 +182,7 @@ In the second step, SDMs are performed with pseudo--absences generated into diff
 
 With function \texttt{PseudoAbsences}, you can create pseudo--absences either at random or with k--means clustering, by modifying argument \texttt{kmeans}. You can also set the prevalence (proportion of presences against pseudo--absences) and the exclusion buffer (minimum distance to be kept to presences without pseudo--absences).
 
-\subsection{At random}
+\subsubsection{At random}
 
 In the example below, pseudo--absences are generated at random, in equal number to presences (prevalence) and keeping a 10 km distance to presences (exclusion buffer).
 
@@ -228,7 +208,7 @@ In the example below, pseudo--absences are generated at random, in equal number 
 \end{Schunk}
 \includegraphics{mopa-mopa9}
 
-\subsection{With k--means clustering}
+\subsubsection{With k--means clustering}
 
 In the example below, pseudo-absences are generated with k-means clustering, in equal number to presences (prevalence) and keeping a 10 km distance to presences (exclusion buffer).
 
@@ -287,7 +267,7 @@ Named Rdata objects are stored in the specified path. Each Object is given a nam
 	(5)mod: fitted model with partitioned data, 
 	(6)p: cross model prediction. 
 
-\section{STEP3: selection of the optimum background extent and corresponding fitted model}
+\subsection{STEP3: selection of the optimum background extent and corresponding fitted model}
 
 In the third step, AUCs obtained and corresponding extents are fitted to a Michaelis-Menten model to extract the \textit{Vm} coefficient (equation 1 in the manuscript). Then, the minimum extent at which the AUC surpasses the \textit{Vm} value is selected as the threshold extent (see Figure 3 in the manuscript), being the corresponding fitted SDM the definitive to predict suitability probabilities in the study area.
 
@@ -303,7 +283,6 @@ We next indicate how to plot the results of the optimal spatial extent selection
 [1] "loading values for species 2"
 \end{Soutput}
 \end{Schunk}
-\includegraphics{mopa-mopa13}
 
 
 Model fitting is done by function \texttt{indextent}, that internally uses the  \texttt{nls} function of R package  \texttt{stats}. An index of the threshold extents is obtained. A fitted model plot is also returned if argument  \texttt{diagrams} is set to  \texttt{TRUE} (the point crossed by the vertical line above the horizontal line corresponds to the smallest background extent at which the AUC overcomes the `Vm` value (threshold extent)).
@@ -314,8 +293,8 @@ Model fitting is done by function \texttt{indextent}, that internally uses the  
 > ind
 \end{Sinput}
 \begin{Soutput}
-km370 km230 
-   36    22 
+km300 km180 
+   29    17 
 \end{Soutput}
 \end{Schunk}
 \includegraphics{mopa-mopa14}
