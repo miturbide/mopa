@@ -20,7 +20,6 @@ Each matrix correspond to a different background extent
 Binds presence and absence data for each background extension
 }
 \examples{
-\donttest{
 ##delimit study area
 data(Oak_phylo2)
 data(sp_grid)
@@ -33,12 +32,11 @@ bbs.grid = box.grid$bbs.grid)
 ## sequence of 100 km between distances, from 20 km to the length of the
 ##half diagonal of the bounding box.
 ext <-bgRadio(xy = Oak_phylo2, bounding.coords = oak.extension,
-bg.absence = unsuitable.bg$absence, start = 0.166, by = 0.83, unit = "decimal degrees")
+bg.absence = unsuitable.bg$absence, start = 0.166, by = 0.083, unit = "decimal degrees")
 ## pseudo-absence generation at random
 pa_random <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext,
-exclusion.buffer = 0.0083, prevalence = 0.5, kmeans = FALSE)
+exclusion.buffer = 0.083, prevalence = 0.5, kmeans = FALSE)
 presaus <-bindPresAbs(presences = Oak_phylo2, absences = pa_random)
-}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

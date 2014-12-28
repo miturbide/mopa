@@ -28,7 +28,6 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
-#' \donttest{
 #' ##delimit study area
 #' data(Oak_phylo2)
 #' data(sp_grid)
@@ -42,7 +41,6 @@
 #' ##plot
 #' plot(unsuitable.bg$absence$H11, pch="*")
 #' points(unsuitable.bg$presence$H11, pch="*", col= "pink4")
-#' }
 #' 
 #' @export
 #' 

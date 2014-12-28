@@ -51,7 +51,7 @@ This function calculates the AUC with the function \code{\link[PresenceAbsence]{
 \examples{
 data(presaus)
 data(biostack)
-##modeling
+##modelling
 modirs <-allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars")
 }
 \author{

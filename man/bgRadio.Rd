@@ -44,7 +44,6 @@ point grid (derived from function \code{\link[mopa]{OCSVMprofiling}} or function
 \code{\link[mopa]{delimit}}).
 }
 \examples{
-\donttest{
 ##delimit study area
 data(Oak_phylo2)
 data(sp_grid)
@@ -54,16 +53,17 @@ box.grid<-delimit(oak.extension, sp_grid, names(Oak_phylo2))
 data(biostack)
 unsuitable.bg <-OCSVMprofiling(xy = Oak_phylo2, varstack = biostack,
 bbs.grid = box.grid$bbs.grid)
-## sequence of 100 km between distances, from 20 km to the length of the
+## sequence of 10 km between distances, from 20 km to the length of the
 ##half diagonal of the bounding box.
-ext <-bgRadio(xy = Oak_phylo2, bounding.coords = oak.extension,
-bg.absence = unsuitable.bg$absence, start = 0.166, by = 0.83, unit = "decimal degrees")
+ext <- bgRadio(xy = Oak_phylo2, bounding.coords = oak.extension,
+bg.absence = unsuitable.bg$absence, start = 0.166,
+by = 0.083, unit = "decimal degrees")
 
-##plot(ext$H11$km520, col="green4", pch="*")
-points(ext$H11$km120, pch="*")
-points(ext$H11$km20, pch="*", col="blue")
-points(Oak_phylo2$H11, col="red", pch= ".", cex=1.5)
-}
+# Plot presences for group H11 and background extents of 20, 120 and 520 km
+plot(ext$H11$km520, col = "green4", pch = "*", asp = 1)
+points(ext$H11$km120, pch = "*")
+points(ext$H11$km20, pch = "*", col = "blue")
+points(Oak_phylo2$H11, col = "red", pch = ".", cex = 1.5)
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

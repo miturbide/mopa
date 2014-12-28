@@ -16,7 +16,7 @@ Creates the matrix of bounding coordinates around point records (xy records)
 }
 \examples{
 data(Oak_phylo2)
-oak.extension<-boundingCoords(Oak_phylo2)
+oak.extension <- boundingCoords(xy = Oak_phylo2)
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

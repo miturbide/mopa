@@ -27,8 +27,14 @@
 #' auc_mars <-loadTestValues(data = presaus, test = "auc", algorithm = "mars")
 #'  
 #' library(lattice)
-#' levelplot(auc_mars ,aspect=5 ,at =seq(0.5,1,0.01), col.regions=bpy.colors,
-#' xlab="Haplogroups" ,ylab="Background extent (km)", main = "AUC")
+#' levelplot(auc_mars, aspect = 5, 
+#'           scales = list(y = list(cex = 0.8, 
+#'                                  at = c(1, 49, ncol(auc_mars)), 
+#'                                  labels = c(colnames(auc_mars)[1],
+#'                                             colnames(auc_mars)[49],
+#'                                             colnames(auc_mars)[ncol(auc_mars)]))), 
+#'           at = seq(0.6, 1, 0.01), col.regions = bpy.colors,
+#'           xlab = "Haplogroups", ylab = "Background extent (km)", main = "AUC")
 #' 
 #' 
 #' @export

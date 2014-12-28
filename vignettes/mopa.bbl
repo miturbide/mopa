@@ -1,4 +1,4 @@
-\begin{thebibliography}{22}
+\begin{thebibliography}{23}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{\texttt{#1}}\fi
@@ -107,6 +107,11 @@ Monk, J., Ierodiaconou, D., Versace, V., Bellgrove, A., Harvey, E., Rattray,
   A., Laurenson, L., Quinn, G., 2010. Habitat suitability for marine fishes
   using presence-only modelling and multibeam sonar. Marine Ecology Progress
   Series 420, 157--174.
+
+\bibitem[{Petit and et~al(2002)}]{petit_chloroplast_2002}
+Petit, R.~J., et~al, 2002. Chloroplast {DNA} variation in european white oaks:
+  Phylogeography and patterns of diversity based on data from over 2600
+  populations. Forest Ecology and Management 156~(1–3), 5--26.
 
 \bibitem[{Scholkopf and Smola(2001)}]{scholkopf_learning_2001}
 Scholkopf, B., Smola, A.~J., 2001. Learning with Kernels: Support Vector

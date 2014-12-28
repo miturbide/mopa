@@ -22,6 +22,8 @@ presences and absences)}
 \item{kmeans}{Logical. If FALSE (default) pseudo-absences are generated at random. If TRUE
 k-means clustering of the background is done and centroids are extracted as pseudo-absences.}
 
+\item{varstack}{RasterStack of variables for modelling}
+
 \item{projection}{Object of class CRS with the coordinate reference system. Default is
 CRS("+proj=longlat +init=epsg:4326")}
 }
@@ -37,7 +39,6 @@ Details.The application of this function is the third step in a three-step procc
 to generate pseudo-absences.
 }
 \examples{
-\donttest{
 ##delimit study area
 data(Oak_phylo2)
 data(sp_grid)
@@ -47,18 +48,17 @@ box.grid<-delimit(oak.extension, sp_grid, names(Oak_phylo2))
 data(biostack)
 unsuitable.bg <-OCSVMprofiling(xy = Oak_phylo2, varstack = biostack,
 bbs.grid = box.grid$bbs.grid)
-## sequence of 100 km between distances, from 20 km to the length of the
+## sequence of 10 km between distances, from 20 km to the length of the
 ##half diagonal of the bounding box.
 ext <-bgRadio(xy = Oak_phylo2, bounding.coords = oak.extension,
-bg.absence = unsuitable.bg$absence, start = 0.166, by = 0.83, unit = "decimal degrees")
+bg.absence = unsuitable.bg$absence, start = 0.166, by = 0.083, unit = "decimal degrees")
 ## pseudo-absence generation at random
 pa_random <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext,
-exclusion.buffer = 0.0083, prevalence = 0.5, kmeans = FALSE)
+exclusion.buffer = 0.083, prevalence = 0.5, kmeans = FALSE)
 ##plot
 plot(ext$H11[[5]], pch="*", col= "grey", cex=.5)
 points(pa_random$H11[[5]], col="red", pch=".", cex=4)
 points(Oak_phylo2$H11, col="blue", pch=".", cex=3)
-}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

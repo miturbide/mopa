@@ -28,7 +28,7 @@ modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars")
 ##loading#'
 auc_mars <-loadTestValues(data = presaus, "auc", "mars")
 
-ind<-indextent(auc_mars)
+ind <- indextent(testmat = auc_mars, diagrams = TRUE)
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

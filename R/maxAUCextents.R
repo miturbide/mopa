@@ -25,7 +25,7 @@
 #' ##loading#'  
 #' auc_mars <-loadTestValues(data = presaus, "auc", "mars") 
 #' 
-#' ind<-indextent(auc_mars)
+#' ind <- indextent(testmat = auc_mars, diagrams = TRUE)
 #' 
 #' @export
 #' @import lattice

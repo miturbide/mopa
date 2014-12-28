@@ -32,29 +32,15 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
-#' \donttest{
-#' ##delimit study area
-#' data(Oak_phylo2)
-#' data(sp_grid)
 #' data(presaus)
 #' data(biostack)
-#' oak.extension<-boundingCoords(Oak_phylo2)
-#' box.grid<-delimit(oak.extension, sp_grid, names(Oak_phylo2))
 #' ##modeling
 #' modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars") 
-#' ##loading 
+#' ##loading#'  
 #' auc_mars <-loadTestValues(data = presaus, "auc", "mars") 
-#' ind <-indextent(auc_mars)
-#' def <-loadDefinitiveModel(presaus, ind, "allmod", "mars")
-#' ##suitability map for the oak group H11
-#' projectionland <-biomat(cbind(box.grid$bbs.grid$H11, rep(1,nrow(box.grid$bbs.grid$H11))), biostack)
-#' p <-predict(def$H11, projectionland[,-1])
-#' p[which(p < 0)]<- 0
-#' p[which(p > 1)]<- 1
-#' spp<-SpatialPixelsDataFrame(box.grid$bbs.grid$H11, as.data.frame(p))
-#' ras<-raster(spp)
-#' plot(ras)
-#' }
+#' ind <- indextent(testmat = auc_mars, diagrams = TRUE)
+#' 
+#' def <-loadDefinitiveModel(data = presaus, extents = ind, slot = "allmod", algorithm = "mars")
 #' 
 #' @export
 

@@ -29,7 +29,6 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
-#' \dontrun{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' ##creation of point grid from raster object
@@ -42,14 +41,14 @@
 #' plot(sp_grid)
 #' ##delimit study area
 #' oak.extension<-boundingCoords(Oak_phylo2)
-#' box.grid<-delimit(oak.extension, sp_grid, names(Oak_phylo2))
+#' box.grid <- delimit(bounding.coords = oak.extension, grid = sp_grid, names = names(Oak_phylo2))
 #'
-#' ##plot
-#' plot(box.grid[[1]])
+#' ## Plot presences and bounding boxes
+#' plot(box.grid$bbs, asp = 1)
 #' for (i in 1:length(Oak_phylo2)){
-#'   points(Oak_phylo2[[i]], col=colors()[i*50])
-#' }
-#'}
+#'  points(Oak_phylo2[[i]], col = colors()[i*50])
+#'  }
+#'
 #' @export
 #' 
 #' @import sp

@@ -34,7 +34,6 @@ separating from background (see \code{\link[mopa]{delimit}}) those areas (xy rec
 suitable for the species.
 }
 \examples{
-\donttest{
 ##delimit study area
 data(Oak_phylo2)
 data(sp_grid)
@@ -47,7 +46,6 @@ bbs.grid = box.grid$bbs.grid)
 ##plot
 plot(unsuitable.bg$absence$H11, pch="*")
 points(unsuitable.bg$presence$H11, pch="*", col= "pink4")
-}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

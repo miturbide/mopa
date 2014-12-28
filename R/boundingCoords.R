@@ -9,7 +9,7 @@
 #' 
 #' @examples 
 #' data(Oak_phylo2)
-#' oak.extension<-boundingCoords(Oak_phylo2)
+#' oak.extension <- boundingCoords(xy = Oak_phylo2)
 #' 
 #' @export
 
