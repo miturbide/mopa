@@ -21,14 +21,15 @@ extracts an index of the extents at which the AUC (or other test statistic) over
 obtained from the Michaelis-Menten model fitting.
 }
 \examples{
+\dontrun{
 data(presaus)
 data(biostack)
 ##modeling
 modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars")
-##loading#'
+##loading
 auc_mars <-loadTestValues(data = presaus, "auc", "mars")
-
 ind <- indextent(testmat = auc_mars, diagrams = TRUE)
+}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

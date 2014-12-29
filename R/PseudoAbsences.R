@@ -28,6 +28,7 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
+#' \dontrun{
 #' ##delimit study area
 #' data(Oak_phylo2)
 #' data(sp_grid)
@@ -48,6 +49,7 @@
 #' plot(ext$H11[[5]], pch="*", col= "grey", cex=.5)
 #' points(pa_random$H11[[5]], col="red", pch=".", cex=4)
 #' points(Oak_phylo2$H11, col="blue", pch=".", cex=3)
+#' }
 #' 
 #' @export
 #' 

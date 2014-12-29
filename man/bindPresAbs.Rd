@@ -20,6 +20,7 @@ Each matrix correspond to a different background extent
 Binds presence and absence data for each background extension
 }
 \examples{
+\dontrun{
 ##delimit study area
 data(Oak_phylo2)
 data(sp_grid)
@@ -37,6 +38,7 @@ bg.absence = unsuitable.bg$absence, start = 0.166, by = 0.083, unit = "decimal d
 pa_random <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext,
 exclusion.buffer = 0.083, prevalence = 0.5, kmeans = FALSE)
 presaus <-bindPresAbs(presences = Oak_phylo2, absences = pa_random)
+}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

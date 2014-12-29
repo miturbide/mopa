@@ -28,6 +28,7 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
+#' \dontrun{
 #' ##delimit study area
 #' data(Oak_phylo2)
 #' data(sp_grid)
@@ -37,10 +38,10 @@
 #' data(biostack)
 #' unsuitable.bg <-OCSVMprofiling(xy = Oak_phylo2, varstack = biostack, 
 #' bbs.grid = box.grid$bbs.grid)
-
 #' ##plot
 #' plot(unsuitable.bg$absence$H11, pch="*")
 #' points(unsuitable.bg$presence$H11, pch="*", col= "pink4")
+#' }
 #' 
 #' @export
 #' 

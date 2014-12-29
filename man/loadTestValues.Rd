@@ -27,6 +27,7 @@ Load model validation statistics from Rdata generated with function allModelling
 detail.
 }
 \examples{
+\dontrun{
 data(presaus)
 data(biostack)
 ##modeling
@@ -43,6 +44,7 @@ levelplot(auc_mars, aspect = 5,
                                             colnames(auc_mars)[ncol(auc_mars)]))),
           at = seq(0.6, 1, 0.01), col.regions = bpy.colors,
           xlab = "Haplogroups", ylab = "Background extent (km)", main = "AUC")
+}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

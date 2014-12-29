@@ -42,11 +42,12 @@
 #' 
 #' @examples
 #' 
+#' \dontrun{
 #' data(presaus)
 #' data(biostack)
 #' ##modelling
-#' modirs <-allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars")
-#' 
+#' modirs <- allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars")
+#' }
 #' 
 #' @export
 #' 

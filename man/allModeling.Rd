@@ -49,10 +49,12 @@ This function calculates the AUC with the function \code{\link[PresenceAbsence]{
 \pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached.
 }
 \examples{
+\dontrun{
 data(presaus)
 data(biostack)
 ##modelling
-modirs <-allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars")
+modirs <- allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars")
+}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

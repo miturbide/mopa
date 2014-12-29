@@ -20,7 +20,7 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' data(biostack)
 #' data(Oak_phylo2)
 #' dfp <-cbind(Oak_phylo2[[1]], "pa"= rep(1,nrow(Oak_phylo2[[1]])))

@@ -44,6 +44,7 @@ point grid (derived from function \code{\link[mopa]{OCSVMprofiling}} or function
 \code{\link[mopa]{delimit}}).
 }
 \examples{
+\dontrun{
 ##delimit study area
 data(Oak_phylo2)
 data(sp_grid)
@@ -64,6 +65,7 @@ plot(ext$H11$km520, col = "green4", pch = "*", asp = 1)
 points(ext$H11$km120, pch = "*")
 points(ext$H11$km20, pch = "*", col = "blue")
 points(Oak_phylo2$H11, col = "red", pch = ".", cex = 1.5)
+}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

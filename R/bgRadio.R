@@ -34,6 +34,7 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
+#' \dontrun{
 #' ##delimit study area
 #' data(Oak_phylo2)
 #' data(sp_grid)
@@ -54,6 +55,7 @@
 #' points(ext$H11$km120, pch = "*")
 #' points(ext$H11$km20, pch = "*", col = "blue")
 #' points(Oak_phylo2$H11, col = "red", pch = ".", cex = 1.5)
+#' }
 #' 
 #' @export
 #' 

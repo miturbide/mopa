@@ -36,6 +36,7 @@ to be used for modelling, see \code{\link[raster]{xyFromCell}},
 bbs shapes.
 }
 \examples{
+\dontrun{
 data(Oak_phylo2)
 data(biostack)
 ##creation of point grid from raster object
@@ -55,6 +56,7 @@ plot(box.grid$bbs, asp = 1)
 for (i in 1:length(Oak_phylo2)){
  points(Oak_phylo2[[i]], col = colors()[i*50])
  }
+}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}
