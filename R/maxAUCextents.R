@@ -22,7 +22,7 @@
 #' data(biostack)
 #' ##modeling
 #' modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars") 
-#' ##loading#'  
+#' ##loading  
 #' auc_mars <-loadTestValues(data = presaus, "auc", "mars") 
 #' 
 #' ind <- indextent(testmat = auc_mars, diagrams = TRUE)
