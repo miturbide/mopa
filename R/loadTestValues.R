@@ -19,6 +19,7 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
+#' \dontrun{
 #' data(presaus)
 #' data(biostack)
 #' ##modeling
@@ -35,7 +36,7 @@
 #'                                             colnames(auc_mars)[ncol(auc_mars)]))), 
 #'           at = seq(0.6, 1, 0.01), col.regions = bpy.colors,
 #'           xlab = "Haplogroups", ylab = "Background extent (km)", main = "AUC")
-#' 
+#' }
 #' 
 #' @export
 

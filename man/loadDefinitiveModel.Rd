@@ -38,6 +38,7 @@ function indextent should be used.
 detail.
 }
 \examples{
+\dontrun{
 data(presaus)
 data(biostack)
 ##modeling
@@ -47,6 +48,7 @@ auc_mars <-loadTestValues(data = presaus, "auc", "mars")
 ind <- indextent(testmat = auc_mars, diagrams = TRUE)
 
 def <-loadDefinitiveModel(data = presaus, extents = ind, slot = "allmod", algorithm = "mars")
+}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

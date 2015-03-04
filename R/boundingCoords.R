@@ -8,9 +8,10 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples 
+#' \dontrun{
 #' data(Oak_phylo2)
 #' oak.extension <- boundingCoords(xy = Oak_phylo2)
-#' 
+#' }
 #' @export
 
 

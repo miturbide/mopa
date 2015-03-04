@@ -32,6 +32,7 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
+#' \dontrun{
 #' data(presaus)
 #' data(biostack)
 #' ##modeling
@@ -41,6 +42,7 @@
 #' ind <- indextent(testmat = auc_mars, diagrams = TRUE)
 #' 
 #' def <-loadDefinitiveModel(data = presaus, extents = ind, slot = "allmod", algorithm = "mars")
+#' }
 #' 
 #' @export
 

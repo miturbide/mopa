@@ -39,6 +39,7 @@ Details.The application of this function is the third step in a three-step procc
 to generate pseudo-absences.
 }
 \examples{
+\dontrun{
 ##delimit study area
 data(Oak_phylo2)
 data(sp_grid)
@@ -59,6 +60,7 @@ exclusion.buffer = 0.083, prevalence = 0.5, kmeans = FALSE)
 plot(ext$H11[[5]], pch="*", col= "grey", cex=.5)
 points(pa_random$H11[[5]], col="red", pch=".", cex=4)
 points(Oak_phylo2$H11, col="blue", pch=".", cex=3)
+}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

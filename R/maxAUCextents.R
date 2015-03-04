@@ -18,14 +18,15 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
+#' \dontrun{
 #' data(presaus)
 #' data(biostack)
 #' ##modeling
 #' modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars") 
 #' ##loading  
 #' auc_mars <-loadTestValues(data = presaus, "auc", "mars") 
-#' 
 #' ind <- indextent(testmat = auc_mars, diagrams = TRUE)
+#' }
 #' 
 #' @export
 #' @import lattice

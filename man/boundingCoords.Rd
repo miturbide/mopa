@@ -15,8 +15,10 @@ Matrix or list of matrixes with the bounding coordinates.
 Creates the matrix of bounding coordinates around point records (xy records)
 }
 \examples{
+\dontrun{
 data(Oak_phylo2)
 oak.extension <- boundingCoords(xy = Oak_phylo2)
+}
 }
 \author{
 M. Iturbide \email{maibide@gmail.com}

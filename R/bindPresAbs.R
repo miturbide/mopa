@@ -18,6 +18,7 @@
 #' @author M. Iturbide \email{maibide@@gmail.com}
 #' 
 #' @examples
+#' \dontrun{
 #' ##delimit study area
 #' data(Oak_phylo2)
 #' data(sp_grid)
@@ -35,6 +36,7 @@
 #' pa_random <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext, 
 #' exclusion.buffer = 0.083, prevalence = 0.5, kmeans = FALSE)
 #' presaus <-bindPresAbs(presences = Oak_phylo2, absences = pa_random)
+#' }
 #' @export
 #' 
 
