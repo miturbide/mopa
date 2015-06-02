@@ -32,7 +32,7 @@
 #' ind <- indextent(testmat = auc_mars, diagrams = TRUE)
 #' }
 #' 
-#' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutíerrez, J.M., 2015. 
+#' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
@@ -79,7 +79,10 @@ indextent <- function (testmat, diagrams = TRUE) {
     resid[3] <- sum((predict(asym)-y)^2)
     resid <- sort(resid, decreasing = F)
     message (paste ("residual sum of squares for species ", rownames(testmat)[i]))
-    message(resid)
+    mess<-(paste(names(resid),"=", resid))
+    message(mess[1])
+    message(mess[2])
+    message(mess[3])
     nls.fun <- names(resid[1])
     message(paste("best function = ", nls.fun))
     
