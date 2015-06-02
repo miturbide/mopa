@@ -44,6 +44,10 @@
 #' def <-loadDefinitiveModel(data = presaus, extents = ind, slot = "allmod", algorithm = "mars")
 #' }
 #' 
+#' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutíerrez, J.M., 2015. 
+#' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
+#' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
+#' 
 #' @export
 
 

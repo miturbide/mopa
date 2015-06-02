@@ -6,13 +6,13 @@
 #' @param test Any character of the following: "auc", "kappa", "tss".
 #' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", 
 #' "cart.rpart" or "cart.tree"
-#' @param sourcedir Character of the path where Rdata objects are 
+#' @param sourcedir Character of the path where Rdata objects are stored
 #' 
 #'  
 #' 
 #' @return Matrix with values for each species and background extents.
 #' 
-#' @details detail.
+#' #@details detail.
 #' 
 #' 
 #' 
@@ -37,6 +37,10 @@
 #'           at = seq(0.6, 1, 0.01), col.regions = bpy.colors,
 #'           xlab = "Haplogroups", ylab = "Background extent (km)", main = "AUC")
 #' }
+#' 
+#' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutíerrez, J.M., 2015. 
+#' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
+#' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
 #' @export
 

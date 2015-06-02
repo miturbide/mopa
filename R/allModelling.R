@@ -22,7 +22,7 @@
 #' @return Named Rdata objects are stored in the 
 #' specified path. Each Object is given a name indicating the algorithm, background 
 #' extent, and species in this order (if a single species is provided no name is given 
-#' for de species). Character object with listed files is returned.
+#' for the species). Character object with listed files is returned.
 #' Each Rdata consists of a list with six components:
 #' 
 #'  \item{allmod }{fitted model using all data for training}
@@ -48,6 +48,10 @@
 #' ##modelling
 #' modirs <- allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars")
 #' }
+#' 
+#' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutíerrez, J.M., 2015. 
+#' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
+#' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
 #' @export
 #' 

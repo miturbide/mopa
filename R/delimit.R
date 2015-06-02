@@ -50,6 +50,11 @@
 #'  points(Oak_phylo2[[i]], col = colors()[i*50])
 #'  }
 #'}
+#'
+#' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutíerrez, J.M., 2015. 
+#' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
+#' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
+#' 
 #' @export
 #' 
 #' @import sp
