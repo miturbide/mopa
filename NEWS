@@ -1,0 +1,6 @@
+mopa 0.6-0
+================
+
+* New functions to fit the AUC vs. distance curve: 3-parameter and 2-parameter asymptotic exponentials. 
+* Residual sum of squares calculation of the AUC vs. distance fitted curve.
+
