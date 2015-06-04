@@ -1,6 +1,5 @@
-% !Rnw weave = Sweave
 \documentclass[10pt,a4paper]{article}
-\usepackage{Sweave} 
+% \usepackage{Sweave} 
 \usepackage{natbib}
 \usepackage{graphics}
 \usepackage{amsmath}
@@ -11,8 +10,9 @@
 \usepackage{hyperref}
 \usepackage[T1]{fontenc}
 \DeclareGraphicsExtensions{.png,.pdf,.jpg}
-
+% !Rnw weave = Sweave
 \begin{document}
+% \SweaveOpts{concordance=TRUE}
 
 %\VignetteIndexEntry{Species distribution modeling with three-step pseudo--absences}
 %\VignetteDepends{mopa,sp,raster,earth}
@@ -22,95 +22,121 @@
 %\newcommand{\sub}[1]{\ensuremath{_{\textrm{#1}}}}
 %\newcommand{\R}{{\normalfont\textsf{R }}{}}
 
-\SweaveOpts{pdf=TRUE, png=TRUE}
-\SweaveOpts{resolution=100}
-\SweaveOpts{keep.source=TRUE}
+% \SweaveOpts{pdf=TRUE, png=TRUE}
+% \SweaveOpts{resolution=100}
+% \SweaveOpts{keep.source=TRUE}
+
+
+<<setup,include=FALSE,cache=FALSE>>=
+library(knitr)
+opts_knit$set(out.format="latex")
+knit_theme$set("moe")
+options(formatR.arrow = TRUE, width = 50)
+opts_chunk$set(fig.path='figure/graphics-', fig.align='center', fig.width=4, fig.height=4, fig.show='hold', cache=TRUE, par=TRUE)
+knit_hooks$set(par=function(before, options, envir){
+if (before && options$fig.show!='none') par(mar=c(4,4,.1,.1),cex.lab=.95,cex.axis=.9,mgp=c(2,.7,0),tcl=-.3)
+}, crop=hook_pdfcrop)
+@ 
 
 
 
 
 
-\SweaveOpts{concordance=TRUE}
+\title{mopa (MOdelling with Pseudo Absences): A framework for species distribution modelling with
+improved pseudo-absence generation}
+\author{M. Iturbide et al.}
 
+\tableofcontents
 
-\title{Species distribution modeling with three-step pseudo--absences}
-\author{Maialen Iturbide}
 \maketitle
 
 
 \section{Introduction}
-This document provides an introduction to species distribution modeling (SDM) with three--step pseudo--absences. 
-
-Species distribution models (SDM) are statistical tools to predict the distribution of species in geographic space based on the relation of known species distribution to the environment. SDMs can be classified into \textit{profile techniques} that only use distribution of presence data and \textit{group discrimination techniques} that also require information of the environmental range where the species do not occur, that is, absence data. Due to the great effort involved in true absences sampling, most of the available datasets for predictive modeling are lacking in absence data \citep{zaniewski_predicting_2002, lobo_uncertain_2010}, thereby some authors apply profile techniques such as ecological niche factor analysis \citep[ENFA; i.e.][]{cianfrani_habitat_2010, mckinney_feeding_2012}, Mahalanobis distance \citep[MADIFA: i.e.][]{kuo_unexpected_2010, martin_brown_2012} and environmental envelopes \citep[BIOCLIM and DOMAIN: i.e.][]{giovanelli_modeling_2010, monk_habitat_2010}. However, given that group discrimination techniques generally perform better \citep{elith_novel_2006, engler_improved_2004, chefaoui_assessing_2008}, the most common  methodological approach is to use group discrimination techniques relative to the available environment or background samples, also known as pseudo--absences, thus obtaining a representation of the environmental range in the region of study. 
+This is a tutorial containing a full worked example of species distribution modelling using the RSEP method and the three-step methods (TS and TSKM methods) for pseudo-absence generation presented in Iturbide et al., 2015, combining environmental profiling and spatial extent restriction of the background (see Fig. 2 in the cited article). We illustrate the steps followed to produce some of the analyses presented in the article using the R package \texttt{mopa} (MOdelling Pseudo Absences). \\
 
 
-One of the most simple methods of generating pseudo--absences is to perform a random selection of the entire study area \citep{jiang_satellite-derived_2014, maria_teresa_multi-temporal_2014, sequeira_predicting_2014}. However, it rises the risk of introducing false absences into the model from locations that are suitable for the species. Faced with this problem, several authors employ a presence--only algorithm as a preliminary step to move pseudo--absences away in the environmental space \citep{zaniewski_predicting_2002, engler_improved_2004, barbet-massin_selecting_2012, liu_species_2013}. 
 
-The way of generating pseudo--absences strongly influences the results obtained \citep{lobo_uncertain_2010, wisz_pseudo-absence_2009, barbet-massin_selecting_2012, hirzel_assessing_2001}, as well as the extent from which background is sampled, a constraint distribution of pseudo--absences around presence locations can lead to misleading models while the opposite, can inflate artificially test statistics and predictions, as well as potentially less informative response variables \citep{jeremy_vanderwal_selecting_2009}.
-
-This document shows an example of a full Species distribution modeling process carried out with the \texttt{mopa} package in R. Pseudo--absences are generated in three-steps combining profiling techniques and background extent limitations. 
-
-If you want to know more about SDM in R, you could consult, for example, documentation from package \texttt{dismo} made by Robert J. Hijmans and Jane Elith.
+--> NOTE: Most functions presented are implemented in \texttt{mopa}. In the few cases in which functions from other packages are used, the package name is always explicitly indicated.
 
 
-\texttt{NOTE:} Most functions presented are implemented in `mopa`. In the few cases in which functions from other packages are used, the package name is always explicitly indicated.
+\subsection{Installing the mopa package}
 
-\section{Species occurrence data}
+The \texttt{mopa} package is available on GitHub. The stable release for the package is on the \texttt{master} branch. 
 
-Regarding presence data, \citet{hernandez_effect_2006} suggested that research in environmental niche modeling should focus in broad distribution subunits that are based on distinct genetic linages, in this connection \citet{gonzalez_population_2011} demostrated that omission error is reduced when biologically meaningful data is modeled. Thus, functions in the \texttt{mopa} package are prepared to handle more than one group of presences at the same time (could be a list of either distribution subunits of a single species or distribution of multiple species), anyway, functions also perform with a single group or species (data frame). In this example we use a data set (list) available with the \texttt{mopa} package containing presence records of two phylogenetic groups (H11 and H5) of \textit{Quercus} sp in Europe. This is, R--object \texttt{Oak\_phylo2}, a modified subset of the \texttt{Quercus sp Europe Petit 2002} database \citep{petit_chloroplast_2002}, which is available in the \texttt{Georeferenced Database of Genetic Diversity} or (GD)$^{2}$. To aid in map representation, a dataset called \texttt{wrld} containing a World map is also included in the package. 
+We recommend the \texttt{devtools} package to download and install \texttt{mopa} directly from the stable branch of the repository:
+
+<<mopa1, eval=FALSE>>=
+if (!require(devtools)) install.packages("devtools")
+devtools::install_git("https://github.com/SantanderMetGroup/
+                      mopa.git")
+@
+
+Once installed, we load the package:
+
+<<mopa1.1, echo=TRUE>>=
+library(mopa)
+@
+
+\section{Modelling steps}
+\subsection{Data pre-processing}
+
+In Iturbide et al., 2015, we indicate the adequacy of using different ecotypes for modelling species distributions. Thus, functions in the \texttt{mopa} package are intended to deal with more than one group of presences simultaneously. In this example, we use a \texttt{list} of 2 different Oak haplotypes (H11 and H5, see Table 1 in the manuscript), but the same steps may be followed in a joint analysis of multiple species. Of course, the most typical case (i.e., dealing with with a single group of species) can be also easily accomplished by providing a \texttt{data.frame}. 
+
+The data set of species in this example is \texttt{Oak\_phylo2} and is provided with the \texttt{mopa} package. This is a modified subset of the \textit{Quercus sp Europe Petit 2002} database (Petit et al., 2002b), which is available in the \textit{Georeferenced Database of Genetic Diversity} or (GD)$^{2}$. To aid in map representation, a dataset called \texttt{wrld} containing a World map is also included in the package.
+
 
 
 <<mopa2, fig=TRUE, echo=TRUE>>=
-library(mopa)
+# Load map and Oak data
 data(wrld)
 data(Oak_phylo2)
 # Map 
 plot(wrld, asp = 1, xlim= c(-10,50), ylim=c(40,60))
 for (i in 1:length(Oak_phylo2)) {
-  points(Oak_phylo2[[i]], pch = "*", cex = 0.5, 
-         col = colors()[i*50])
+  points(Oak_phylo2[[i]], pch = "*", 
+         cex = 0.5, col = colors()[i*50])
 }
 @
 
-\section{Environmental variables}
+Predictor variables are typically stored in raster files. The different raster layers can be efficiently handled in R using the utilities of the \texttt{raster} package. \texttt{mopa} uses as input this type of raster objects. In particular, multiple layers can be arranged in a collection of \texttt{RasterLayers} objects called a \texttt{RasterStack} (see \texttt{?raster::raster} for more information on \texttt{raster} objects). 
 
-Predictor variables are typically organized as raster (grid) type files. The set of predictor variables (rasters) can be used to make a '\texttt{RasterStack}', which is a collection of '\texttt{RasterLayer}' objects (see \texttt{Raster-class} in the \texttt{raster} package for more info). \texttt{mopa} uses as input this type of raster objects and also provides the R--object \texttt{biostack}, which is a '\texttt{RasterStack}' of three bioclimatic variables.
 
 <<mopa3,  fig=TRUE, echo=TRUE>>=
-# RatserStack of envirinmental variables
+# RatserStack of environmental variables
 data(biostack)
 plot(biostack)
 @
 
-
-\section{Creation of the background grid}
-
-The regular point grid which covers the continental area can be created with functions from the \texttt{raster} and \texttt{sp} packages as follows:
+The regularly distributed grid points covering the continental area can be created with functions from the \texttt{raster} and \texttt{sp} packages as follows:
 
 <<mopa4>>=
-library(raster)
-ac<-xyFromCell(biostack[[1]],  1:ncell(biostack[[1]]))
-ex<-extract(biostack[[1]], ac)
-sp_grid<-SpatialPoints(ac[-which(is.na(ex)),])
-projection(sp_grid)<-CRS("+proj=longlat +init=epsg:4326")
+# Extract raster values at grid coordinates
+ac <- xyFromCell(biostack[[1]], 1:ncell(biostack[[1]]))
+ex <- extract(biostack[[1]], ac)
+# Convert to a Spatial object and define projection
+sp_grid <- SpatialPoints(ac[-which(is.na(ex)), ])
+projection(sp_grid) <- CRS("+proj=longlat +init=epsg:4326")
 @
 
-For easy of use, R--object \texttt{sp\_grid} is available in \texttt{mopa}, covering the World at 10 km resolution.
+For ease of use, the previous steps can be skipped, as the \texttt{sp\_grid} object is already included in the \texttt{mopa} package, covering the whole world at 10 km resolution.
 
-\section{Limit study area to the bounding boxes around presences}
+<<mopa4.1>>=
+data(sp_grid)
+@
 
-Function \texttt{boundingCoords} creates the matrix of bounding coordinates around point records (xy records). In this case, since \texttt{Oak\_phylo2} object is a list of two groups of points, a list of two matrixes is created.
+Function \texttt{boundingCoords} creates a matrix of bounding coordinates around the known presence localities of the target species. In this case, since the \texttt{Oak\_phylo2} list contains two groups of points (one for each haplotype considered), a list of two matrices is created.
 
 <<mopa5>>=
  oak.extension <- boundingCoords(xy = Oak_phylo2)
 @
 
-Function \texttt{delimit} creates polygon shapes from bounding coordinates and limits \texttt{SpatialPoints} data (\texttt{sp\_grid}) to the defined boundaries, in other words, does the intersection of the background point grid with the bounding boxes. A list with two objects is obtained, (1)bbs: polygon shape of the bounding boxes and (2)bbs.grid: list of data frames of the background point grid limited by the bounding boxes.
+Function \texttt{delimit} creates a rectangular polygon shape from the bounding coordinates and does the intersection of the background points. A \texttt{list} with two objects is obtained: (1) \texttt{bbs}: polygon shape of the bounding boxes and (2) \texttt{bbs.grid}: a list of data frames of the background point grid limited by the bounding coordinates.
 
 
 <<mopa6, fig=TRUE, echo=TRUE>>=
 box.grid <- delimit(bounding.coords = oak.extension, 
-              grid = sp_grid, names = names(Oak_phylo2))
+                    grid = sp_grid, 
+                    names = names(Oak_phylo2))
 # Plot presences and bounding boxes
 plot(box.grid$bbs, asp = 1)
 for (i in 1:length(Oak_phylo2)){
@@ -119,74 +145,101 @@ for (i in 1:length(Oak_phylo2)){
 @
 
 
-\section{Three--step pseudo--absences generation}
+\subsection{Three--step pseudo--absences generation}
 
-In this section we illustrate the steps to generate pseudo-absences in three-steps combining profiling techniques and background extent limitations. 
+In this section we illustrate the steps followed to generate pseudo-absences following the RSEP, TS and TSKM procedures described in the manuscript. 
 
-\subsection{STEP1: environmental profiling}
+\subsubsection{STEP1: environmental profiling}
 
-The first step is the selection of the environmentally unsuitable areas with a presence only algorithm. function \texttt{OCSVMprofiling} uses One-class support vector machines \citep[OCSVM:][]{scholkopf_learning_2001} to perform a preliminary binary classification of the study region (suitable/unsuitable) using as input the environmental conditions of the presence localities.
+The first step is the selection of the environmentally unsuitable areas using a presence-only algorithm. In \texttt{mopa} this is done using a support vector machine-based algorithm that performs a preliminary binary classification of the study region (suitable/unsuitable) using as input the environmental conditions of the presence localities. This is done by function \texttt{OCSVMprofiling} which runs the one-class support vector machine algorithm (OCSVM) for each Oak group of the example:
 
 <<mopa7, fig=TRUE, echo=TRUE>>=
 unsuitable.bg <-OCSVMprofiling(xy = Oak_phylo2, 
-                    varstack = biostack, 
-                    bbs.grid = box.grid$bbs.grid)
-# Plot areas predicted as suitable (presence) and 
-# unsuitable (absence) for group H11
+                               varstack = biostack, 
+                               bbs.grid = box.grid$bbs.grid)
+# Plot areas predicted as suitable (presence) and unsuitable 
+# (absence) for group H11
 plot(unsuitable.bg$absence$H11, pch = "*", asp = 1)
 points(unsuitable.bg$presence$H11, pch = "*", col = "pink2")
 @
 
+If the RSEP method (as described in Iturbide et al., 2015) is selected for pseudo-absence data generation, only the first step is needed, thus, at this point we can create random pseudo-absences in the unsuitable background and perform SDM. The same functions as in the TS and TSKM methods might be used for this purpose, these are \texttt{PseudoAbsences} and \texttt{allModeling}, which are detailed in the section below (STEP2).
 
-\subsection{STEP2: SDM performing with pseudo--absences generated into different extents of the unsuitable background}
+<<mopa7.1, fig=FALSE, eval=FALSE>>=
+# Pseudo--absences are generated at random, in equal number 
+# to presences (prevalence) and keeping a 10 km distance to 
+# presences (exclusion buffer)
+rsep_random <-PseudoAbsences(xy = Oak_phylo2, 
+                             bg.grids = unsuitable.bg$absence, 
+                             exclusion.buffer = 0.083, 
+                             prevalence = 0.5, kmeans = FALSE)
+
+# Bind presences and absences before modelling
+presausRSEP <- list()
+for (i in 1:length(Oak_phylo2)){
+  xyp <- cbind(Oak_phylo2[[i]], rep(1, nrow(Oak_phylo2[[i]]))) 
+  xya <- cbind(rsep_random[[i]], rep(0, nrow(rsep_random[[i]])))
+  colnames(xyp) <-  c("x", "y", "p")
+  colnames(xya) <-  colnames(xyp)
+  
+  presausRSEP[[i]]<- rbind(xyp, xya)
+}
+names(presausRSEP) <- names(Oak_phylo2)
+
+# Modelling
+modirsRSEP <- allModeling(data = presausRSEP, varstack = biostack, 
+                          k = 10, algorithm = "mars", 
+                          destdir = getwd(), 
+              projection = CRS("+proj=longlat +init=epsg:4326"))
+@
+
+\subsubsection{STEP 2: SDM performing with pseudo--absences generated into different extents of the unsuitable background}
 
 In the second step, SDMs are performed with pseudo--absences generated into different extents of the unsuitable background. Several functions are involved in this step. Function \texttt{bgRadio} performs the partition of the background space considering multiple distance thresholds. In other words, it creates backgrounds of different spatial extent for each species/population. In the example below, extents are created for a sequence of 10 km between distances, from 20 km to half the length of the diagonal of the bounding box, as described in Sec. 2.4 of the manuscript. A list of matrices containing xy coordinates is returned, each matrix corresponding to a different background extent tested.
 
 <<mopa8, fig=TRUE, echo=TRUE>>=
 ext <- bgRadio(xy = Oak_phylo2, bounding.coords = oak.extension, 
-               bg.absence = unsuitable.bg$absence, 
-               start = 0.166, by = 0.083, 
-               unit = "decimal degrees")
-# Plot presences for group H11 and background extents of 20, 
-# 120 and 520 km
+               bg.absence = unsuitable.bg$absence, start = 0.166, 
+               by = 0.083, unit = "decimal degrees")
+# Plot presences for group H11 and background extents of 20, 120 
+# and 520 km
 plot(ext$H11$km520, col = "green4", pch = "*", asp = 1)
 points(ext$H11$km120, pch = "*")
 points(ext$H11$km20, pch = "*", col = "blue")
 points(Oak_phylo2$H11, col = "red", pch = ".", cex = 1.5)
 @
 
-With function \texttt{PseudoAbsences}, you can create pseudo--absences either at random or with k--means clustering, by modifying argument \texttt{kmeans}. You can also set the prevalence (proportion of presences against pseudo--absences) and the exclusion buffer (minimum distance to be kept to presences without pseudo--absences).
+Function \texttt{PseudoAbsences} creates pseudo--absences either at random (TS method) or using the k-means clustering approach (TSKM method) for all the background extents considered. Prevalence (proportion of presences against pseudo--absences) and the exclusion buffer (minimum distance to be kept to presences without pseudo-absences) can also be set in this function using the arguments \texttt{prevalence} and \texttt{exclusion.buffer}.
 
-\subsubsection{At random}
+\paragraph{At random (TS method)}
 
 In the example below, pseudo--absences are generated at random, in equal number to presences (prevalence) and keeping a 10 km distance to presences (exclusion buffer).
 
 
-
-<<mopa9, fig=TRUE, echo=TRUE>>=
+<<mopa9, fig=TRUE, echo=TRUE, warning=FALSE>>=
 pa_random <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext, 
                            exclusion.buffer = 0.083, 
                            prevalence = 0.5, kmeans = FALSE)
-# Plot presences/pseudo-absences for group H11 considering 
-# the background extent of 520 km
-plot(ext$H11$km520, pch="*", col= "grey", cex=.5, asp=1)
-points(pa_random$H11$km520, col= "red", pch=".", cex=4)
+# Plot presences/pseudo-absences for group H11 considering the 
+# background extent of 120 km
+plot(ext$H11$km120, pch="*", col= "grey", cex=.5, asp=1)
+points(pa_random$H11$km120, col= "red", pch=".", cex=3)
 points(Oak_phylo2$H11, col= "blue", pch=".", cex=3)
 @
 
-\subsubsection{With k--means clustering}
+\paragraph{With k-means clustering (TSKM method)}
 
 In the example below, pseudo-absences are generated with k-means clustering, in equal number to presences (prevalence) and keeping a 10 km distance to presences (exclusion buffer).
 
-<<mopa10, fig=TRUE, echo=TRUE>>=
+<<mopa10, fig=TRUE, echo=TRUE, warning=FALSE>>=
 pa_kmeans <-PseudoAbsences(xy = Oak_phylo2, bg.grids = ext, 
                            exclusion.buffer = 0.083, 
                            prevalence = 0.5, kmeans = TRUE, 
                            varstack = biostack)
 # Plot presences/pseudo-absences for group H11 considering 
-# the background extent of 520 km
-plot(ext$H11$km520, pch = "*", col = "grey", cex = .5, asp = 1)
-points(pa_kmeans$H11$km520, col = "red", pch = ".", cex = 4)
+# the background extent of 120 km
+plot(ext$H11$km120, pch = "*", col = "grey", cex = .5, asp = 1)
+points(pa_kmeans$H11$km120, col = "red", pch = ".", cex = 3)
 points(Oak_phylo2$H11, col = "blue", pch = ".", cex = 3)
 @
 
@@ -194,24 +247,23 @@ points(Oak_phylo2$H11, col = "blue", pch = ".", cex = 3)
 Function \texttt{bindPresAbs} binds presence and absence data for each background extension.
 
 <<mopa11>>=
-presaus <- bindPresAbs(presences = Oak_phylo2, 
+presausTS <- bindPresAbs(presences = Oak_phylo2, 
                        absences = pa_random)
 @
 
+The \texttt{allModeling} function performs the species distribution modelling and the k-fold cross-validation for a set of presence/absence data per species, corresponding to different background 
+extents. Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
+and "cart.tree". In the example below, we perform a 10--fold cross validation using the "mars" modelling algorithm.
 
-The \texttt{allModeling} function does the species distribution modelling and k-fold cross validation for a set of presence/absence data per species corresponding to a different background 
-extent. Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
-and "cart.tree".
-
-In the example below, we do a 10--fold cross validation of the "mars" modelling algorithm.
 
 <<mopa12>>=
-modirs <- allModeling(data = presaus, varstack = biostack, 
-            k = 10, algorithm = "mars", destdir = getwd(), 
-            projection = CRS("+proj=longlat +init=epsg:4326"))
+modirsTS <- allModeling(data = presausTS, 
+                     varstack = biostack, k = 10, 
+                     algorithm = "mars", destdir = getwd(), 
+                projection = CRS("+proj=longlat +init=epsg:4326"))
 @
 
-Named Rdata objects are stored in the specified path. Each Object is given a name indicating the algorithm, background extent, and species in this order (if a single species is provided no name is given for de species). Character object with listed files is returned. Each Rdata consists of a list with six components:
+Named .Rdata objects are stored in the specified directory in \texttt{destdir}. Each file is automatically named, indicating the algorithm, background extent, and species/population in this order (if a single species is provided, no name is given for the species). For instance, the file \textit{mars\_bgkm20\_hgH11.Rdata} stores the R object (a \texttt{list}) containing the SDM results for the MARS algorithm, considering a 20 km background extent and the Oak group H11. In particular, the output list contains the following components:
 
 	(1)allmod: fitted model with all data for training, 
 	(2)auc: AUC statistic in the cross validation,
@@ -220,41 +272,50 @@ Named Rdata objects are stored in the specified path. Each Object is given a nam
 	(5)mod: fitted model with partitioned data, 
 	(6)p: cross model prediction. 
 
-\subsection{STEP3: selection of the optimum background extent and corresponding fitted model}
+\subsubsection{STEP3: selection of the optimum background extent and corresponding fitted model}
 
 In the third step, AUCs obtained and corresponding extents are fitted to a Michaelis-Menten model to extract the \textit{Vm} coefficient (equation 1 in the manuscript). Then, the minimum extent at which the AUC surpasses the \textit{Vm} value is selected as the threshold extent (see Figure 3 in the manuscript), being the corresponding fitted SDM the definitive to predict suitability probabilities in the study area.
 
-We next indicate how to plot the results of the optimal spatial extent selection using the `lattice` package. First we load the data generated with the  \texttt{allModeling} function and extract the corresponding AUC values. Function  \texttt{loadTestValues} loads and stores AUC data in a matrix:
+We next indicate how to plot the results of the optimal spatial extent selection using the \texttt{lattice} package. First we load the data generated with the \texttt{allModeling} function and extract the corresponding AUC values. Function \texttt{loadTestValues} loads and stores AUC data in a matrix:
 
 <<mopa13>>=
-auc_mars <-loadTestValues(data = presaus, test = "auc", 
+auc_mars <-loadTestValues(data = presausTS, test = "auc", 
                           algorithm = "mars")
+library(lattice)
+levelplot(auc_mars, aspect = 5, 
+          scales = list(y = list(cex = 0.8, 
+              at = c(1, 49, ncol(auc_mars)), 
+              labels = c(colnames(auc_mars)[1],
+                        colnames(auc_mars)[49],
+                        colnames(auc_mars)[ncol(auc_mars)]))), 
+          at = seq(0.6, 1, 0.01), col.regions = bpy.colors,
+          xlab = "Haplogroups", ylab = "Background extent (km)", 
+          main = "AUC")
 @
 
 
-Model fitting is done by function \texttt{indextent}, that internally uses the  \texttt{nls} function of R package  \texttt{stats}. An index of the threshold extents is obtained. A fitted model plot is also returned if argument  \texttt{diagrams} is set to  \texttt{TRUE} (the point crossed by the vertical line above the horizontal line corresponds to the smallest background extent at which the AUC overcomes the `Vm` value (threshold extent)).
+Model fitting is done by function \texttt{indextent}, that internally uses the \texttt{nls} function of R package \texttt{stats}. An index of the threshold extents is obtained. A fitted model plot (as in Fig. 3 in Iturbide et al., 2015) is also returned if argument \texttt{diagrams} is set to \texttt{TRUE}. 
 
 <<mopa14, fig=TRUE, echo=TRUE>>=
 ind <- indextent(testmat = auc_mars, diagrams = TRUE)
 ind
 @
 
-Thus, the \texttt{ind} object in this example gives the index of the background extents to be considered for each group/species and is used to extract definitive model components and data with function \texttt{loadDefinitiveModel} as follows. 
+The \texttt{ind} object in the example above gives the index to extract the best model components and associated data, by means of function \texttt{loadDefinitiveModel}.  
 
 <<mopa15>>=
-def <-loadDefinitiveModel(data = presaus, extents = ind, 
-                     slot = "allmod", algorithm = "mars")
+def <-loadDefinitiveModel(data = presausTS, 
+              extents = ind, slot = "allmod", algorithm = "mars")
 @
 
 Once the optimal SDMs are chosen, we can generate the resulting suitability maps. In the example below we use function \texttt{biomat} for preparing a matrix with the variables for prediction in the study area. Then, the predictions are converted to a raster format with functions \texttt{SpatialPixelsDataFrame} (from the \texttt{sp} package) and \texttt{raster} (from the \texttt{raster} package).
 
 <<mopa16, fig=TRUE, echo=TRUE>>=
 # Suitability map for the Oak group H11
-# Function 'biomat' prepares matrix with variables for 
-# projection
+# Function 'biomat' prepares matrix with variables for projection
 projectionland <- biomat(cbind(box.grid$bbs.grid$H11, 
                         rep(1, nrow(box.grid$bbs.grid$H11))), 
-                        biostack)
+                         biostack)
 # Prediction
 p <- predict(def$H11, projectionland[ ,-1])
 p[which(p < 0)] <- 0
@@ -269,10 +330,40 @@ plot(ras)
 
 
 %unsrtnat
-\bibliographystyle{elsarticle-harv}
-\bibliography{gen2}
+% \bibliographystyle{elsarticle-harv}
+% \bibliography{gen2}
+
+We can combine functions in \texttt{mopa} to apply alternative methods of pseudo-absence data generation. 
+Functions performing each step in RSEP, TS and TSKM are indicated in the conceptual diagram of the manuscript (Fig. 2). Functions involved in the TS and TSKM methods are:\\
+
+  \texttt{boundingCoords + delimit + OCSVMprofiling + bgRadio + \\
+  pseudoAbsences + bindPresAbs + allModeling + loadTestValues +\\
+  indextent + loadDefinitiveModel},\\  
+
+while the RSEP method only applies the first step of the Three-step methods, being the involved functions:\\
+
+  \texttt{boundingCoords + delimit + OCSVMprofiling + \\
+  pseudoAbsences + allModeling}. \\
+ 
+If we want to establish a threshold distance of the background but are not interested in doing an environmental profiling of the background in the previous step, we can combine functions this way:\\
+
+  \texttt{boundingCoords + delimit + bgRadio + pseudoAbsences +\\ 
+  bindPresAbs + allModeling + loadTestValues + indextent +\\
+  loadDefinitiveModel}.
 
 
+<<mopa17>>=
+print(sessionInfo())
+@
+
+
+\section{References}
+
+Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutiérrez, J.M., 2015. A framework for
+species distribution modelling with improved pseudo-absence generation. Ecological Modelling DOI:10.1016/j.ecolmodel.2015.05.018.
+
+
+Petit, R. J., Csaikl, U. M., Bordács, S., Burg, K., Coart, E., Cottrell,J., van Dam, B., Deans, J. D., Dumolin-Lapégue, S., Fineschi, S., Finkeldey, R., Gillies, A., Glaz, I., Goicoechea, P. G., Jensen,J. S., König, A. O., Lowe, A. J., Madsen, S. F., Mátyás, G., Munro, R. C., Olalde, M., Pemonge, M.-H., Popescu, F., Slade, D., Tabbener, H., Taurchini, D., de Vries, S. G. M., Ziegenhagen, B., Kremer, A., 2002b. Chloroplast DNA variation in european white oaks: Phylogeography and patterns of diversity based on data from over 2600 populations. Forest Ecology and Management 156 (1–3), 5–26.
 
 \end{document}
 
