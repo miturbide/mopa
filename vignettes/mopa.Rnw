@@ -1,5 +1,6 @@
 \documentclass[10pt,a4paper]{article}
-% \usepackage{Sweave} 
+% !Rnw weave = Sweave
+\usepackage{Sweave} 
 \usepackage{natbib}
 \usepackage{graphics}
 \usepackage{amsmath}
@@ -10,40 +11,40 @@
 \usepackage{hyperref}
 \usepackage[T1]{fontenc}
 \DeclareGraphicsExtensions{.png,.pdf,.jpg}
-% !Rnw weave = Sweave
+
 \begin{document}
 % \SweaveOpts{concordance=TRUE}
+ \SweaveOpts{concordance=TRUE}
 
-%\VignetteIndexEntry{Species distribution modeling with three-step pseudo--absences}
-%\VignetteDepends{mopa,sp,raster,earth}
-%\VignetteKeyword{spatial}
+% \VignetteIndexEntry{Species distribution modeling with three-step pseudo-absences}
+% \VignetteDepends{mopa,sp,raster,earth}
+% \VignetteKeyword{spatial}
+% 
+% \newcommand{\super}[1]{\ensuremath{^{\textrm{#1}}}}
+% \newcommand{\sub}[1]{\ensuremath{_{\textrm{#1}}}}
+% \newcommand{\R}{{\normalfont\textsf{R }}{}}
 
-%\newcommand{\super}[1]{\ensuremath{^{\textrm{#1}}}}
-%\newcommand{\sub}[1]{\ensuremath{_{\textrm{#1}}}}
-%\newcommand{\R}{{\normalfont\textsf{R }}{}}
-
-% \SweaveOpts{pdf=TRUE, png=TRUE}
-% \SweaveOpts{resolution=100}
-% \SweaveOpts{keep.source=TRUE}
-
-
-<<setup,include=FALSE,cache=FALSE>>=
-library(knitr)
-opts_knit$set(out.format="latex")
-knit_theme$set("moe")
-options(formatR.arrow = TRUE, width = 50)
-opts_chunk$set(fig.path='figure/graphics-', fig.align='center', fig.width=4, fig.height=4, fig.show='hold', cache=TRUE, par=TRUE)
-knit_hooks$set(par=function(before, options, envir){
-if (before && options$fig.show!='none') par(mar=c(4,4,.1,.1),cex.lab=.95,cex.axis=.9,mgp=c(2,.7,0),tcl=-.3)
-}, crop=hook_pdfcrop)
-@ 
+\SweaveOpts{pdf=TRUE, png=TRUE}
+\SweaveOpts{resolution=100}
+\SweaveOpts{keep.source=TRUE}
 
 
+%  <<setup,include=FALSE,cache=FALSE>>=
+%  library(knitr)
+%  opts_knit$set(out.format="latex")
+%  knit_theme$set("moe")
+%  options(formatR.arrow = TRUE, width = 50)
+%  opts_chunk$set(fig.path='figure/graphics-', fig.align='center', fig.width=4, fig.height=4, fig.show='hold', cache=TRUE, par=TRUE)
+%  knit_hooks$set(par=function(before, options, envir){
+%  if (before && options$fig.show!='none') par(mar=c(4,4,.1,.1),cex.lab=.95,cex.axis=.9,mgp=c(2,.7,0),tcl=-.3)
+%  }, crop=hook_pdfcrop)
+%  @ 
 
 
 
-\title{mopa (MOdelling with Pseudo Absences): A framework for species distribution modelling with
-improved pseudo-absence generation}
+
+
+\title{mopa (MOdelling with Pseudo Absences): A framework for species distribution modelling with improved pseudo-absence generation}
 \author{M. Iturbide et al.}
 
 \tableofcontents
@@ -56,7 +57,7 @@ This is a tutorial containing a full worked example of species distribution mode
 
 
 
---> NOTE: Most functions presented are implemented in \texttt{mopa}. In the few cases in which functions from other packages are used, the package name is always explicitly indicated.
+NOTE: Most functions presented are implemented in \texttt{mopa}. In the few cases in which functions from other packages are used, the package name is always explicitly indicated.
 
 
 \subsection{Installing the mopa package}
@@ -145,7 +146,7 @@ for (i in 1:length(Oak_phylo2)){
 @
 
 
-\subsection{Three--step pseudo--absences generation}
+\subsection{Three-step pseudo-absences generation}
 
 In this section we illustrate the steps followed to generate pseudo-absences following the RSEP, TS and TSKM procedures described in the manuscript. 
 
@@ -166,7 +167,7 @@ points(unsuitable.bg$presence$H11, pch = "*", col = "pink2")
 If the RSEP method (as described in Iturbide et al., 2015) is selected for pseudo-absence data generation, only the first step is needed, thus, at this point we can create random pseudo-absences in the unsuitable background and perform SDM. The same functions as in the TS and TSKM methods might be used for this purpose, these are \texttt{PseudoAbsences} and \texttt{allModeling}, which are detailed in the section below (STEP2).
 
 <<mopa7.1, fig=FALSE, eval=FALSE>>=
-# Pseudo--absences are generated at random, in equal number 
+# Pseudo-absences are generated at random, in equal number 
 # to presences (prevalence) and keeping a 10 km distance to 
 # presences (exclusion buffer)
 rsep_random <-PseudoAbsences(xy = Oak_phylo2, 
@@ -193,9 +194,9 @@ modirsRSEP <- allModeling(data = presausRSEP, varstack = biostack,
               projection = CRS("+proj=longlat +init=epsg:4326"))
 @
 
-\subsubsection{STEP 2: SDM performing with pseudo--absences generated into different extents of the unsuitable background}
+\subsubsection{STEP 2: SDM performing with pseudo-absences generated into different extents of the unsuitable background}
 
-In the second step, SDMs are performed with pseudo--absences generated into different extents of the unsuitable background. Several functions are involved in this step. Function \texttt{bgRadio} performs the partition of the background space considering multiple distance thresholds. In other words, it creates backgrounds of different spatial extent for each species/population. In the example below, extents are created for a sequence of 10 km between distances, from 20 km to half the length of the diagonal of the bounding box, as described in Sec. 2.4 of the manuscript. A list of matrices containing xy coordinates is returned, each matrix corresponding to a different background extent tested.
+In the second step, SDMs are performed with pseudo-absences generated into different extents of the unsuitable background. Several functions are involved in this step. Function \texttt{bgRadio} performs the partition of the background space considering multiple distance thresholds. In other words, it creates backgrounds of different spatial extent for each species/population. In the example below, extents are created for a sequence of 10 km between distances, from 20 km to half the length of the diagonal of the bounding box, as described in Sec. 2.4 of the manuscript. A list of matrices containing xy coordinates is returned, each matrix corresponding to a different background extent tested.
 
 <<mopa8, fig=TRUE, echo=TRUE>>=
 ext <- bgRadio(xy = Oak_phylo2, bounding.coords = oak.extension, 
@@ -209,11 +210,11 @@ points(ext$H11$km20, pch = "*", col = "blue")
 points(Oak_phylo2$H11, col = "red", pch = ".", cex = 1.5)
 @
 
-Function \texttt{PseudoAbsences} creates pseudo--absences either at random (TS method) or using the k-means clustering approach (TSKM method) for all the background extents considered. Prevalence (proportion of presences against pseudo--absences) and the exclusion buffer (minimum distance to be kept to presences without pseudo-absences) can also be set in this function using the arguments \texttt{prevalence} and \texttt{exclusion.buffer}.
+Function \texttt{PseudoAbsences} creates pseudo-absences either at random (TS method) or using the k-means clustering approach (TSKM method) for all the background extents considered. Prevalence (proportion of presences against pseudo-absences) and the exclusion buffer (minimum distance to be kept to presences without pseudo-absences) can also be set in this function using the arguments \texttt{prevalence} and \texttt{exclusion.buffer}.
 
-\paragraph{At random (TS method)}
+\paragraph{At random (TS method).}
 
-In the example below, pseudo--absences are generated at random, in equal number to presences (prevalence) and keeping a 10 km distance to presences (exclusion buffer).
+In the example below, pseudo-absences are generated at random, in equal number to presences (prevalence) and keeping a 10 km distance to presences (exclusion buffer).
 
 
 <<mopa9, fig=TRUE, echo=TRUE, warning=FALSE>>=
@@ -227,7 +228,7 @@ points(pa_random$H11$km120, col= "red", pch=".", cex=3)
 points(Oak_phylo2$H11, col= "blue", pch=".", cex=3)
 @
 
-\paragraph{With k-means clustering (TSKM method)}
+\paragraph{With k-means clustering (TSKM method.)}
 
 In the example below, pseudo-absences are generated with k-means clustering, in equal number to presences (prevalence) and keeping a 10 km distance to presences (exclusion buffer).
 
@@ -253,7 +254,7 @@ presausTS <- bindPresAbs(presences = Oak_phylo2,
 
 The \texttt{allModeling} function performs the species distribution modelling and the k-fold cross-validation for a set of presence/absence data per species, corresponding to different background 
 extents. Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
-and "cart.tree". In the example below, we perform a 10--fold cross validation using the "mars" modelling algorithm.
+and "cart.tree". In the example below, we perform a 10-fold cross validation using the "mars" modelling algorithm.
 
 
 <<mopa12>>=
@@ -336,20 +337,20 @@ plot(ras)
 We can combine functions in \texttt{mopa} to apply alternative methods of pseudo-absence data generation. 
 Functions performing each step in RSEP, TS and TSKM are indicated in the conceptual diagram of the manuscript (Fig. 2). Functions involved in the TS and TSKM methods are:\\
 
-  \texttt{boundingCoords + delimit + OCSVMprofiling + bgRadio + \\
-  pseudoAbsences + bindPresAbs + allModeling + loadTestValues +\\
-  indextent + loadDefinitiveModel},\\  
+   \texttt{boundingCoords + delimit + OCSVMprofiling + bgRadio +} \\
+   \texttt{pseudoAbsences + bindPresAbs + allModeling + loadTestValues +}\\
+   \texttt{indextent + loadDefinitiveModel},\\  
 
 while the RSEP method only applies the first step of the Three-step methods, being the involved functions:\\
 
-  \texttt{boundingCoords + delimit + OCSVMprofiling + \\
-  pseudoAbsences + allModeling}. \\
+   \texttt{boundingCoords + delimit + OCSVMprofiling +} \\
+   \texttt{pseudoAbsences + allModeling}. \\
  
 If we want to establish a threshold distance of the background but are not interested in doing an environmental profiling of the background in the previous step, we can combine functions this way:\\
 
-  \texttt{boundingCoords + delimit + bgRadio + pseudoAbsences +\\ 
-  bindPresAbs + allModeling + loadTestValues + indextent +\\
-  loadDefinitiveModel}.
+  \texttt{boundingCoords + delimit + bgRadio + pseudoAbsences +}\\ 
+  \texttt{bindPresAbs + allModeling + loadTestValues + indextent +}\\
+  \texttt{loadDefinitiveModel}.
 
 
 <<mopa17>>=
@@ -359,11 +360,12 @@ print(sessionInfo())
 
 \section{References}
 
-Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutiérrez, J.M., 2015. A framework for
+Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Guti\'errez, J.M., 2015. A framework for
 species distribution modelling with improved pseudo-absence generation. Ecological Modelling DOI:10.1016/j.ecolmodel.2015.05.018.
 
+ 
+ Petit, R. J., Csaikl, U. M., Bord\'acs, S., Burg, K., Coart, E., Cottrell,J., van Dam, B., Deans, J. D., Dumolin Lap\'egue, S., Fineschi, S., Finkeldey, R., Gillies, A., Glaz, I., Goicoechea, P. G., Jensen,J. S., Konig, A. O., Lowe, A. J., Madsen, S. F., M\'aty\'as, G., Munro, R. C., Olalde, M., Pemonge, M.H., Popescu, F., Slade, D., Tabbener, H., Taurchini, D., de Vries, S. G. M., Ziegenhagen, B., Kremer, A., 2002b. Chloroplast DNA variation in european white oaks: Phylogeography and patterns of diversity based on data from over 2600 populations. Forest Ecology and Management 156 (1-3), 5-26.
 
-Petit, R. J., Csaikl, U. M., Bordács, S., Burg, K., Coart, E., Cottrell,J., van Dam, B., Deans, J. D., Dumolin-Lapégue, S., Fineschi, S., Finkeldey, R., Gillies, A., Glaz, I., Goicoechea, P. G., Jensen,J. S., König, A. O., Lowe, A. J., Madsen, S. F., Mátyás, G., Munro, R. C., Olalde, M., Pemonge, M.-H., Popescu, F., Slade, D., Tabbener, H., Taurchini, D., de Vries, S. G. M., Ziegenhagen, B., Kremer, A., 2002b. Chloroplast DNA variation in european white oaks: Phylogeography and patterns of diversity based on data from over 2600 populations. Forest Ecology and Management 156 (1–3), 5–26.
 
 \end{document}
 

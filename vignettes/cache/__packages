@@ -1,6 +1,5 @@
 base
 knitr
-devtools
 sp
 raster
 mopa
