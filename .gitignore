@@ -5,3 +5,4 @@ mopa.Rproj
 .Rbuildignore
 ignore
 rabs.Rproj
+vignettes/.*Rdata
