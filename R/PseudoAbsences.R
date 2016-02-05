@@ -106,8 +106,8 @@ PseudoAbsences<-function (xy, bg.grids, exclusion.buffer = 0.0166, prevalence = 
   }
   aa <- list()
   for (j in 1:length(bg2)) {
-    print(paste("generating pseudo-absences for species", 
-                j, "out of", length(bg2)))
+    message("generating pseudo-absences for species ", 
+                j, " out of ", length(bg2))
     aus <- list()
     coords.l <- bg2[[j]]
     polpol <- polybuffs[[j]]
