@@ -143,12 +143,15 @@ PseudoAbsences<-function (xy, bg.grids, exclusion.buffer = 0.0166, prevalence = 
       }
     }
     as <- unname(na.omit(ind))
-    if(length(as)!=0) aa[[j]] <- aus[-as]
+    if(length(as)!=0){
+      aa[[j]] <- aus[-as]
+    }else{
+      aa[[j]] <- aus
+    }
   }
   if (length(aa) == 1) {
     aa <- aa[[1]]
-  }
-  else {
+  } else {
     names(aa) <- names(pres.list)
   }
   return(aa)
