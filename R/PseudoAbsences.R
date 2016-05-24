@@ -80,8 +80,7 @@ PseudoAbsences<-function (xy, bg.grids, exclusion.buffer = 0.0166, prevalence = 
   
   if (class(xy) == "data.frame") {
     pres.list <- list(xy)
-  }
-  else {
+  }  else {
     pres.list <- xy
   }
   for (j in 1:length(pres.list)) {
@@ -143,8 +142,8 @@ PseudoAbsences<-function (xy, bg.grids, exclusion.buffer = 0.0166, prevalence = 
         ind[n] <- n
       }
     }
-    as <- na.omit(ind)
-    aa[[j]] <- aus[-as]
+    as <- unname(na.omit(ind))
+    if(length(as)!=0) aa[[j]] <- aus[-as]
   }
   if (length(aa) == 1) {
     aa <- aa[[1]]
