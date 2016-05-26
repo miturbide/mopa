@@ -74,6 +74,7 @@ allModeling <- function(data, varstack, k = 10, algorithm = c("glm", "svm", "max
   biostack <- varstack
   if (class(data[[1]]) != "list"){
     data<-list(data)
+    names(data) <- "species"
   }else{
     data <- data
   }
