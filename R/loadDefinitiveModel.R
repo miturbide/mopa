@@ -6,13 +6,10 @@
 #' in an index to select the definitive fitted model/s, ideally, the index returned by 
 #' function indextent should be used.
 #' 
-#' @param data Object with the same structure as the object returned by function bindPresAbs. 
-#' @param extents Named integer returned by function indextent (a named index 
-#' corresponding to the definitive extents to be considered)
+#' @param defExtents Named integer returned by function indextent (a named index 
+#' corresponding to the definitive extents to be considered). Including the attributes 
+#' "source directory", "algorithm", "species" and "extents".
 #' @param slot Any character of the following: "allmod", auc", "kappa", "tss", "mod", "p"
-#' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", 
-#' "cart.rpart" or "cart.tree"
-#' @param sourcedir Character of the path where Rdata objects are 
 #' 
 #'  
 #' 
@@ -29,19 +26,18 @@
 #' 
 #' 
 #' 
-#' @author M. Iturbide \email{maibide@@gmail.com}
+#' @author M. Iturbide 
 #' 
 #' @examples
 #' \dontrun{
 #' data(presaus)
-#' data(biostack)
+#' data(biostackENSEMBLES)
 #' ##modeling
-#' modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars") 
-#' ##loading#'  
-#' auc_mars <-loadTestValues(data = presaus, "auc", "mars") 
-#' ind <- indextent(testmat = auc_mars, diagrams = TRUE)
-#' 
-#' def <-loadDefinitiveModel(data = presaus, extents = ind, slot = "allmod", algorithm = "mars")
+#' modirs <-allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 10, "mars") 
+#' ##loading
+#' auc_mars <-loadTestValues(models = modirs, test = "auc") 
+#' ind <- indextent(testmat = auc_mars, diagrams = F)
+#' def <- loadDefinitiveModel(defExtents = ind, slot = "allmod")
 #' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -51,21 +47,21 @@
 #' @export
 
 
-loadDefinitiveModel<-function(def.extents, slot = c("allmod", "auc", "kappa", "tss", "mod", "p")){
+loadDefinitiveModel<-function(defExtents, slot = c("allmod", "auc", "kappa", "tss", "mod", "p")){
   slot <- match.arg(slot, choices = c("allmod", "auc", "kappa", "tss", "mod", "p"))
-  extents <-attr(def.extents, "extents")
+  extents <- attr(defExtents, "extents")
   extent.lengths <- lengths(extents)
   max.extents <- extents[[which(extent.lengths == max(extent.lengths))]]
-  algorithm <- attr(def.extents, "algorithm")  
-  species <- attr(def.extents, "species") 
-  sourcedir <- attr(def.extents, "source directory")
+  algorithm <- attr(defExtents, "algorithm")  
+  species <- attr(defExtents, "species") 
+  sourcedir <- attr(defExtents, "source directory")
   modelslot<-list()
   for (i in 1:length(species)){
     g <- species[i]
     if (length(species)<2){
-    load(paste(sourcedir,"/", algorithm, "_bg", names(def.extents)[i],".rda",sep=""))
+      mod <- get(load(paste(sourcedir,"/", algorithm, "_bg", names(defExtents)[i],".rda",sep="")))
     } else {
-    load(paste(sourcedir,"/", algorithm, "_bg", names(def.extents)[i],"_hg",g,".rda",sep=""))
+      mod <- get(load(paste(sourcedir,"/", algorithm, "_bg", names(defExtents)[i],"_hg",g,".rda",sep="")))
     }
       if (slot == "allmod"){modelslot[[i]]<-mod$allmod
       } else if (slot == "auc"){modelslot[[i]]<-mod$auc
@@ -75,6 +71,8 @@ loadDefinitiveModel<-function(def.extents, slot = c("allmod", "auc", "kappa", "t
       } else if (slot == "p"){modelslot[[i]]<-mod$p}
   } 
   names(modelslot) <- species
-  if(species == "species"){modelslot <- modelslot[[1]]}
+  suppressWarnings(
+    if(species == "species"){modelslot <- modelslot[[1]]}
+    )
   return (modelslot)
 }

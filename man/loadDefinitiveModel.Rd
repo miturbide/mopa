@@ -4,22 +4,15 @@
 \alias{loadDefinitiveModel}
 \title{Load Rdata files storing definitive fitted model}
 \usage{
-loadDefinitiveModel(data, extents, slot = c("allmod", "auc", "kappa", "tss",
-  "mod", "p"), algorithm = c("glm", "svm", "maxent", "mars", "randomForest",
-  "cart.rpart", "cart.tree"), sourcedir = getwd())
+loadDefinitiveModel(defExtents, slot = c("allmod", "auc", "kappa", "tss",
+  "mod", "p"))
 }
 \arguments{
-\item{data}{Object with the same structure as the object returned by function bindPresAbs.}
-
-\item{extents}{Named integer returned by function indextent (a named index
-corresponding to the definitive extents to be considered)}
+\item{defExtents}{Named integer returned by function indextent (a named index
+corresponding to the definitive extents to be considered). Including the attributes
+"source directory", "algorithm", "species" and "extents".}
 
 \item{slot}{Any character of the following: "allmod", auc", "kappa", "tss", "mod", "p"}
-
-\item{algorithm}{Any character of the following: "glm", "svm", "maxent", "mars", "randomForest",
-"cart.rpart" or "cart.tree"}
-
-\item{sourcedir}{Character of the path where Rdata objects are}
 }
 \value{
 Depending on the specified slot:
@@ -41,18 +34,17 @@ detail.
 \examples{
 \dontrun{
 data(presaus)
-data(biostack)
+data(biostackENSEMBLES)
 ##modeling
-modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars")
-##loading#'
-auc_mars <-loadTestValues(data = presaus, "auc", "mars")
-ind <- indextent(testmat = auc_mars, diagrams = TRUE)
-
-def <-loadDefinitiveModel(data = presaus, extents = ind, slot = "allmod", algorithm = "mars")
+modirs <-allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 10, "mars")
+##loading
+auc_mars <-loadTestValues(models = modirs, test = "auc")
+ind <- indextent(testmat = auc_mars, diagrams = F)
+def <- loadDefinitiveModel(defExtents = ind, slot = "allmod")
 }
 }
 \author{
-M. Iturbide \email{maibide@gmail.com}
+M. Iturbide
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015.

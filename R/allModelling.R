@@ -22,7 +22,8 @@
 #' @return Named Rdata objects are stored in the 
 #' specified path. Each Object is given a name indicating the algorithm, background 
 #' extent, and species in this order (if a single species is provided no name is given 
-#' for the species). Character object with listed files is returned.
+#' for the species). The object returned by the function is a list of characters with listed files, 
+#' used algorithm, species names and background extents.
 #' Each Rdata consists of a list with six components:
 #' 
 #'  \item{allmod }{fitted model using all data for training}
@@ -38,15 +39,15 @@
 #' 
 #' 
 #' 
-#' @author M. Iturbide \email{maibide@@gmail.com}
+#' @author M. Iturbide 
 #' 
 #' @examples
 #' 
 #' \dontrun{
 #' data(presaus)
-#' data(biostack)
-#' ##modelling
-#' modirs <- allModeling(data = presaus, varstack = biostack, k = 10, algorithm = "mars")
+#' data(biostackENSEMBLES)
+#' ##modeling
+#' modirs <-allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 10, "mars") 
 #' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -104,10 +105,10 @@ allModeling <- function(data, varstack, k = 10, algorithm = c("glm", "svm", "max
     extents[[j]] <- names(data[[j]])
   }
   names(extents) <- names(data)
-  dirs <- list.files(destdir, full.names = F, pattern = algorithm)
-  attr(dirs, "algorithm") <- algorithm
-  attr(dirs, "species") <- names(data)
-  attr(dirs, "extents") <- extents
   
-  return(dirs)
+  modirs <- list("dirs" = list.files(destdir, full.names = F, pattern = algorithm),
+               "algorithm" = algorithm,
+               "species" = names(data),
+               "extents" = extents)
+  return(modirs)
 }

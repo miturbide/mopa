@@ -10,7 +10,7 @@
 #' 
 #' @param testmat Object returned by function loadTestValues (matrix with extents 
 #' in columns and species in rows)
-#' @param diagrams Logical. If TRUE diagrams of the fitted models are returned
+#' @param diagrams Logical (default is FALSE). If TRUE diagrams of the fitted models are returned.
 #'   
 #' @return Named integer. Index of the extents at which the AUC, kappa or tss 
 #' statistics obtain the maximum score. The residual sum of squares is printed in the console and 
@@ -19,17 +19,17 @@
 #' 
 #' 
 #' 
-#' @author M. Iturbide \email{maibide@@gmail.com}
+#' @author M. Iturbide 
 #' 
 #' @examples
 #' \dontrun{
 #' data(presaus)
-#' data(biostack)
+#' data(biostackENSEMBLES)
 #' ##modeling
-#' modirs <-allModeling(data = presaus, varstack = biostack, k = 10, "mars") 
-#' ##loading  
-#' auc_mars <-loadTestValues(data = presaus, "auc", "mars") 
-#' ind <- indextent(testmat = auc_mars, diagrams = TRUE)
+#' modirs <-allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 10, "mars") 
+#' ##loading
+#' auc_mars <-loadTestValues(models = modirs, test = "auc") 
+#' ind <- indextent(testmat = auc_mars)
 #' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -40,10 +40,9 @@
 #' @import lattice
 
 
-indextent <- function (testmat, diagrams = TRUE) {
+indextent <- function (testmat, diagrams = FALSE) {
   e <- list()
   dat<-list()
-  
   message(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
   
   for (i in 1:nrow(testmat)) {
@@ -52,10 +51,10 @@ indextent <- function (testmat, diagrams = TRUE) {
     x<-as.integer(sub("km", x=names(y), replacement= ""))[1:length(y)]
     
     
-    group<-rep(rownames(testmat)[i], length(y))
+    group <- rep(rownames(testmat)[i], length(y))
     
     
-    out <- nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear")
+    out <- nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear")
     # simpler model to get better starting values
     
     a <- coef(out)[2]
@@ -63,26 +62,31 @@ indextent <- function (testmat, diagrams = TRUE) {
     c <- coef(out)[1]
     
     
-    stmic <- list(Vm=max(predict(nls(y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg ="plinear"))), K=min(x))
+    stmic <- list(Vm=max(predict(nls(y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))), K=min(x))
     micmen <- nls(y~Vm*x/(K+x), start= stmic) 
     
     
     asym <- nls(y ~ a*(1-exp(-c * x)), start = list(a = a, c=c))
     
     
-    asym3 <- nls(y ~ a - b*exp(-c * x), start = list(a = a, b=b, c=c))
+    asym3 <- tryCatch({nls(y ~ a - b*exp(-c * x), start = list(a = a, b=b, c=c))}, 
+                      error = function(err){NULL})
     
     resid<-numeric(length = 3)
     names(resid)<-c("Michaelis Menten", "exponential3", "exponential2")
     resid[1] <- sum((predict(micmen)-y)^2)
-    resid[2] <- sum((predict(asym3)-y)^2)
+    resid[2] <- tryCatch({sum((predict(asym3)-y)^2)}, error = function(err){NA})
     resid[3] <- sum((predict(asym)-y)^2)
     resid <- sort(resid, decreasing = F)
     message (paste ("residual sum of squares for species ", rownames(testmat)[i]))
-    mess<-(paste(names(resid),"=", resid))
+    mess <- (paste(names(resid),"=", resid))
     message(mess[1])
     message(mess[2])
-    message(mess[3])
+    if(is.null(asym3)){
+      message("Fitting of exponential3 cannot be done")
+    }else{
+      message(mess[3])
+    }
     nls.fun <- names(resid[1])
     message(paste("best function = ", nls.fun))
     
@@ -133,7 +137,7 @@ indextent <- function (testmat, diagrams = TRUE) {
         }else{
           nls.fun <- names(resid[id])
           message(paste("WARNING: in species -->", rownames(testmat)[i],  "<-- the exponential3 coefficient of the asymptote is not outperformed, index corresponding to", 
-                      nls.fun, "non-linear function is returned. See ?indextent.", sep=" "))
+                        nls.fun, "non-linear function is returned. See ?indextent.", sep=" "))
         }
         
       }else{
@@ -159,7 +163,7 @@ indextent <- function (testmat, diagrams = TRUE) {
         }else{
           nls.fun <- names(resid[id])
           message(paste("WARNING: in species -->", rownames(testmat)[i],  "<-- the exponential2 coefficient of the asymptote is not outperformed, index corresponding to", 
-                      nls.fun, "non-linear function is returned. See ?indextent.", sep=""))
+                        nls.fun, "non-linear function is returned. See ?indextent.", sep=""))
         }
         
       }else{
@@ -195,71 +199,72 @@ indextent <- function (testmat, diagrams = TRUE) {
                   ##############################exp2#################################------
                   
                   panel.lines(x, predict(nls(y ~ a * (1 - exp(-c * x)), 
-                                             start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[2], 
+                                             start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[2], 
                                                           
-                                                          c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[1]))),
+                                                          c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[1]))),
                               col="green", lwd = 1.5)
                   
                   
                   panel.abline(coef(nls(y ~ a * (1 - exp(-c * x)), 
-                                        start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[2], 
+                                        start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[2], 
                                                      
-                                                     c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[1])))[1],
+                                                     c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[1])))[1],
                                lty = 5, col = "green", lwd = 1.5)
                   
                   
                   panel.abline(v = min(x[which(y > coef(nls(y ~ a * (1 - exp(-c * x)), 
-                                                            start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[2], 
+                                                            start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[2], 
                                                                          
-                                                                         c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[1])))[1])]),
+                                                                         c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[1])))[1])]),
                                lty = 5, col = "green", lwd = 1.5)
                   
                   ###############################micmen##################################-----
                   
                   panel.lines(x, predict(nls(y ~ Vm * x/(K + x), start=
-                                               list(Vm = max(predict(nls(y ~ 1 * (1 - exp(-c * x)), start=list(c=0.001), alg ="plinear"))), 
+                                               list(Vm = max(predict(nls(y ~ 1 * (1 - exp(-c * x)), start=list(c=0.001), algorithm ="plinear"))), 
                                                     K = min(x)))),
                               col="red", lwd = 1.5)
                   
                   
                   panel.abline(coef(nls(y ~ Vm * x/(K + x), start=
-                                          list(Vm = max(predict(nls(y ~ 1 * (1 - exp(-c * x)), start=list(c=0.001), alg ="plinear"))), 
+                                          list(Vm = max(predict(nls(y ~ 1 * (1 - exp(-c * x)), start=list(c=0.001), algorithm ="plinear"))), 
                                                K = min(x))))[1],
                                lty = 5, col = "red", lwd = 1.5)
                   
                   
                   panel.abline(v = min(x[which(y > coef(nls(y ~ Vm * x/(K + x), start=
-                                                              list(Vm = max(predict(nls(y ~ 1 * (1 - exp(-c * x)), start=list(c=0.001), alg ="plinear"))), 
+                                                              list(Vm = max(predict(nls(y ~ 1 * (1 - exp(-c * x)), start=list(c=0.001), algorithm ="plinear"))), 
                                                                    K = min(x))))[1])]),
                                lty = 5, col = "red", lwd = 1.5)
                   
                   
                   
                   ##############################exp3#################################------
+                    panel.lines(x, predict(nls(y ~ a - b*exp(-c * x), 
+                                               start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[2], 
+                                                            b=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[2]-0.5, 
+                                                            c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[1]))),
+                                col="black", lwd = 1.5)
+                    
+                    
+                    panel.abline(coef(nls(y ~ a - b*exp(-c * x), 
+                                          start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[2], 
+                                                       b=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[2]-0.5, 
+                                                       c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[1])))[1],
+                                 lty = 5, col = "black", lwd = 1.5)
+                    
+                    
+                    panel.abline(v = min(x[which(y > coef(nls(y ~ a - b*exp(-c * x), 
+                                                              start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[2], 
+                                                                           b=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[2]-0.5, 
+                                                                           c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), algorithm = "plinear"))[1])))[1])]),
+                                 lty = 5, col = "black", lwd = 1.5)
+                    
+                    
+                    
                   
-                  panel.lines(x, predict(nls(y ~ a - b*exp(-c * x), 
-                                             start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[2], 
-                                                          b=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[2]-0.5, 
-                                                          c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[1]))),
-                              col="black", lwd = 1.5)
-                  
-                  
-                  panel.abline(coef(nls(y ~ a - b*exp(-c * x), 
-                                        start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[2], 
-                                                     b=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[2]-0.5, 
-                                                     c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[1])))[1],
-                               lty = 5, col = "black", lwd = 1.5)
-                  
-                  
-                  panel.abline(v = min(x[which(y > coef(nls(y ~ a - b*exp(-c * x), 
-                                                            start = list(a = coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[2], 
-                                                                         b=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[2]-0.5, 
-                                                                         c=coef( nls (y ~ 1*(1-exp(-c * x)), start = list(c=0.001), alg = "plinear"))[1])))[1])]),
-                               lty = 5, col = "black", lwd = 1.5)
-                  
-                  
-                  
-                })
+                }
+    )
     
     print(pl)
   }

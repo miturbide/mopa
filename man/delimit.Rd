@@ -4,16 +4,15 @@
 \alias{delimit}
 \title{Delimit study area and background}
 \usage{
-delimit(bounding.coords, grid, names)
+delimit(bounding.coords, grid, names = NULL)
 }
 \arguments{
-\item{bounding.coords}{Object returned by function \code{\link{boundingCoords}}.
-Matrix or list of matrixes of bounding coordinates indicating the maximum and minimum
-values in columns and xy coordinates in rows}
+\item{bounding.coords}{A vector or a list of vectors with bounding coordinates in the following form: c(x1, x2, y1, y2).
+Also object returned by function \code{\link{boundingCoords}}.}
 
 \item{grid}{Projected SpatialPoints object}
 
-\item{names}{Names or IDs to be given to each shape}
+\item{names}{Names or IDs to be given to each shape. Default bounding.coords names.}
 }
 \value{
 A list with two components:
@@ -60,7 +59,7 @@ for (i in 1:length(Oak_phylo2)){
 }
 }
 \author{
-M. Iturbide \email{maibide@gmail.com}
+M. Iturbide
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015.

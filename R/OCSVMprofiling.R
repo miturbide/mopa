@@ -25,7 +25,7 @@
 #' 
 #' 
 #' 
-#' @author M. Iturbide \email{maibide@@gmail.com}
+#' @author M. Iturbide 
 #' 
 #' @examples
 #' \dontrun{

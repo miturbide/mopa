@@ -5,7 +5,7 @@
 \title{Background extent restriction for a sequence of distances}
 \usage{
 bgRadio(xy, bounding.coords, bg.absence, start = 0.166, by = 0.083,
-  unit = "decimal degrees")
+  unit = c("decimal degrees", "utm"))
 }
 \arguments{
 \item{xy}{Data frame or list of data frames with coordinates (each row is a point)}
@@ -69,7 +69,7 @@ points(Oak_phylo2$H11, col = "red", pch = ".", cex = 1.5)
 }
 }
 \author{
-M. Iturbide \email{maibide@gmail.com}
+M. Iturbide
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015.

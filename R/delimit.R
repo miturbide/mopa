@@ -3,9 +3,8 @@
 #' @description Creation of polygon shapes from bounding coordinates and delimitation of 
 #' SpatialPoints data to the defined boundaries
 #' 
-#' @param bounding.coords Object returned by function \code{\link{boundingCoords}}. 
-#' Matrix or list of matrixes of bounding coordinates indicating the maximum and minimum 
-#' values in columns and xy coordinates in rows
+#' @param bounding.coords A vector or a list of vectors with bounding coordinates in the following form: c(x1, x2, y1, y2). 
+#' Also object returned by function \code{\link{boundingCoords}}. 
 #' @param grid Projected SpatialPoints object
 #' @param names Names or IDs to be given to each shape. Default bounding.coords names.
 #' 
@@ -26,7 +25,7 @@
 #' 
 #' 
 #' 
-#' @author M. Iturbide \email{maibide@@gmail.com}
+#' @author M. Iturbide 
 #' 
 #' @examples
 #' \dontrun{
@@ -61,28 +60,27 @@
 #' @importFrom splancs bboxx
 
 delimit<-function(bounding.coords, grid, names = NULL){
-  
   if (class(bounding.coords) != "list"){
-    bounds<-list(bounding.coords)
+    bounds <- list(bounding.coords)
     names(bounds) <- "background"
-  }else{bounds<-bounding.coords}
-  
-  bb0<-bounds
+  }else{
+    bounds <- bounding.coords
+  }
+  boundsmat <- lapply(1:length(bounds), function(x){
+    matrix(bounds[[x]], ncol = 2, byrow = T)
+  })
+  bb0<-boundsmat
   bb1 <- lapply(bb0, bboxx)
   bb1[[1]] 
   bb2 <- lapply(bb1, function(x) rbind(x, x[1,]))
   bb2[[1]]
-  
   if(!is.null(names)){
-  rn <- names
+    rn <- names
   }else{
     rn <- names(bounds)
   }
-
   bb3 <- vector(mode="list", length=length(bb2))
-
-    for (i in seq(along=bb3)) bb3[[i]] <- Polygons(list(Polygon(bb2[[i]])),
-                                                 ID=rn[i])
+  for (i in seq(along=bb3)) bb3[[i]] <- Polygons(list(Polygon(bb2[[i]])), ID=rn[i])
   bb3[[1]]
   bbs <- SpatialPolygons(bb3, proj4string=CRS(projection(grid)))
   bbs.grid<-list()

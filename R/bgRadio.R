@@ -31,7 +31,7 @@
 #' 
 #' 
 #' 
-#' @author M. Iturbide \email{maibide@@gmail.com}
+#' @author M. Iturbide 
 #' 
 #' @examples
 #' \dontrun{
@@ -68,52 +68,57 @@
 
 
 
-bgRadio<-function(xy, bounding.coords, bg.absence, start= 0.166, by= 0.083, 
-                  unit= "decimal degrees"){
-  
-  bg1a<-list()
+bgRadio <- function(xy, bounding.coords, bg.absence, start= 0.166, by= 0.083, 
+                  unit = c("decimal degrees", "utm")){
+  unit <- match.arg(unit, choices = c("decimal degrees", "utm"))
   if(class(xy) == "matrix") xy <- as.data.frame(xy)
-  if (class(xy) == "data.frame"){
+  if(class(xy) == "data.frame"){
     pres<- list(xy)
   }else{
     pres<-xy
   }
-  
   if (class(bounding.coords) != "list"){
-    l.box<-rep(list(bounding.coords),length(xy))
-  }else{l.box<-bounding.coords}
-  
-  if (class(bg.absence) != "list"){
-    bg.absence<-list(bg.absence)
-  }else{bg.absence<-bg.absence}
-  
-  bg.rad<-function(pres, bg.absence, r){
-    bg.absence[unique(nearest.dist(x=pres, y=bg.absence, 
-                                   method="maximum", delta=r)@colindices),]
+    l.box <- rep(list(bounding.coords),length(xy))
+  }else{
+    l.box <- bounding.coords
   }
-  
-    for (i in 1:length(pres)){
+  if (class(bg.absence) != "list"){
+    bg.absence <- list(bg.absence)
+  }else{
+    bg.absence <- bg.absence
+  }
+  bg.rad <- function(pres, bg.absence, r){
+    bg.absence[unique(nearest.dist(x = pres, 
+                                   y = bg.absence, 
+                                   method = "maximum", 
+                                   delta = r)@colindices),]
+  }
+  bg1a<-list()
+  for (i in 1:length(pres)){
       print(paste("creating background point-grids for species", i, "out of", length(pres)))
-      box<-l.box[[i]]
+      box<- matrix(l.box[[i]], ncol = 2)
       pr<-pres[[i]]
       gbox<-bg.absence[[i]]
     
-      a<-(max(l.box[[i]][1,])-min(l.box[[i]][1,]))/2
-      b<-(max(l.box[[i]][2,])-min(l.box[[i]][2,]))/2
-      c<-sqrt(a*a+b*b)
-      radios<-seq(start, c, by)
-      r<-radios
-      bg1a[[i]]<-sapply(r, FUN=bg.rad, pres=pr, bg.absence=gbox)
+      a <- (max(box[1,])-min(box[1,]))/2
+      b <- (max(box[2,])-min(box[2,]))/2
+      c <- sqrt(a*a+b*b)
+      radios <- seq(start, c, by)
+      r <- radios
+      bg1a[[i]] <- sapply(r, FUN=bg.rad, pres=pr, bg.absence=gbox)
       
-      if (unit=="decimal degrees"){
-        names(bg1a[[i]])<-paste("km", as.character(r/0.0083), sep="")
-      } else if (unit=="utm"){
-        names(bg1a[[i]])<-paste("km", as.character(r/1000), sep="")
-      } else {names(bg1a[[i]])<-NULL}
-    }
-  
-  if (length(bg1a) == 1){bg1a <- bg1a[[1]]
-  }else{names(bg1a)<-names(pres)}
-  
+      if(unit == "decimal degrees"){
+        names(bg1a[[i]]) <- paste("km", as.character(r/0.0083), sep="")
+      } else if (unit == "utm"){
+        names(bg1a[[i]]) <- paste("km", as.character(r/1000), sep="")
+      } else {
+        names(bg1a[[i]]) <- NULL
+      }
+  }
+  if (length(bg1a) == 1){
+    bg1a <- bg1a[[1]]
+  }else{
+    names(bg1a)<-names(pres)
+  }
   return("bg"=bg1a)
 }

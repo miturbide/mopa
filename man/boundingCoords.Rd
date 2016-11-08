@@ -10,7 +10,8 @@ boundingCoords(xy)
 \item{xy}{Data frame or list of data frames with coordinates (each row is a point)}
 }
 \value{
-Matrix or list of matrixes with the bounding coordinates.
+A vector or a list of vectors with bounding coordinates in the following form: c(x1, x2, y1, y2).
+Also object returned by function \code{\link{boundingCoords}}.
 }
 \description{
 Creates the matrix of bounding coordinates around point records (xy records)
@@ -22,7 +23,7 @@ oak.extension <- boundingCoords(xy = Oak_phylo2)
 }
 }
 \author{
-M. Iturbide \email{maibide@gmail.com}
+M. Iturbide
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015.

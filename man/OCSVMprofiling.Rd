@@ -51,7 +51,7 @@ points(unsuitable.bg$presence$H11, pch="*", col= "pink4")
 }
 }
 \author{
-M. Iturbide \email{maibide@gmail.com}
+M. Iturbide
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015.

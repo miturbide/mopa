@@ -64,7 +64,7 @@ points(Oak_phylo2$H11, col="blue", pch=".", cex=3)
 }
 }
 \author{
-M. Iturbide \email{maibide@gmail.com}
+M. Iturbide
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015.
