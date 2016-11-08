@@ -1,13 +1,9 @@
-
 #' @title Background extent restriction for a sequence of distances 
 #' @description Creation of point-grid backgrounds through the establishment of extent 
 #' limitations for a sequence of distances, with the length of the half diagonal of the 
 #' bounding box around xy records as the maximum distance
 #' 
 #' @param xy Data frame or list of data frames with coordinates (each row is a point)
-#' @param bounding.coords Object returned by function \code{\link[mopa]{boundingCoords}}.
-#' Matrix or list of matrixes of bounding coordinates indicating the maximum and minimum 
-#' values in columns and xy coordinates in rows
 #' @param bg.absence Object derived from function \code{\link[mopa]{OCSVMprofiling}} ($absence). 
 #' Alternatively, object derived from function \code{\link[mopa]{delimit}} ($bbs.grid) 
 #' if the environmental profiling step is going to be avoided in the pseudo-absence 
@@ -46,7 +42,7 @@
 #' bbs.grid = box.grid$bbs.grid)
 #' ## sequence of 10 km between distances, from 20 km to the length of the 
 #' ##half diagonal of the bounding box.
-#' ext <- bgRadio(xy = Oak_phylo2, bounding.coords = oak.extension, 
+#' ext <- bgRadio(xy = Oak_phylo2,
 #' bg.absence = unsuitable.bg$absence, start = 0.166, 
 #' by = 0.083, unit = "decimal degrees")
 #' 
@@ -68,7 +64,7 @@
 
 
 
-bgRadio <- function(xy, bounding.coords, bg.absence, start= 0.166, by= 0.083, 
+bgRadio <- function(xy, bg.absence, start= 0.166, by= 0.083, 
                   unit = c("decimal degrees", "utm")){
   unit <- match.arg(unit, choices = c("decimal degrees", "utm"))
   if(class(xy) == "matrix") xy <- as.data.frame(xy)
@@ -77,6 +73,7 @@ bgRadio <- function(xy, bounding.coords, bg.absence, start= 0.166, by= 0.083,
   }else{
     pres<-xy
   }
+  bounding.coords <- boundingCoords(bg.absence)
   if (class(bounding.coords) != "list"){
     l.box <- rep(list(bounding.coords),length(xy))
   }else{
@@ -84,8 +81,6 @@ bgRadio <- function(xy, bounding.coords, bg.absence, start= 0.166, by= 0.083,
   }
   if (class(bg.absence) != "list"){
     bg.absence <- list(bg.absence)
-  }else{
-    bg.absence <- bg.absence
   }
   bg.rad <- function(pres, bg.absence, r){
     bg.absence[unique(nearest.dist(x = pres, 

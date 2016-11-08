@@ -3,6 +3,7 @@
 export(OCSVMprofiling)
 export(PseudoAbsences)
 export(allModeling)
+export(background)
 export(bgRadio)
 export(bindPresAbs)
 export(biomat)
