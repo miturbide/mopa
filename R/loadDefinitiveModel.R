@@ -6,9 +6,8 @@
 #' in an index to select the definitive fitted model/s, ideally, the index returned by 
 #' function indextent should be used.
 #' 
-#' @param defExtents Named integer returned by function indextent (a named index 
-#' corresponding to the definitive extents to be considered). Including the attributes 
-#' "source directory", "algorithm", "species" and "extents".
+#' @param models Character of the rdata files to be loaded. Including, at least,
+#'  the attribute "species" (a character of names corresponding to the modelled species/populations).
 #' @param slot Any character of the following: "allmod", auc", "kappa", "tss", "mod", "p"
 #' 
 #'  
@@ -37,7 +36,7 @@
 #' ##loading
 #' auc_mars <-loadTestValues(models = modirs, test = "auc") 
 #' ind <- indextent(testmat = auc_mars, diagrams = F)
-#' def <- loadDefinitiveModel(defExtents = ind, slot = "allmod")
+#' def <- loadDefinitiveModel(models = ind, slot = "allmod")
 #' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -47,32 +46,26 @@
 #' @export
 
 
-loadDefinitiveModel<-function(defExtents, slot = c("allmod", "auc", "kappa", "tss", "mod", "p")){
+loadDefinitiveModel<-function(models, slot = c("allmod", "auc", "kappa", "tss", "mod", "p")){
   slot <- match.arg(slot, choices = c("allmod", "auc", "kappa", "tss", "mod", "p"))
-  extents <- attr(defExtents, "extents")
-  extent.lengths <- lengths(extents)
-  max.extents <- extents[[which(extent.lengths == max(extent.lengths))]]
-  algorithm <- attr(defExtents, "algorithm")  
-  species <- attr(defExtents, "species") 
-  sourcedir <- attr(defExtents, "source directory")
+  species <- attr(models, "species") 
   modelslot<-list()
   for (i in 1:length(species)){
     g <- species[i]
-    if (length(species)<2){
-      mod <- get(load(paste(sourcedir,"/", algorithm, "_bg", names(defExtents)[i],".rda",sep="")))
-    } else {
-      mod <- get(load(paste(sourcedir,"/", algorithm, "_bg", names(defExtents)[i],"_hg",g,".rda",sep="")))
-    }
-      if (slot == "allmod"){modelslot[[i]]<-mod$allmod
-      } else if (slot == "auc"){modelslot[[i]]<-mod$auc
-      } else if (slot == "kappa"){modelslot[[i]]<-mod$kappa
-      } else if (slot == "tss"){modelslot[[i]]<-mod$tss
-      } else if (slot == "mod"){modelslot[[i]]<-mod$mod
-      } else if (slot == "p"){modelslot[[i]]<-mod$p}
+    mod <- get(load(models[i]))
+    if (slot == "allmod"){modelslot[[i]]<-mod$allmod
+    } else if (slot == "auc"){modelslot[[i]]<-mod$auc
+    } else if (slot == "kappa"){modelslot[[i]]<-mod$kappa
+    } else if (slot == "tss"){modelslot[[i]]<-mod$tss
+    } else if (slot == "mod"){modelslot[[i]]<-mod$mod
+    } else if (slot == "p"){modelslot[[i]]<-mod$p}
   } 
   names(modelslot) <- species
   suppressWarnings(
-    if(species == "species"){modelslot <- modelslot[[1]]}
-    )
+    if(length(species) == 1) modelslot <- modelslot[[1]]
+  )
   return (modelslot)
 }
+
+
+

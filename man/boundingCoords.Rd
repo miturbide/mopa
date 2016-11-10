@@ -11,15 +11,14 @@ boundingCoords(xy)
 }
 \value{
 A vector or a list of vectors with bounding coordinates in the following form: c(x1, x2, y1, y2).
-Also object returned by function \code{\link{boundingCoords}}.
 }
 \description{
-Creates the matrix of bounding coordinates around point records (xy records)
+Creates a vector or a list of vectors of bounding coordinates around point records (xy records)
 }
 \examples{
 \dontrun{
 data(Oak_phylo2)
-oak.extension <- boundingCoords(xy = Oak_phylo2)
+oak.bounds <- boundingCoords(xy = Oak_phylo2)
 }
 }
 \author{

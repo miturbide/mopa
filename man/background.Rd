@@ -22,6 +22,7 @@ Obtain a spatial points object of the background given by a raster object.
 \dontrun{
 data(biostackENSEMBLES)
 grid <- background(biostackENSEMBLES$baseline$bio2)
+plot(grid)
 }
 }
 \author{

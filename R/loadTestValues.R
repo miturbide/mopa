@@ -24,7 +24,7 @@
 #' ##modeling
 #' modirs <-allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 10, "mars") 
 #' ##loading
-#' auc_mars <-loadTestValues(models = modirs, test = "auc") 
+#' auc_mars <- loadTestValues(models = modirs, test = "auc") 
 #'  
 #' library(lattice)
 #' levelplot(auc_mars, aspect = 5, 
@@ -45,7 +45,7 @@
 
 
 
-loadTestValues <-function(models, sourcedir = getwd(), test = c("auc", "kappa", "tss")){
+loadTestValues <-function(models, test = c("auc", "kappa", "tss")){
   test <- match.arg(test, choices = c("auc", "kappa", "tss"))
   extents <- models$extents
   extent.lengths <- lengths(extents)
@@ -54,17 +54,11 @@ loadTestValues <-function(models, sourcedir = getwd(), test = c("auc", "kappa", 
   species <- models$species
   val_mat <- matrix(NA, nrow= length(species), ncol = length(max.extents), dimnames=list(species, max.extents))
   for (i in 1:length(species)){
-    g <- species[i]
-    r <- extents[[i]]
-    message(paste("loading values for species", g))
-    for (k in 1:length(r)){
-      if (length(species) < 2){
-        load(paste(sourcedir,"/", algorithm, "_bg", r[k],".rda",sep=""))
-      }else {
-        mod <- get(load(paste(sourcedir,"/", algorithm, "_bg", r[k],"_hg",g,".rda",sep="")))
-      }
+    message(paste("loading values for species", species[i]))
+    for (k in 1:length(extents[[i]])){
+      mod <- get(load(models$dirs[[i]][k]))
       if (test == "auc"){
-        val_mat[i,k]<-mod$auc
+        val_mat[i,k] <- mod$auc
       }else if (test == "kappa"){
         val_mat[i,k]<-mod$kappa
       }else if (test == "tss"){
@@ -73,9 +67,9 @@ loadTestValues <-function(models, sourcedir = getwd(), test = c("auc", "kappa", 
     } 
   }
   message("Done.")
+  attr(val_mat, "dirs") <- models$dirs
   attr(val_mat, "algorithm") <- algorithm
   attr(val_mat, "species") <- species
   attr(val_mat, "extents") <- extents
-  attr(val_mat, "source directory") <- sourcedir
   return (val_mat)
 }

@@ -4,15 +4,15 @@
 \alias{loadTestValues}
 \title{Load model validation statistics from Rdata generated with function allModelling}
 \usage{
-loadTestValues(models, sourcedir = getwd(), test = c("auc", "kappa", "tss"))
+loadTestValues(models, test = c("auc", "kappa", "tss"))
 }
 \arguments{
 \item{models}{Object with the same structure as the object returned by function allModelling.}
 
-\item{sourcedir}{Directory of the objects generated and saved by allModelling}
-
 \item{test}{Any character of the following: "auc", "kappa", "tss".
 "cart.rpart" or "cart.tree"}
+
+\item{sourcedir}{Directory of the objects generated and saved by allModelling}
 }
 \value{
 Matrix with values for each species and background extents.
@@ -32,7 +32,7 @@ data(biostackENSEMBLES)
 ##modeling
 modirs <-allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 10, "mars")
 ##loading
-auc_mars <-loadTestValues(models = modirs, test = "auc")
+auc_mars <- loadTestValues(models = modirs, test = "auc")
 
 library(lattice)
 levelplot(auc_mars, aspect = 5,

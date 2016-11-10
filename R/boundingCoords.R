@@ -1,17 +1,16 @@
 
 #' @title Bounding box coordinates of xy records
-#' @description Creates the matrix of bounding coordinates around point records (xy records)
+#' @description Creates a vector or a list of vectors of bounding coordinates around point records (xy records)
 #' @param xy Data frame or list of data frames with coordinates (each row is a point)
 #' 
 #' @return A vector or a list of vectors with bounding coordinates in the following form: c(x1, x2, y1, y2). 
-#' Also object returned by function \code{\link{boundingCoords}}. 
 #' 
 #' @author M. Iturbide 
 #' 
 #' @examples 
 #' \dontrun{
 #' data(Oak_phylo2)
-#' oak.extension <- boundingCoords(xy = Oak_phylo2)
+#' oak.bounds <- boundingCoords(xy = Oak_phylo2)
 #' }
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

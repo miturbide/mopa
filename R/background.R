@@ -19,6 +19,7 @@
 #' \dontrun{
 #' data(biostackENSEMBLES)
 #' grid <- background(biostackENSEMBLES$baseline$bio2) 
+#' plot(grid)
 #' }
 #' @export
  

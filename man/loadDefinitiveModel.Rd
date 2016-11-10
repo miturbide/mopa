@@ -4,13 +4,12 @@
 \alias{loadDefinitiveModel}
 \title{Load Rdata files storing definitive fitted model}
 \usage{
-loadDefinitiveModel(defExtents, slot = c("allmod", "auc", "kappa", "tss",
-  "mod", "p"))
+loadDefinitiveModel(models, slot = c("allmod", "auc", "kappa", "tss", "mod",
+  "p"))
 }
 \arguments{
-\item{defExtents}{Named integer returned by function indextent (a named index
-corresponding to the definitive extents to be considered). Including the attributes
-"source directory", "algorithm", "species" and "extents".}
+\item{models}{Character of the rdata files to be loaded. Including, at least,
+the attribute "species" (a character of names corresponding to the modelled species/populations).}
 
 \item{slot}{Any character of the following: "allmod", auc", "kappa", "tss", "mod", "p"}
 }
@@ -40,7 +39,7 @@ modirs <-allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 
 ##loading
 auc_mars <-loadTestValues(models = modirs, test = "auc")
 ind <- indextent(testmat = auc_mars, diagrams = F)
-def <- loadDefinitiveModel(defExtents = ind, slot = "allmod")
+def <- loadDefinitiveModel(models = ind, slot = "allmod")
 }
 }
 \author{

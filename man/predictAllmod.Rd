@@ -4,10 +4,10 @@
 \alias{predictAllmod}
 \title{Model prediction}
 \usage{
-predictAllmod(model, varstack)
+predictAllmod(models, varstack)
 }
 \arguments{
-\item{model}{model class object/s, e.g. as returned by function `loadDefinitiveModel`.}
+\item{models}{model class object or list of model class objects, e.g. as returned by function `loadDefinitiveModel`.}
 
 \item{varstack}{RasterStack of variables for projecting}
 }

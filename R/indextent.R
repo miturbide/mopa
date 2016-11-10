@@ -29,7 +29,7 @@
 #' modirs <-allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 10, "mars") 
 #' ##loading
 #' auc_mars <-loadTestValues(models = modirs, test = "auc") 
-#' ind <- indextent(testmat = auc_mars)
+#' ind <- indextent(auc, diagrams = T)
 #' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -87,7 +87,7 @@ indextent <- function (testmat, diagrams = FALSE) {
     }else{
       message(mess[3])
     }
-    nls.fun <- names(resid[1])
+    nls.fun <- names(resid)[1]
     message(paste("best function = ", nls.fun))
     
     
@@ -95,80 +95,36 @@ indextent <- function (testmat, diagrams = FALSE) {
     dat[[i]]<- data.frame(x,y, group)
     
     #--------------------------------------------------------------------------------------------
+    coefs <- c("Michaelis Menten" = unname(coef(micmen)[1]), 
+               "exponential3" = unname(coef(asym3)[1]), 
+               "exponential2" = unname(coef(asym)[1]))
+    rep <- 1
+    if(any(testmat[i, ] > min(coefs))){
+      while(!any(testmat[i, ] > coefs[which(names(coefs) == nls.fun)])){
+        rep <- rep + 1
+        nls.fun <- names(resid)[rep]
+      }
+      if(rep != 1){
+        message("IMPORTANT WARNING: The coefficient of the asymptote is not outperformed for function/s ", 
+                names(resid)[1:(rep-1)], ". Index corresponding to", names(resid)[rep], " is returned.")
+      } 
+    }else{
+        nls.fun <- "max.value"
+        message("IMPORTANT WARNING: The coefficient of the asymptote is not outperformed for any of the 
+                non linear functions implemented. Index corresponding to the maximum AUC value is returned")
+    }
+    
+    
     if (nls.fun == "Michaelis Menten"){
-      a<-coef(micmen)[1] 
-      qs <- which(na.omit(testmat[i, ]) > a)
-      
-      if (length(qs) == 0){
-        rm(a,qs)
-        id <- which(names(resid) == "Michaelis Menten" )+1
-        
-        if (length(id) > length(resid)){
-          message("IMPORTANT WARNING: The coefficient of the asymptote is not outperformed for any of the non linear functions implemented. Index corresponding to the maximum AUC value is returned")
-          nls.fun <- "max.value"
-          diagrams = FALSE
-        }else{
-          nls.fun <- names(resid[id])
-          message(paste("WARNING: in species -->", rownames(testmat)[i],  "<-- the Michaelis Menten coefficient for the maximum achieved by the system is not outperformed, index corresponding to the", 
-                        nls.fun, "non-linear function is returned. See ?indextent.", sep=" "))
-        }
-        
-        
-        
-      }else{ e[[i]] <- qs[which(qs == min(qs))]}
-      
-    }
-    ########################################################################-
-    
-    if (nls.fun == "exponential3"){
-      
-      a<-coef(asym3)[1] 
-      qs <- which(na.omit(testmat[i, ]) > a)
-      
-      if (length(qs) == 0){
-        
-        rm(a,qs)
-        id <- which(names(resid) == "exponential3" )+1
-        
-        if (length(id) > length(resid)){
-          message("IMPORTANT WARNING: The coefficient of the asymptote is not outperformed for any of the non linear functions implemented. Index corresponding to the maximum AUC value is returned")
-          nls.fun <- "max.value"
-          diagrams = FALSE
-        }else{
-          nls.fun <- names(resid[id])
-          message(paste("WARNING: in species -->", rownames(testmat)[i],  "<-- the exponential3 coefficient of the asymptote is not outperformed, index corresponding to", 
-                        nls.fun, "non-linear function is returned. See ?indextent.", sep=" "))
-        }
-        
-      }else{
-        e[[i]] <- qs[which(qs == min(qs))]}
-    }
-    
-    ########################################################################-
-    
-    if (nls.fun == "exponential2"){
-      
+      a <- coef(micmen)[1]
+    }else if(nls.fun == "exponential3"){
+      a <- coef(asym3)[1] 
+    }else if(nls.fun == "exponential2"){
       a<-coef(asym)[1] 
-      qs <- which(na.omit(testmat[i, ]) > a)
-      
-      if (length(qs) == 0){
-        
-        rm(a,qs)
-        id <- which(names(resid) == "exponential2" )+1
-        
-        if (length(id) > length(resid)){
-          message("IMPORTANT WARNING: The coefficient of the asymptote is not outperformed for any of the non linear functions implemented. Index corresponding to the maximum AUC value is returned")
-          nls.fun <- "max.value"
-          diagrams = FALSE
-        }else{
-          nls.fun <- names(resid[id])
-          message(paste("WARNING: in species -->", rownames(testmat)[i],  "<-- the exponential2 coefficient of the asymptote is not outperformed, index corresponding to", 
-                        nls.fun, "non-linear function is returned. See ?indextent.", sep=""))
-        }
-        
-      }else{
-        e[[i]] <- qs[which(qs == min(qs))]}
     }
+    qs <- which(na.omit(testmat[i, ]) > a)
+    e[[i]] <- attr(testmat, "dirs")[[i]][qs[which(qs == min(qs))]]
+    
     
     message(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::")
     

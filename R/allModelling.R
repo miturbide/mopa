@@ -1,4 +1,3 @@
-
 #' @title Easy species distribution modelling and cross validation 
 #' into backgrounds of different extent
 #' @description Species distribution modelling and k-fold cross validation 
@@ -38,7 +37,6 @@
 #' \pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached.
 #' 
 #' 
-#' 
 #' @author M. Iturbide 
 #' 
 #' @examples
@@ -47,7 +45,7 @@
 #' data(presaus)
 #' data(biostackENSEMBLES)
 #' ##modeling
-#' modirs <-allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 10, "mars") 
+#' modirs <- allModeling(data = presaus, varstack = biostackENSEMBLES$baseline, k = 10, "mars") 
 #' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -74,39 +72,39 @@ allModeling <- function(data, varstack, k = 10, algorithm = c("glm", "svm", "max
   algorithm <- match.arg(algorithm, choices = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"))
   biostack <- varstack
   if (class(data[[1]]) != "list"){
-    data<-list(data)
+    data <- list(data)
     names(data) <- "species"
-  }else{
-    data <- data
-  }
-  
+  } 
+  extents <- list()
+  dirsmain <- list()
   for (i in 1:length(data)){
     sp_01 <- data[[i]]
-    
+    dirs <- list()
+    if(is.null(names(sp_01))) names(sp_01) <- NA 
+    extents[[i]] <- names(sp_01)
     for(j in 1:length(sp_01)){
       #print(paste("running model for species", i, "considering pseudo-absences inside the extent of", names (sp_01)[j]))
       destfile <- names(sp_01)[j]
-      
       sp.bio <- biomat(sp_01[[j]], biostack)
       x <- kfold(k, df = sp.bio)
       xx <- leaveOneOut(x)
       mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm)},
                       error = function(err){xxx = list(rep(NA, k), NA, NA)})
       if (length(data)==1){
-       save(list=c("mod"), file=paste(destdir, "/", algorithm,"_bg", destfile, ".rda",sep=""))
+        dirs[[j]] <- paste(destdir, "/", algorithm,"_", destfile, ".rda",sep="")
+        save(list=c("mod"), file = dirs[[j]])
       }else{
-        save(list=c("mod"), file=paste(destdir, "/", algorithm,"_bg", destfile, "_hg",names(data)[i], ".rda",sep=""))
+        dirs[[j]] <- paste(destdir, "/", algorithm,"_", destfile, "_hg",names(data)[i], ".rda",sep="")
+        save(list=c("mod"), file = dirs[[j]])
       }
       rm(mod, xx, x, sp.bio)
-    }}
-  #collect information
-  extents <- list()
-  for(j in 1:length(data)){
-    extents[[j]] <- names(data[[j]])
+    }
+    dirsmain[[i]] <- unlist(dirs)
   }
+  names(dirsmain) <- names(data)
   names(extents) <- names(data)
-  
-  modirs <- list("dirs" = list.files(destdir, full.names = F, pattern = algorithm),
+  #collect information
+  modirs <- list("dirs" = dirsmain,
                "algorithm" = algorithm,
                "species" = names(data),
                "extents" = extents)
