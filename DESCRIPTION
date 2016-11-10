@@ -29,7 +29,7 @@ Maintainer: Maialen Iturbide <maibide@gmail.com>
 Description: Species distribution modelling using two implementations of the 
     three-step method for pseudo-absence data generation
 BugReports: https://github.com/SantanderMetGroup/mopa/issues
-License: GPL (>= 3)
+License: file LICENSE
 LazyLoad: yes
 Packaged: 2014-09-10 05:53:24 UTC; miturbide
 NeedsCompilation: yes
