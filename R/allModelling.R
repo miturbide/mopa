@@ -12,6 +12,7 @@
 #' @param k Integer. Number of folds for cross validation. Default is 10
 #' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
 #' or "cart.tree"
+#' @param threshold Cut value between 0 and 1 to calculate the confusion matrix. Default is 0.5.
 #' @param destdir Character of the output path
 #' @param projection Object of class CRS with the coordinate reference system. Default is 
 #' CRS("+proj=longlat +init=epsg:4326") 
@@ -68,6 +69,7 @@
 
 
 allModeling <- function(data, varstack, k = 10, algorithm = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"), 
+                        threshold = 0.5,
                         destdir =getwd(), projection = CRS("+proj=longlat +init=epsg:4326")){
   algorithm <- match.arg(algorithm, choices = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"))
   biostack <- varstack
@@ -88,7 +90,7 @@ allModeling <- function(data, varstack, k = 10, algorithm = c("glm", "svm", "max
       sp.bio <- biomat(sp_01[[j]], biostack)
       x <- kfold(k, df = sp.bio)
       xx <- leaveOneOut(x)
-      mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm)},
+      mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, threshold = threshold)},
                       error = function(err){xxx = list(rep(NA, k), NA, NA)})
       if (length(data)==1){
         dirs[[j]] <- paste(destdir, "/", algorithm,"_", destfile, ".rda",sep="")

@@ -41,16 +41,20 @@ predictAllmod <- function(models, varstack){
   for (i in 1:length(models)){
     alg <- models[[i]]
     algorithm <- class(alg)[1]
-    if (algorithm == "cart.rpart") {
-      pro <- predict(alg, projenviro)
-    }else if (algorithm=="cart.tree"){
-      pro <- predict(alg, projenviro)
+    if(algorithm != "MaxEnt"){
+      if (algorithm == "cart.rpart") {
+            pro <- predict(alg, projenviro)
+      }else if (algorithm=="cart.tree"){
+            pro <- predict(alg, projenviro)
+      }else{
+            pro <- predict(alg, projenviro, type="response")
+      }
+      pro[which(pro > 1)] <- 1
+      pro[which(pro < 0)] <- 0
+      ras[[i]] <- raster(SpatialPixelsDataFrame(coordinates(varstack), as.data.frame(pro)))
     }else{
-      pro <- predict(alg, projenviro, type="response")
+      ras[[i]] <- predict(alg, varstack)
     }
-    pro[which(pro > 1)] <- 1
-    pro[which(pro < 0)] <- 0
-    ras[[i]] <- raster(SpatialPixelsDataFrame(coordinates(varstack), as.data.frame(pro)))
   }
   names(ras) <- names(models)
   if(length(ras) == 1) ras <- ras[[1]]
