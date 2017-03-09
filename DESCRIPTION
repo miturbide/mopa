@@ -28,8 +28,8 @@ Suggests:
     rJava (>= 0.5-0)
 Author: Maialen Iturbide [aut, cre], Joaquin Bedia [ctb]
 Maintainer: Maialen Iturbide <maibide@gmail.com>
-Description: Species distribution modelling using two implementations of the 
-    three-step method for pseudo-absence data generation
+Description: Species distribution modelling and implementations 
+of different methods for pseudo-absence data generation 
 BugReports: https://github.com/SantanderMetGroup/mopa/issues
 License: file LICENSE
 LazyLoad: yes
