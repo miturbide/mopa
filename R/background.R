@@ -17,11 +17,10 @@
 #' @examples
 #' 
 #' \dontrun{
-#' data(biostackENSEMBLES)
-#' grid <- background(biostackENSEMBLES$baseline$bio2) 
+#' data(biostack)
+#' grid <- background(biostack$baseline$bio2) 
 #' plot(grid)
 #' }
-#' @export
  
 background <- function(raster, projection = CRS("+proj=longlat +init=epsg:4326")){
 ac <- xyFromCell(raster, 1:ncell(raster))

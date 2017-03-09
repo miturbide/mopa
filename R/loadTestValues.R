@@ -3,7 +3,6 @@
 #' @description Load model validation statistics from Rdata generated with function allModelling
 #' 
 #' @param models Object with the same structure as the object returned by function allModelling.
-#' @param sourcedir Directory of the objects generated and saved by allModelling
 #' @param test Any character of the following: "auc", "kappa", "tss".
 #' "cart.rpart" or "cart.tree"
 #' 
@@ -41,7 +40,6 @@
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
-#' @export
 
 
 

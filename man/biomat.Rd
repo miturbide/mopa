@@ -4,7 +4,7 @@
 \alias{biomat}
 \title{Matrix with variables for modelling}
 \usage{
-biomat(data, varstack, projection = CRS("+proj=longlat +init=epsg:4326"))
+biomat(data, varstack)
 }
 \arguments{
 \item{data}{Data frame with coordinates in the first two columns and presence/absence

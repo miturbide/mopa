@@ -12,6 +12,7 @@
 #' @param k Integer. Number of folds for cross validation. Default is 10
 #' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
 #' or "cart.tree"
+#' @param weighting Logical for "glm" and "mars" fitting with weighted presence/absences-s. Default is FALSE.
 #' @param threshold Cut value between 0 and 1 to calculate the confusion matrix. Default is 0.5.
 #' @param destdir Character of the output path
 #' @param projection Object of class CRS with the coordinate reference system. Default is 
@@ -53,7 +54,6 @@
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
-#' @export
 #' 
 #' @import raster
 #' @import sp
@@ -68,9 +68,14 @@
 #' 
 
 
-allModeling <- function(data, varstack, k = 10, algorithm = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"), 
+allModeling <- function(data, 
+                        varstack, 
+                        k = 10, 
+                        algorithm = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"), 
+                        weighting = FALSE,
                         threshold = 0.5,
-                        destdir =getwd(), projection = CRS("+proj=longlat +init=epsg:4326")){
+                        destdir =getwd(), 
+                        projection = CRS("+proj=longlat +init=epsg:4326")){
   algorithm <- match.arg(algorithm, choices = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"))
   biostack <- varstack
   if (class(data[[1]]) != "list"){
@@ -90,8 +95,9 @@ allModeling <- function(data, varstack, k = 10, algorithm = c("glm", "svm", "max
       sp.bio <- biomat(sp_01[[j]], biostack)
       x <- kfold(k, df = sp.bio)
       xx <- leaveOneOut(x)
-      mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, threshold = threshold)},
-                      error = function(err){xxx = list(rep(NA, k), NA, NA)})
+      # mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)},
+      #                 error = function(err){xxx = list(rep(NA, k), NA, NA)})
+      mod <- modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)
       if (length(data)==1){
         dirs[[j]] <- paste(destdir, "/", algorithm,"_", destfile, ".rda",sep="")
         save(list=c("mod"), file = dirs[[j]])

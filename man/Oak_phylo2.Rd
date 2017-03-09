@@ -12,7 +12,7 @@ of Genetic Diversity} or \strong{(GD)^2}.
 \description{
 A dataset consisting of a list with two
 data frames with xy coordinates corresponding to the distribution of two
-phylogenetic groups of oaks (H7 and H10)
+phylogenetic groups of oaks (H11 and H1)
 }
 \references{
 Petit, R. J. \emph{et al} 2002. Chloroplast DNA variation in european

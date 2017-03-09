@@ -20,8 +20,8 @@ Obtain a spatial points object of the background given by a raster object.
 }
 \examples{
 \dontrun{
-data(biostackENSEMBLES)
-grid <- background(biostackENSEMBLES$baseline$bio2)
+data(biostack)
+grid <- background(biostack$baseline$bio2)
 plot(grid)
 }
 }

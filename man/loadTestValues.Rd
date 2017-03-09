@@ -11,8 +11,6 @@ loadTestValues(models, test = c("auc", "kappa", "tss"))
 
 \item{test}{Any character of the following: "auc", "kappa", "tss".
 "cart.rpart" or "cart.tree"}
-
-\item{sourcedir}{Directory of the objects generated and saved by allModelling}
 }
 \value{
 Matrix with values for each species and background extents.

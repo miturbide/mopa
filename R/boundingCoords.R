@@ -15,7 +15,7 @@
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
-#' @export
+
 
 
 boundingCoords<-function(xy){
@@ -34,10 +34,5 @@ boundingCoords<-function(xy){
       l.box[[i]]<-box
   }
   names(l.box)<-names(pres.list)
-  if (length(l.box) == 1){
-    box<-l.box[[1]]
-  }else{
-    box<-l.box
-  }
-  return(box)
+  return(l.box)
 }

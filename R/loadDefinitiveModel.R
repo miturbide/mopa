@@ -43,7 +43,6 @@
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
-#' @export
 
 
 loadDefinitiveModel<-function(models, slot = c("allmod", "auc", "kappa", "tss", "mod", "p")){

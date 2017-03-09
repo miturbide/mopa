@@ -30,9 +30,9 @@ dfp <-cbind(Oak_phylo2[[1]], "pa"= rep(1,nrow(Oak_phylo2[[1]])))
 dfa <-cbind(Oak_phylo2[[2]], "pa"= rep(0,nrow(Oak_phylo2[[2]])))
 df3 <-rbind(dfp, dfa)
 str(df3)
-mat <-biomat(df3, biostack)
-subsets <-kfold(10, mat)
-crossdata <-leaveOneOut(subsets)
+mat <- mopa:::biomat(df3, biostack$baseline)
+subsets <- kfold(10, mat)
+crossdata <- leaveOneOut(subsets)
 }
 }
 \author{

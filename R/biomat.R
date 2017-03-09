@@ -31,17 +31,16 @@
 #' str(mat)
 #' }
 #' 
-#' @export
 #' @keywords internal
 #' @import sp
 #' @import raster
 
-biomat<-function(data, varstack, projection=CRS("+proj=longlat +init=epsg:4326")) {
+biomat<-function(data, varstack){ #, projection=CRS("+proj=longlat +init=epsg:4326")) {
   bio<-varstack
   coord.esp<-data[,1:2]
   sp.coord.esp<-SpatialPoints(coord.esp)
-  proj4string(sp.coord.esp)<-projection
-  proj4string(bio)<-projection
+  # proj4string(sp.coord.esp)<-projection
+  # proj4string(bio)<-projection
   z<-extract(bio,sp.coord.esp)
   bio.mat<-cbind(data[,3],z)
   bio.df<-as.data.frame(bio.mat)

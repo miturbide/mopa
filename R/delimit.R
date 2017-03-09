@@ -61,7 +61,6 @@
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
-#' @export
 #' 
 #' @import sp
 #' @importFrom splancs bboxx
@@ -104,7 +103,7 @@ delimit<-function(bounding.coords, grid, names = NULL){
   }else{
     names(bbs.grid) <- rn
   } 
-  return(list("bbs"=bbs, "bbs.grid"=bbs.grid))
+  return(list("plygons" = bbs, "xy" = bbs.grid))
 }
 
 

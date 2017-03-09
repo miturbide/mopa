@@ -4,7 +4,7 @@
 #' 
 #' @param presences Data frame or list of data frames with coordinates for presence data 
 #' (each row is a point)
-#' @param absences Object returned by function \code{\link[mopa]{PseudoAbsences}}. 
+#' @param absences Object returned by function \code{\link[mopa]{pseudoAbsences}}. 
 #' List/s of data frames with coordinates for absence data (each row is a point)
 #' 
 #' @return  List/s of matrixes with xy coordinates for presence/pseudo-absence data.
@@ -42,7 +42,6 @@
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
-#' @export
 #' 
 
 #' 

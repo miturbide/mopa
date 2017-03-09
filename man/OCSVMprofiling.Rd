@@ -4,14 +4,15 @@
 \alias{OCSVMprofiling}
 \title{Environmental profiling with one-classification support vector machine}
 \usage{
-OCSVMprofiling(xy, varstack, bbs.grid, nu = 0.5)
+OCSVMprofiling(xy, varstack, background = NULL, nu = 0.5)
 }
 \arguments{
 \item{xy}{Data frame or list of data frames with coordinates (each row is a point)}
 
 \item{varstack}{RasterStack of variables for modelling}
 
-\item{bbs.grid}{Object derived from function \code{\link[mopa]{delimit}}.
+\item{background}{Object derived from function \code{\link[mopa]{backgroundGrid}}. If NULL (default),
+the background is extracted from varstack
 Matrix or list of matrixes of the background xy coordinates in columns.}
 
 \item{nu}{parameter needed for one-classification \code{\link[e1071]{svm}}.
@@ -37,21 +38,17 @@ suitable for the species.
 \examples{
 \dontrun{
 data(Oak_phylo2)
-data(biostackENSEMBLES)
-presences <- Oak_phylo2
-
-##creation of point grid from raster object
-sp_grid <- background(biostackENSEMBLES$baseline$bio2)
-
-##delimit study area to the whole study domain for both species
-bc <- rep(list(boundingCoords(coordinates(sp_grid))), length(presences))
-del <- delimit(bounding.coords = bc, grid = sp_grid, names = names(presences))
+data(biostack)
+projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
+r <- biostack$baseline[[1]]
+# Background of the whole study area
+bg <- backgroundGrid(r)
 ## environmental profiling
-unsuitable.bg <- OCSVMprofiling(xy = presences, varstack = biostackENSEMBLES$baseline,
-bbs.grid = del$bbs.grid)
+bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline,
+background = bg$xy)
 ##plot
-plot(unsuitable.bg$absence$H11, pch="*")
-points(unsuitable.bg$presence$H11, pch="*", col= "pink4")
+plot(bg.profiled$absence$H11, pch="*")
+points(bg.profiled$presence$H11, pch="*", col= "pink4")
 }
 }
 \author{
@@ -63,6 +60,6 @@ A framework for species distribution modelling with improved pseudo-absence gene
 Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 }
 \seealso{
-\code{\link[e1071]{svm}}
+\code{\link[e1071]{svm}}, \code{\link[mopa]{backgroundGrid}}
 }
 

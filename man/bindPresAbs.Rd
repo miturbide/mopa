@@ -10,7 +10,7 @@ bindPresAbs(presences, absences)
 \item{presences}{Data frame or list of data frames with coordinates for presence data
 (each row is a point)}
 
-\item{absences}{Object returned by function \code{\link[mopa]{PseudoAbsences}}.
+\item{absences}{Object returned by function \code{\link[mopa]{pseudoAbsences}}.
 List/s of data frames with coordinates for absence data (each row is a point)}
 }
 \value{

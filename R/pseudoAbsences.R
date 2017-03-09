@@ -13,8 +13,7 @@
 #' @param kmeans Logical. If FALSE (default) pseudo-absences are generated at random. If TRUE
 #' k-means clustering of the background is done and centroids are extracted as pseudo-absences.
 #' @param varstack RasterStack of variables for modelling
-#' @param projection Object of class CRS with the coordinate reference system. Default is 
-#' CRS("+proj=longlat +init=epsg:4326") 
+#' 
 #' 
 #' @return  List/s of data frames 
 #' 
@@ -22,33 +21,43 @@
 #' @details Details.The application of this function is the third step in a three-step proccess 
 #' to generate pseudo-absences. 
 #' 
-#' 
+#' @seealso \code{\link[mopa]{mopaFitting}}
 #' 
 #' 
 #' @author M. Iturbide 
 #' 
 #' @examples
 #' \dontrun{
-#' ##delimit study area
 #' data(Oak_phylo2)
-#' data(sp_grid)
-#' oak.extension<-boundingCoords(Oak_phylo2)
-#' box.grid<-delimit(oak.extension, sp_grid, names(Oak_phylo2))
-#' ## environmental profiling
 #' data(biostack)
-#' unsuitable.bg <-OCSVMprofiling(xy = Oak_phylo2, varstack = biostack, 
-#' bbs.grid = box.grid$bbs.grid)
-#' ## sequence of 10 km between distances, from 20 km to the length of the 
-#' ##half diagonal of the bounding box.
-#' ext <-bgRadio(xy = Oak_phylo2, bounding.coords = oak.extension, 
-#' bg.absence = unsuitable.bg$absence, start = 0.166, by = 0.083, unit = "decimal degrees")
-#' ## pseudo-absence generation at random
-#' pa_random <-PseudoAbsences(xy = Oak_phylo2, background = ext, 
-#' exclusion.buffer = 0.083, prevalence = 0.5, kmeans = FALSE)
-#' ##plot
-#' plot(ext$H11[[5]], pch="*", col= "grey", cex=.5)
-#' points(pa_random$H11[[5]], col="red", pch=".", cex=4)
-#' points(Oak_phylo2$H11, col="blue", pch=".", cex=3)
+#' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
+#' r <- biostack$baseline[[1]]
+#' ## Background of the whole study area
+#' bg <- backgroundGrid(r)
+#' 
+#' ## environmental profiling
+#' bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline, 
+#' background = bg$xy)
+#' 
+#' ## different background extents
+#' bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
+#' start = 0.166, by = 0.083*10, unit = "decimal degrees")
+#' bg.extents2 <- backgroundRadios(xy = Oak_phylo2, background = bg.profiled$absence, 
+#' start = 0.166, by = 0.083*10, unit = "decimal degrees")
+#' 
+#' ## inside different background extents
+#' TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents2, 
+#' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+#' 
+#' ## considering an unique background extent
+#' RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
+#' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+#' RSEP_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.profiled$absence, 
+#' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+#' 
+#' ## with k-means clustering
+#' TS_kmeans <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents2, 
+#' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = TRUE, varstack = biostack$baseline)
 #' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -59,14 +68,14 @@
 #' 
 #' @import sp
 #' @importFrom spatstat disc
-#' @importFrom stats kmeans
+#' @importFrom stats kmeans na.omit
 #' 
 #' 
 
 
 
 pseudoAbsences <- function (xy, background, exclusion.buffer = 0.0166, prevalence = 0.5, 
-                          kmeans = FALSE, varstack = NULL, projection = CRS("+proj=longlat +init=epsg:4326")){
+                            kmeans = FALSE, varstack = NULL){#, projection = CRS("+proj=longlat +init=epsg:4326")){
   polybuffs <- list()
   r <- exclusion.buffer
   prev <- (1 - prevalence) * 2
@@ -95,40 +104,43 @@ pseudoAbsences <- function (xy, background, exclusion.buffer = 0.0166, prevalenc
       spolybuff <- Polygons(list(polys[[i]]), ID = i)
       spolys <- c(spolys, spolybuff)
       spol <- SpatialPolygons(spolys)
-       proj4string(spol) <- projection
+      # proj4string(spol) <- projection
     }
     polybuffs[[j]] <- spol
   }
   aa <- list()
   for (j in 1:length(background)) {
     message("generating pseudo-absences for species ", 
-                j, " out of ", length(background))
+            j, " out of ", length(background))
     aus <- list()
     coords.l <- background[[j]]
     polpol <- polybuffs[[j]]
     pr <- xy[[j]]
     for (i in 1:length(coords.l)) {
-#       print(paste("b =", i, "out of", as.character(length(coords.l))))
+      #       print(paste("b =", i, "out of", as.character(length(coords.l))))
       coords <- coords.l[[i]]
       sp.coords <- SpatialPoints(coords)
-       proj4string(sp.coords) <- projection
+      # proj4string(sp.coords) <- projection
       a <- over(sp.coords, polpol)
       abs.bg <- coords[which(is.na(a)), 1:2]
       
       if (kmeans == TRUE) {
-        abs.aus<-cbind(abs.bg, rep(0, nrow(abs.bg)))
-        abs.bio<-biomat(data = abs.aus, varstack, projection)
-        aus[[i]] <- tryCatch({kmeans(cbind(abs.bg, abs.bio[,-1]), centers = prev * nrow(pr))$centers[,1:2]},
-                              error = function(err){aus[[i]] <- NULL})
+        abs.aus <- cbind(abs.bg, rep(0, nrow(abs.bg)))
+        if(length(abs.aus) != 0){
+          abs.bio<-biomat(data = abs.aus, varstack)#, projection)
+          aus[[i]] <- kmeans(cbind(abs.bg, abs.bio[,-1]), centers = prev * nrow(pr))$centers[,1:2]
+        }else{
+          aus[[i]] <- NULL
+        }
+      }else {
+        
+        aus[[i]] <- tryCatch({abs.bg[sample(1:nrow(abs.bg), size = prev * 
+                                              nrow(pr)), ]}, error = function(err){aus[[i]] <- NULL})
         
       }
-      else {
-       
-        aus[[i]] <- tryCatch({abs.bg[sample(1:nrow(abs.bg), size = prev * 
-                                    nrow(pr)), ]}, error = function(err){aus[[i]] <- NULL})
- 
-      }
     }
+    
+    
     
     names(aus) <- names(coords.l)
     ind <- rep(NA,length(aus))
@@ -150,6 +162,7 @@ pseudoAbsences <- function (xy, background, exclusion.buffer = 0.0166, prevalenc
   } else {
     names(aa) <- names(xy)
   }
-  return(aa)
+  ab <- bindPresAbs(xy, aa)
+  return(ab)
 }
 

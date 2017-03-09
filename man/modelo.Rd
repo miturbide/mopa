@@ -5,7 +5,8 @@
 \title{Species distribution modelling and cross validation}
 \usage{
 modelo(kdata, data, algorithm = c("glm", "svm", "maxent", "mars",
-  "randomForest", "cart.rpart", "cart.tree"))
+  "randomForest", "cart.rpart", "cart.tree"), weighting = FALSE,
+  threshold = 0.5)
 }
 \arguments{
 \item{kdata}{Object returned by function leaveOneOut}
@@ -16,6 +17,11 @@ modelo(kdata, data, algorithm = c("glm", "svm", "maxent", "mars",
 
 \item{algorithm}{Any character of the following: \code{"glm"}, "svm", "maxent", "mars", "randomForest", "cart.rpart"
 or "cart.tree"}
+
+\item{weighting}{Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars",
+"randomForest" and "cart.rpart". Default is FALSE.}
+
+\item{threshold}{Cut value between 0 and 1 to calculate the confusion matrix. Default is 0.5.}
 }
 \value{
 A list with six components:

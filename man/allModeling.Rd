@@ -6,7 +6,8 @@
 into backgrounds of different extent}
 \usage{
 allModeling(data, varstack, k = 10, algorithm = c("glm", "svm", "maxent",
-  "mars", "randomForest", "cart.rpart", "cart.tree"), destdir = getwd(),
+  "mars", "randomForest", "cart.rpart", "cart.tree"), weighting = FALSE,
+  threshold = 0.5, destdir = getwd(),
   projection = CRS("+proj=longlat +init=epsg:4326"))
 }
 \arguments{
@@ -19,6 +20,10 @@ allModeling(data, varstack, k = 10, algorithm = c("glm", "svm", "maxent",
 
 \item{algorithm}{Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart"
 or "cart.tree"}
+
+\item{weighting}{Logical for "glm" and "mars" fitting with weighted presence/absences-s. Default is FALSE.}
+
+\item{threshold}{Cut value between 0 and 1 to calculate the confusion matrix. Default is 0.5.}
 
 \item{destdir}{Character of the output path}
 

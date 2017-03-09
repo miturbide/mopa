@@ -3,9 +3,11 @@
 \docType{data}
 \name{biostack}
 \alias{biostack}
-\title{Bioclim RasterStack}
+\title{Bioclim RasterStack for baseline and future data}
 \description{
-A RasterStack dataset containing three bioclimatic variables (bio1, bio13, bio14).
+A RasterStack dataset containing bioclimatic variables
+(bio2, bio4, bio9, bio15, bio18, bio19) for the reference period (E-OBS dataset)
+and future period 1971-2100 given by (ENSEMBLES, CNRM regional climate projections).
 }
 \author{
 M. Iturbide
