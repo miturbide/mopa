@@ -36,7 +36,7 @@
 
 
 backgroundGrid <- function(raster, spatial.subset = NULL){
-  if(is.na(projection(raster))) stop("raster has no projection arguments. Type ?raster::projection")
+  #if(is.na(projection(raster))) stop("raster has no projection arguments. Type ?raster::projection")
   if(is.null(spatial.subset)) spatial.subset <- extent(raster)
   if(class(spatial.subset) == "Extent"){
       raster <- crop(raster, spatial.subset)
@@ -55,7 +55,7 @@ backgroundGrid <- function(raster, spatial.subset = NULL){
   }else{
       bcoord <- boundingCoords(coordinates(sp_grid))
   }
-  del <- delimit(bounding.coords = bcoord, grid = sp_grid)
+  del <-delimit(bounding.coords = bcoord, grid = sp_grid)
   return(del)
 }
   

@@ -27,7 +27,7 @@ asymptotic exponential (exponential 2). For details about these functions, see t
 "non-linear regression" section of THE R BOOK by Michael J. Crawley.
 }
 \details{
-This function is internally used by function \code{\link[mopa]{mopaFitting}}, to fit AUC
+This function is internally used by function \code{\link[mopa]{mopaTrain}}, to fit AUC
 scores to the background extents at which were obtained (see reference below).
 }
 \examples{
@@ -46,8 +46,8 @@ start = 0.166, by = 0.083*10, unit = "decimal degrees")
 TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents,
 exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 
-## If diagrams = TRUE, mopaFitting prints the diagrams of the fitting
-fittingTS <- mopaFitting(y = TS_random, x = biostack$baseline,
+## If diagrams = TRUE, mopaTrain prints the diagrams of the fitting
+fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline,
 k = 10, algorithm = "glm", weighting = TRUE, diagrams = T)
 }
 }

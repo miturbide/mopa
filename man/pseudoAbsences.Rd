@@ -4,14 +4,16 @@
 \alias{pseudoAbsences}
 \title{Pseudo-absences}
 \usage{
-pseudoAbsences(xy, background, exclusion.buffer = 0.0166, prevalence = 0.5,
-  kmeans = FALSE, varstack = NULL)
+pseudoAbsences(xy, background, realizations = 1, exclusion.buffer = 0.0166,
+  prevalence = 0.5, kmeans = FALSE, varstack = NULL)
 }
 \arguments{
 \item{xy}{Data frame or list of data frames with coordinates (each row is a point)}
 
 \item{background}{Matrix or list/s of matrixes with background coordinates in columns.
 Object derived from function delimit, OCSVMprofiling or bgRadio.}
+
+\item{realizations}{Integer. Number of realizations (default = 1).}
 
 \item{exclusion.buffer}{value of the minimum distance to be kept between presence data and
 pseudo-absence data. Default is 0.0166}
@@ -78,6 +80,6 @@ A framework for species distribution modelling with improved pseudo-absence gene
 Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 }
 \seealso{
-\code{\link[mopa]{mopaFitting}}
+\code{\link[mopa]{mopaTrain}}
 }
 

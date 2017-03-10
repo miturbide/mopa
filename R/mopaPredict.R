@@ -6,7 +6,7 @@
 #'  
 #' 
 #' @return RasterStack of the projected probabilities
-#' @seealso \code{\link[mopa]{mopaFitting}}
+#' @seealso \code{\link[mopa]{mopaTrain}}
 #' 
 #' @author M. Iturbide 
 #' 
@@ -25,13 +25,13 @@
 #' start = 0.166, by = 0.083*10, unit = "decimal degrees")
 #' TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
 #' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-#' fittingTS <- mopaFitting(y = TS_random, x = biostack$baseline, k = 10, 
+#' fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, k = 10, 
 #' algorithm = "glm", weighting = TRUE, diagrams = T)
 #' 
 #' ## considering an unique background extent
 #' RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
 #' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-#' fittingRS <- mopaFitting(y = RS_random, x = biostack$baseline, k = 10, 
+#' fittingRS <- mopaTrain(y = RS_random, x = biostack$baseline, k = 10, 
 #' algorithm = "glm", weighting = TRUE)
 #' 
 #' modsTS <- extractFromModel(models = fittingTS, value = "model")
@@ -51,6 +51,46 @@
 #' 
 
 mopaPredict <- function(models, varstack){
+  if(class(varstack) != "list"){
+    varstack <- list(varstack)
+  }
+  prd <- list()
+  for(i in 1:length(models)){
+    prd.var <- list()
+    for(n in 1:length(varstack)){
+      prd.var[[n]] <- mopaPredict0(models[[i]], varstack = varstack[[n]])
+    }
+    names(prd.var) <- names(varstack)
+    if(length(prd.var)==1)  prd.var <- prd.var[[1]]
+    prd[[i]] <- prd.var
+  }
+  names(prd) <- names(models)
+  return(prd)
+}
+
+#end
+
+
+#' @title Model prediction 
+#' @description Model projection into a RasterStack
+#' 
+#' @param models model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}. 
+#' @param varstack RasterStack of variables for projecting
+#'  
+#' 
+#' @return RasterStack of the projected probabilities
+#' @seealso \code{\link[mopa]{mopaTrain}}
+#' 
+#' @author M. Iturbide 
+#' 
+#' 
+#' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
+#' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
+#' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
+#' 
+#' 
+
+mopaPredict0 <- function(models, varstack){
   suppressWarnings(if(class(models) != "list") models <- list(models))
   b1 <- cbind(coordinates(varstack), rep(1, nrow(coordinates(varstack))))
   projenviro <- biomat(data = b1, varstack = varstack)[,-1]
@@ -82,3 +122,5 @@ mopaPredict <- function(models, varstack){
   if(length(ras) == 1) ras <- ras[[1]]
   return(ras)
 }
+
+#end

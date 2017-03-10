@@ -68,7 +68,7 @@ A framework for species distribution modelling with improved pseudo-absence gene
 Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 }
 \seealso{
-\code{\link[mopa]{mopaFitting}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}},
+\code{\link[mopa]{mopaTrain}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}},
 \code{\link[mopa]{OCSVMprofiling}}
 }
 

@@ -6,8 +6,8 @@
 \title{Bioclim RasterStack for baseline and future data}
 \description{
 A RasterStack dataset containing bioclimatic variables
-(bio2, bio4, bio9, bio15, bio18, bio19) for the reference period (E-OBS dataset)
-and future period 1971-2100 given by (ENSEMBLES, CNRM regional climate projections).
+(bio1, bio4, bio5, bio9, bio15, bio18, bio19) for the reference period (E-OBS dataset)
+and future period 1971-2100 given by (ENSEMBLES, 7 different regional climate projections).
 }
 \author{
 M. Iturbide

@@ -26,7 +26,7 @@
 #' point grid (derived from function \code{\link[mopa]{OCSVMprofiling}} or function 
 #' \code{\link[mopa]{backgroundGrid}}). 
 #' 
-#' @seealso \code{\link[mopa]{mopaFitting}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}}, 
+#' @seealso \code{\link[mopa]{mopaTrain}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}}, 
 #' \code{\link[mopa]{OCSVMprofiling}}
 #' 
 #' @author M. Iturbide 
@@ -95,11 +95,11 @@ backgroundRadios <- function(xy, background, start= 0.166, by= 0.083,
       names(bg1a[[i]]) <- NULL
     }
   }
-  if (length(bg1a) == 1){
-    bg1a <- bg1a[[1]]
-  }else{
+  # if (length(bg1a) == 1){
+  #   bg1a <- bg1a[[1]]
+  # }else{
     names(bg1a) <- names(xy)
-  }
+  # }
   return("bg"= bg1a)
 }
 

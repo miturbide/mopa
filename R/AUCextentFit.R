@@ -12,7 +12,7 @@
 #' @param extents vector of increasing values that is fitted to each row in \code{testmat}.
 #' @param diagrams Logical (default is FALSE). If TRUE diagrams of the fitted models are returned.
 #' 
-#' @details This function is internally used by function \code{\link[mopa]{mopaFitting}}, to fit AUC 
+#' @details This function is internally used by function \code{\link[mopa]{mopaTrain}}, to fit AUC 
 #' scores to the background extents at which were obtained (see reference below).
 #'   
 #' @return Named integer. Index of the minimum value in \code{extents} at which the data in \code{testmat}
@@ -40,8 +40,8 @@
 #' TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
 #' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 #' 
-#' ## If diagrams = TRUE, mopaFitting prints the diagrams of the fitting
-#' fittingTS <- mopaFitting(y = TS_random, x = biostack$baseline, 
+#' ## If diagrams = TRUE, mopaTrain prints the diagrams of the fitting
+#' fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, 
 #' k = 10, algorithm = "glm", weighting = TRUE, diagrams = T)
 #' }
 #' 
@@ -62,8 +62,9 @@ AUCextentFit <- function (testmat, extents, diagrams = FALSE) {
   
   for (i in 1:nrow(testmat)) {
     print(i)
+    
     y <- na.omit(testmat[i,])
-    x <- extents[1:length(y)]
+    x <- extents[i,][1:length(y)]
     
     
     group <- rep(rownames(testmat)[i], length(y))

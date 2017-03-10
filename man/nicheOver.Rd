@@ -40,13 +40,13 @@ bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy,
 start = 0.166, by = 0.083*10, unit = "decimal degrees")
 TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents,
 exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-fittingTS <- mopaFitting(y = TS_random, x = biostack$baseline, k = 10,
+fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, k = 10,
 algorithm = "glm", weighting = TRUE, diagrams = T)
 
 ## considering an unique background extent
 RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy,
 exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-fittingRS <- mopaFitting(y = RS_random, x = biostack$baseline, k = 10,
+fittingRS <- mopaTrain(y = RS_random, x = biostack$baseline, k = 10,
 algorithm = "glm", weighting = TRUE)
 
 modsTS <- extractFromModel(models = fittingTS, value = "model")
