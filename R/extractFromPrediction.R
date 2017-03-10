@@ -43,7 +43,7 @@
 #' @export
 #' 
 extractFromPrediction <- function(predictions, value){
-  if(class(predictions) == "list")  rasters <- stack(unlist(predictions))
+  if(class(predictions) == "list")  predictions <- stack(unlist(predictions))
   rasters <- predictions
   nm <- names(rasters)
   ind <- grep(value, nm)

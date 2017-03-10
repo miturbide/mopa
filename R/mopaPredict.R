@@ -75,7 +75,8 @@ mopaPredict <- function(models, varstack){
 #' @description Model projection into a RasterStack
 #' 
 #' @param models model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}. 
-#' @param varstack RasterStack of variables for projecting
+#' @param varstack RasterStack or list of RasterStacks of variables for projecting. If list, named lists are
+#' recommended
 #'  
 #' 
 #' @return RasterStack of the projected probabilities
