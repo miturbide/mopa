@@ -14,7 +14,7 @@ i.e. list/s of rasters.}
 }
 \description{
 Extract values from objects or list of objects
-returned by function \code{\link[mopa]{modelPredict}}
+returned by function \code{\link[mopa]{mopaPredict}}
 }
 \examples{
 \dontrun{

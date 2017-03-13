@@ -9,7 +9,8 @@ mopaPredict0(models, varstack)
 \arguments{
 \item{models}{model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}.}
 
-\item{varstack}{RasterStack of variables for projecting}
+\item{varstack}{RasterStack or list of RasterStacks of variables for projecting. If list, named lists are
+recommended}
 }
 \value{
 RasterStack of the projected probabilities
