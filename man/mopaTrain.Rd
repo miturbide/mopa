@@ -9,38 +9,36 @@ mopaTrain(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars",
   threshold = NULL, diagrams = FALSE)
 }
 \arguments{
-\item{y}{RasterStack of variables for modelling}
-
-\item{x}{Object returned by function \code{link[mopa]{pseudoAbsences}} or list/s of data frames with coordinates
+\item{y}{Object returned by function \code{\link[mopa]{pseudoAbsences}} or list/s of data frames with coordinates
 in the first two columns and presence/absence (1=presence, 0=absence) in the third column.}
+
+\item{x}{RasterStack of variables for modelling}
 
 \item{k}{Integer. Number of folds for cross validation. Default is 10}
 
 \item{algorithm}{Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart"
 or "cart.tree"}
 
-\item{weighting}{Logical for "glm", "mars" and "randomForest" fitting with weighted presence/absences-s. Default is FALSE.}
+\item{weighting}{Logical for "glm", "mars" and "randomForest" fitting with weighted presence/absences-s.
+Default is FALSE.
+The weighting option slows down considerably the operation if the "mars" algorithm
+is applied (see \code{\link[earth]{earth}}.}
 
 \item{threshold}{Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).}
 
-\item{diagrams}{logical. Only applied if \code{x} contains data for different background extents
+\item{diagrams}{Logical. Only applied if \code{x} contains data for different background extents
 (see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of
 AUC extent fitting be printed? default is FALSE.}
 }
 \value{
-Named Rdata objects are stored in the
-specified path. Each Object is given a name indicating the algorithm, background
-extent, and species in this order (if a single species is provided no name is given
-for the species). The object returned by the function is a list of characters with listed files,
-used algorithm, species names and background extents.
-Each Rdata consists of a list with six components:
+A list of six components is returned for each species in \code{x}:
 
  \item{model }{fitted model using all data for training}
  \item{auc }{AUC statistic in the cross validation}
  \item{kappa }{kappa statistic in the cross validation}
  \item{tss }{true skill statistic in the cross validation }
- \item{fold.models }{fitted model with partitioned data}
- \item{ObsPred }{cross model prediction}
+ \item{fold.models }{fitted models of each data partition for cross validation}
+ \item{ObsPred }{cross model prediction (e.g. for further assessment of model accuracy)}
 }
 \description{
 Species distribution modeling and k-fold cross validation
@@ -52,6 +50,23 @@ and "cart.tree"
 This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package
 \pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. If \code{threshold} is not specified the value
 that maximisez the TSS (true skill statistic) is used to calculate the accuracy.
+
+
+\code{mopaTrain} uses the algorithm implementations of the following R packages:
+\pkg{earth} for "mars"; \pkg{ranger} for "randomForest";
+\pkg{dismo} for "maxent"; \pkg{rpart} for "cart.rpart";
+\pkg{e1071} for "svm"; \pkg{tree} for "cart.tree";
+\pkg{stats} for "glm".
+
+If \code{y} contains data for different background extents (see \code{\link[mopa]{backgroundRadios}} and
+\code{\link[mopa]{pseudoAbsences}}), \code{mopaFitting} performs the species distribution modelling for
+each different background extent, and fits obtained AUCs (corresponding to different background extents)
+to three non linear models (Michaelis-Menten, exponential2 and exponential3).
+The model that scores the lowest error is automatically selected to extract the Vm coefficient (equation 1 in
+Iturbide et al., 2015). Then, the minimum extent at which the AUC surpasses the Vm value is selected
+as the threshold extent (see Figure 3 in Iturbide et al., 2015), being the corresponding fitted SDM the
+one returned by \code{mopaFitting}. If argument \code{diagrams} is set to TRUE, A fitted model plot
+(as in Fig. 3 in Iturbide et al., 2015) is printed in the plotting environment.
 }
 \examples{
 \dontrun{
@@ -74,7 +89,7 @@ algorithm = "glm", weighting = TRUE, diagrams = T)
 ## considering an unique background extent
 RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy,
  exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-fittingRS <- mopaTrain(y = RS_random, x = biostack$baseline,
+glmRS <- mopaTrain(y = RS_random, x = biostack$baseline,
 k = 10, algorithm = "glm", weighting = TRUE)
 
 }

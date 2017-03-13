@@ -11,12 +11,19 @@
 #' @param component2 Character of the names in \code{predictions} that correspond to the second component in 
 #' the variance analysis.
 #' 
-#' @details Rasters are extracted from \code{predictions} using function \code{\link[base]{grep}} with names 
-#' in \code{predictions} and characters in \code{componen1} and \code{componen2}.
+#' @details Rasters are extracted from \code{predictions} using function \code{\link[base]{grep}}, by matching
+#' names in \code{predictions} and characters in \code{componen1} and \code{componen2}. 
+#' The contribution of componen1 in front component2 to the spread (uncertainty) of the projected probabilities 
+#' in \code{predictions} is here assessed using a simple analysis of variance approach, where the total 
+#' variance (V) can be decomposed as the summation of the variance explained by component1 (Vcomp1), 
+#' component2 (Vcomp2) and the combination of the previous two (Vcomp12):
+#' 
+#' \eqn{V = Vcomp1 + Vcomp2 + Vcomp2}.
 #' 
 #' @return A list of two RasterStack objects, the first containing the global mean and standard deviation and the 
-#' second containing the variance correponding to each component in the analysis 
-#' (component1, component2 and components 1 & 2)
+#' second containing the percentage of variance correponding to each component in the analysis 
+#' (component1, component2 and components 1 & 2). 
+#' 
 #' 
 #' @author M. Iturbide 
 #' 
@@ -109,8 +116,6 @@ varianceAnalysis <- function(predictions, component1, component2){
   sd(dos^2+uno^2+uno.dos - varGlobal, na.rm = T)
   mean(dos^2+uno^2+uno.dos - varGlobal, na.rm = T)
   
-  ########################################################################-----
-  
   uno100 <- uno^2 *100 / (uno^2+dos^2+uno.dos)
   dos100 <- dos^2 *100 / (uno^2+dos^2+uno.dos)
   uno.dos100 <- uno.dos *100 / (uno^2+dos^2+uno.dos)
@@ -129,7 +134,9 @@ varianceAnalysis <- function(predictions, component1, component2){
   l2 <- stack(bothcomp[[1]], bothcomp[[2]], bothcomp[[3]])
   
   names(l1) <- c("mean", "sd")
-  names(l2) <- c("component 1", "component 2", "components 1 and 2")
+  onename <- deparse(substitute(component1))
+  twoname <- deparse(substitute(component2))
+  names(l2) <- c(onename, twoname, paste(onename, "and", twoname))
   
   return(list("mean" = l1, "variance" = l2))
 }

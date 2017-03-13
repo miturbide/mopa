@@ -17,8 +17,8 @@ the variance analysis.}
 }
 \value{
 A list of two RasterStack objects, the first containing the global mean and standard deviation and the
-second containing the variance correponding to each component in the analysis
-(component1, component2 and components 1 & 2)
+second containing the percentage of variance correponding to each component in the analysis
+(component1, component2 and components 1 & 2).
 }
 \description{
 Extract componets of list of objects
@@ -27,8 +27,14 @@ and perform variance analysis to obtain raster objects of the
 contribution of each component to the observed varaibility.
 }
 \details{
-Rasters are extracted from \code{predictions} using function \code{\link[base]{grep}} with names
-in \code{predictions} and characters in \code{componen1} and \code{componen2}.
+Rasters are extracted from \code{predictions} using function \code{\link[base]{grep}}, by matching
+names in \code{predictions} and characters in \code{componen1} and \code{componen2}.
+The contribution of componen1 in front component2 to the spread (uncertainty) of the projected probabilities
+in \code{predictions} is here assessed using a simple analysis of variance approach, where the total
+variance (V) can be decomposed as the summation of the variance explained by component1 (Vcomp1),
+component2 (Vcomp2) and the combination of the previous two (Vcomp12):
+
+\eqn{V = Vcomp1 + Vcomp2 + Vcomp2}.
 }
 \examples{
 \dontrun{

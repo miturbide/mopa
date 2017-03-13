@@ -28,12 +28,7 @@ or "cart.tree"}
 AUC extent fitting be printed? default is FALSE.}
 }
 \value{
-Named Rdata objects are stored in the
-specified path. Each Object is given a name indicating the algorithm, background
-extent, and species in this order (if a single species is provided no name is given
-for the species). The object returned by the function is a list of characters with listed files,
-used algorithm, species names and background extents.
-Each Rdata consists of a list with six components:
+A list of six components is returned for each species in \code{x}:
 
  \item{model }{fitted model using all data for training}
  \item{auc }{AUC statistic in the cross validation}
@@ -47,11 +42,6 @@ Species distribution modeling and k-fold cross validation
 for a set of presence/absence data per species, also considering different background
 extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart"
 and "cart.tree"
-}
-\details{
-This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package
-\pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. If \code{threshold} is not specified the value
-that maximisez the TSS (true skill statistic) is used to calculate the accuracy.
 }
 \author{
 M. Iturbide
