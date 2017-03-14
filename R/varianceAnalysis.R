@@ -22,14 +22,15 @@
 #' 
 #' @return A list of two RasterStack objects, the first containing the global mean and standard deviation and the 
 #' second containing the percentage of variance correponding to each component in the analysis 
-#' (component1, component2 and components 1 & 2). 
+#' (component1, component2 and components 1 and 2). 
 #' 
 #' 
 #' @author M. Iturbide 
 #' 
-#' @references San-Martín, D., Manzanas, R., Brands, S., Herrera, S. & Gutiérrez, J.M. (2016) Reassessing 
+#' @references San Martin, D., Manzanas, R., Brands, S., Herrera, S., & Gutierrez, J.M. (2016) Reassessing 
 #' Model Uncertainty for Regional Projections of Precipitation with an Ensemble of Statistical Downscaling Methods. 
-#' Journal of Climate 30, 203–223.
+#' Journal of Climate 30, 203-223.
+#' 
 #' 
 #' @examples
 #' \dontrun{
@@ -62,7 +63,7 @@
 #' 
 #' 
 #' @export
-#' 
+#' @importFrom stats sd
 
 varianceAnalysis <- function(predictions, component1, component2){
   comp2 <- list()

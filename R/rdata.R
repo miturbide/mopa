@@ -25,5 +25,12 @@ NULL
 #' Forest Ecology and Management 156 (1-3), 5-26.
 NULL
 
-
+#' @title Quercus pubsencens distribution
+#' @description A data frame with xy coordinates of Quercus pubesnces distribution
+#' @name Q_pubescens
+#' @docType data
+#' @keywords xy records
+#' @source  Q_pubescens is a modified subset of occurrences obtained from \strong{GBIF.org} 
+#' @references GBIF.org (14th March 2017) GBIF Occurrence Download http://doi.org/10.15468/dl.4ss6vr
+NULL
 

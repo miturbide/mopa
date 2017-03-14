@@ -9,7 +9,7 @@ nicheOver(stack, metric = c("D", "O"))
 \arguments{
 \item{stack}{RasterStack}
 
-\item{metric}{Metric for niche overlap. Options are "D" and "O" (see details).}
+\item{metric}{Metric for niche overlap. Options are \code{D} and \code{O} (see details).}
 }
 \value{
 Matrix of overlap values for metric D or O.
@@ -19,10 +19,9 @@ Compute niche overlap among rasters in a RasterStack
 }
 \details{
 Niche overlap measures the similarity of the environmental ranges occupied by each constructed model
-via operating the difference between two vectors of probability distributions (p), where p x,i and p y,i are
-the normalized suitability scores for biological entity or model X and Y in grid cell i.
+via operating the difference between two vectors of probability distributions.
 
- D: Schoener's statistic for niche overlap (Warren et al., 2008).
+ D: Schoeners statistic for niche overlap (Warren et al., 2008).
  O: Pianka index (Pianka, 1973).
 }
 \examples{
@@ -70,9 +69,9 @@ M. Iturbide
 }
 \references{
 Warren DL, Glor RE, Turelli M, Funk D (2008) Environmental niche equivalency versus conservatism:
-Quantitative approaches to niche evolution. Evolution, 62, 2868–2883. doi:10.1111/j.1558-5646.2008. 00482.x.
+Quantitative approaches to niche evolution. Evolution, 62, 2868-2883. doi:10.1111/j.1558-5646.2008. 00482.x.
 
 Pianka ER (1973) The Structure of Lizard Communities. Annual Review of Ecology and Systematics, 4,
-53–74. doi:10.1146/annurev.es.04.110173.000413.
+53-74. doi:10.1146/annurev.es.04.110173.000413.
 }
 

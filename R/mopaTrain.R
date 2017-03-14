@@ -195,7 +195,7 @@ mopaTrain0 <- function(y,
     extents[i, 1:length(extnames)] <- as.integer(sub(unlist(extnames), pattern = "km", replacement = ""))
     for(j in 1:length(sp_01)){
       #print(paste("running model for species", i, "considering pseudo-absences inside the extent of", names (sp_01)[j]))
-      sp.bio <- mopa:::biomat(sp_01[[j]], biostack)
+      sp.bio <- biomat(sp_01[[j]], biostack)
       x <- kfold(k, df = sp.bio)
       xx <- leaveOneOut(x)
       # mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)},
@@ -376,7 +376,7 @@ modelo <- function(kdata, data, algorithm = c("glm","svm","maxent","mars","rando
   ori <- unlist(orig)
   p <- unlist(pmod)
   dat <- as.data.frame(cbind("id" = as.integer(c(1:length(ori))), "obs" = ori, "pred" = p))
-  if(is.null(threshold)) threshold <- kappaRepet(Obs = dat$obs, Fit = dat$pred, TSS = T)$CutOff 
+  if(is.null(threshold)) threshold <- cutTSS(Obs = dat$obs, Fit = dat$pred)$CutOff 
   p.auc <- p
   p.auc[which(p>=threshold)] <- 1
   p.auc[which(p.auc!=1)] <- 0
@@ -398,34 +398,31 @@ modelo <- function(kdata, data, algorithm = c("glm","svm","maxent","mars","rando
 #' @title Cut value of the max TSS
 #' @param Obs Observed values
 #' @param Fit fitted values
-#' @param TSS Default is TRUE
 #'   
 #' @return threshold that of the max TSS
 
 
-kappaRepet <-  function(Obs, Fit, TSS=TRUE){
+cutTSS <-  function(Obs, Fit){
   if(sum(Obs)==0) stop("\n The observed data only contains 0")
   tab <- as.data.frame(matrix(0, nrow=101, ncol=2))  ### 
   
   if(length(unique(Fit))==1){
     Misc<-table(as.vector(Fit) >= as.numeric(unique(Fit)), Obs) 
-    if(TSS!=TRUE) a <- KappaStat(Misc)
-    else a <- TSS.Stat(Misc)
+    a <- TSS.Stat(Misc)
     TP <- Misc[4]
     TN <- Misc[1]
     ca0 <- (TN * 100)/sum(Misc[,1])
     ca1 <- (TP * 100)/sum(Misc[,2])
     if(is.na(ca0)) ca0<-0
     if(is.na(ca1)) ca1<-0
-    if(TSS!=TRUE) invisible(list(Kappa=0, CutOff=unique(Fit), TP=TP, se=ca1, TN=TN, sp=ca0))
-    else invisible(list(TSS=0, CutOff=unique(Fit), TP=TP, se=ca1, TN=TN, sp=ca0))
+    invisible(list(TSS=0, CutOff=unique(Fit), TP=TP, se=ca1, TN=TN, sp=ca0))
   }
   else{
     Quant <- quantile(Fit)
     for(j in 0:100){
       Seuil <- Quant[1] + (j*((Quant[5] - Quant[1])/100))
       Misc<-table(Fit >= Seuil, Obs)
-      if(TSS!=TRUE) a <- KappaStat(Misc) else a <- TSS.Stat(Misc)
+      a <- TSS.Stat(Misc)
       if(!is.na(a)) if(a > 0) {tab[j+1, 1] <- Seuil; tab[j+1, 2] <- a}
       rm(Misc, Seuil)
     }
@@ -438,12 +435,10 @@ kappaRepet <-  function(Obs, Fit, TSS=TRUE){
       TN <- Misc[1]
       ca0 <- (TN * 100)/sum(Misc[,1])
       ca1 <- (TP * 100)/sum(Misc[,2])
-      if(TSS!=TRUE) invisible(list(Kappa = t, CutOff = seuil[1], TP = TP, se = ca1, TN = TN, sp = ca0))
-      else invisible(list(TSS = t, CutOff = seuil[1], TP = TP, se = ca1, TN = TN, sp = ca0))
+      invisible(list(TSS = t, CutOff = seuil[1], TP = TP, se = ca1, TN = TN, sp = ca0))
     }
     else {
-      if(TSS!=TRUE) invisible(list(Kappa = 0, CutOff = 0, TP = 0, se = 0, TN = 0, sp = 0))
-      else invisible(list(TSS = 0, CutOff = 0, TP = 0, se = 0, TN = 0, sp = 0))
+      invisible(list(TSS = 0, CutOff = 0, TP = 0, se = 0, TN = 0, sp = 0))
     }
   }
 }

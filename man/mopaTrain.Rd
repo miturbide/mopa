@@ -21,8 +21,8 @@ or "cart.tree"}
 
 \item{weighting}{Logical for "glm", "mars" and "randomForest" fitting with weighted presence/absences-s.
 Default is FALSE.
-The weighting option slows down considerably the operation if the "mars" algorithm
-is applied (see \code{\link[earth]{earth}}.}
+The processing time is considerably increased if weighting option is selected when applying
+"mars" algorithm (see \code{\link[earth]{earth}}.}
 
 \item{threshold}{Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).}
 
