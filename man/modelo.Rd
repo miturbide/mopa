@@ -4,9 +4,9 @@
 \alias{modelo}
 \title{Species distribution modelling and cross validation}
 \usage{
-modelo(kdata, data, algorithm = c("glm", "svm", "maxent", "mars",
-  "randomForest", "cart.rpart", "cart.tree"), weighting = FALSE,
-  threshold = 0.5)
+modelo(kdata, data, algorithm = c("glm", "svm", "maxent", "mars", "rf",
+  "cart.rpart", "cart.tree"), algorithm.args = NULL, weighting = FALSE,
+  threshold = NULL, tuneRF.args = NULL)
 }
 \arguments{
 \item{kdata}{Object returned by function leaveOneOut}
@@ -15,13 +15,18 @@ modelo(kdata, data, algorithm = c("glm", "svm", "maxent", "mars",
 (presence/absence) in the first column and the independent variables in the rest
 (extracted from varstack)}
 
-\item{algorithm}{Any character of the following: \code{"glm"}, "svm", "maxent", "mars", "randomForest", "cart.rpart"
+\item{algorithm}{Any character of the following: \code{"glm"}, "svm", "maxent", "mars", "rf", "cart.rpart"
 or "cart.tree"}
 
+\item{algorithm.args}{Further arguments to be passed to the selected algorithm for modeling (functions involved
+are described in details)}
+
 \item{weighting}{Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars",
-"randomForest" and "cart.rpart". Default is FALSE.}
+"rf" and "cart.rpart". Default is FALSE.}
 
 \item{threshold}{Cut value between 0 and 1 to calculate the confusion matrix. Default is 0.5.}
+
+\item{tuneRF.args}{list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"}
 }
 \value{
 A list with six components:
@@ -34,7 +39,7 @@ A list with six components:
 }
 \description{
 Species distribution modelling with k-fold cross validation.
-Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart"
+Algorithms supported are "glm", "svm", "maxent", "mars", "rf", "cart.rpart"
 and "cart.tree"
 }
 \details{

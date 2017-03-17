@@ -4,9 +4,9 @@
 \alias{mopaTrain}
 \title{Easy species distribution modeling and cross validation}
 \usage{
-mopaTrain(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars",
-  "randomForest", "cart.rpart", "cart.tree"), weighting = FALSE,
-  threshold = NULL, diagrams = FALSE)
+mopaTrain(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars", "rf",
+  "cart.rpart", "cart.tree"), algorithm.args = NULL, weighting = FALSE,
+  threshold = NULL, diagrams = FALSE, tuneRF.args = NULL)
 }
 \arguments{
 \item{y}{Object returned by function \code{\link[mopa]{pseudoAbsences}} or list/s of data frames with coordinates
@@ -16,10 +16,13 @@ in the first two columns and presence/absence (1=presence, 0=absence) in the thi
 
 \item{k}{Integer. Number of folds for cross validation. Default is 10}
 
-\item{algorithm}{Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart"
-or "cart.tree"}
+\item{algorithm}{Any character of the following: "glm", "svm", "maxent", "mars", "rf", "cart.rpart"
+or "cart.tree" (see details)}
 
-\item{weighting}{Logical for "glm", "mars" and "randomForest" fitting with weighted presence/absences-s.
+\item{algorithm.args}{Further arguments to be passed to the selected algorithm for modeling (functions involved
+are described in details)}
+
+\item{weighting}{Logical for "glm", "mars" and "rf" fitting with weighted presence/absences-s
 Default is FALSE.
 The processing time is considerably increased if weighting option is selected when applying
 "mars" algorithm (see \code{\link[earth]{earth}}.}
@@ -29,21 +32,24 @@ The processing time is considerably increased if weighting option is selected wh
 \item{diagrams}{Logical. Only applied if \code{x} contains data for different background extents
 (see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of
 AUC extent fitting be printed? default is FALSE.}
+
+\item{tuneRF.args}{list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"}
 }
 \value{
 A list of six components is returned for each species in \code{x}:
-
+\itemize{
  \item{model }{fitted model using all data for training}
  \item{auc }{AUC statistic in the cross validation}
  \item{kappa }{kappa statistic in the cross validation}
  \item{tss }{true skill statistic in the cross validation }
  \item{fold.models }{fitted models of each data partition for cross validation}
  \item{ObsPred }{cross model prediction (e.g. for further assessment of model accuracy)}
+ }
 }
 \description{
 Species distribution modeling and k-fold cross validation
 for a set of presence/absence data per species, also considering different background
-extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart"
+extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "rf", "cart.rpart"
 and "cart.tree"
 }
 \details{
@@ -52,11 +58,6 @@ This function calculates the AUC with the function \code{\link[PresenceAbsence]{
 that maximisez the TSS (true skill statistic) is used to calculate the accuracy.
 
 
-\code{mopaTrain} uses the algorithm implementations of the following R packages:
-\pkg{earth} for "mars"; \pkg{ranger} for "randomForest";
-\pkg{dismo} for "maxent"; \pkg{rpart} for "cart.rpart";
-\pkg{e1071} for "svm"; \pkg{tree} for "cart.tree";
-\pkg{stats} for "glm".
 
 If \code{y} contains data for different background extents (see \code{\link[mopa]{backgroundRadios}} and
 \code{\link[mopa]{pseudoAbsences}}), \code{mopaFitting} performs the species distribution modelling for
@@ -67,6 +68,21 @@ Iturbide et al., 2015). Then, the minimum extent at which the AUC surpasses the 
 as the threshold extent (see Figure 3 in Iturbide et al., 2015), being the corresponding fitted SDM the
 one returned by \code{mopaFitting}. If argument \code{diagrams} is set to TRUE, A fitted model plot
 (as in Fig. 3 in Iturbide et al., 2015) is printed in the plotting environment.
+
+
+\code{mopaTrain} uses the algorithm implementations of the following functions and R packages:
+\itemize{
+\item{"mars" }{function \code{\link[earth]{earth}} from package \pkg{earth}}
+\item{"rf" }{function \code{\link[ranger]{ranger}} from package \pkg{ranger}}
+\item{"maxent" }{function \code{\link[dismo]{maxent}} from package \pkg{dismo}}
+\item{"cart.rpart" }{function \code{\link[rpart]{rpart}} from package \pkg{rpart}}
+\item{"svm" }{function \code{\link[e1071]{best.svm}} from package \pkg{e1071}}
+\item{"cart.tree" }{function \code{\link[tree]{tree}} from package \pkg{tree}}
+\item{"glm" }{function \code{\link[stats]{glm}} from  package \pkg{stats}}
+}
+
+For example, when appying "glm", further arguments from function \code{\link[stats]{glm}} can be
+passed to \code{mopaTrain} by using \code{algorithm.args}.
 }
 \examples{
 \dontrun{

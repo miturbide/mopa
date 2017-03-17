@@ -48,25 +48,39 @@
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
 #' @export
-#' 
+#' @importFrom grid depth
 
 mopaPredict <- function(models, varstack){
   if(class(varstack) != "list"){
     varstack <- list(varstack)
   }
-  prd <- list()
-  for(i in 1:length(models)){
-    prd.var <- list()
-    for(n in 1:length(varstack)){
-      prd.var[[n]] <- mopaPredict0(models[[i]], varstack = varstack[[n]])
-    }
-    names(prd.var) <- names(varstack)
-    if(length(prd.var)==1)  prd.var <- prd.var[[1]]
-    prd[[i]] <- prd.var
+  suppressWarnings(
+    ml <- depth(models)-2 
+  )
+  if(ml < 3){
+    models <- list(models)
   }
-  names(prd) <- names(models)
-  return(prd)
+  pred <- list()
+  for(l in 1:length(models)){
+    prd <- list()
+    for(i in 1:length(models[[l]])){
+      prd.var <- list()
+      for(n in 1:length(varstack)){
+        prd.var[[n]] <- mopaPredict0(models[[l]][[i]], varstack = varstack[[n]])
+      }
+      names(prd.var) <- names(varstack)
+      if(length(prd.var)==1)  prd.var <- prd.var[[1]]
+      prd[[i]] <- prd.var
+    }
+    names(prd) <- names(models[[l]])
+    pred[[l]] <- prd
+  }
+  names(pred) <- names(models)
+  if(length(pred) == 1) pred <- pred[[1]]
+  return(pred)
 }
+
+
 
 #end
 

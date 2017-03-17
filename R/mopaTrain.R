@@ -1,7 +1,7 @@
 #' @title Easy species distribution modeling and cross validation
 #' @description Species distribution modeling and k-fold cross validation 
 #' for a set of presence/absence data per species, also considering different background 
-#' extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
+#' extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
 #' and "cart.tree" 
 #' 
 #' @param y Object returned by function \code{\link[mopa]{pseudoAbsences}} or list/s of data frames with coordinates
@@ -9,9 +9,11 @@
 #' @param x RasterStack of variables for modelling
 #' 
 #' @param k Integer. Number of folds for cross validation. Default is 10
-#' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
-#' or "cart.tree"
-#' @param weighting Logical for "glm", "mars" and "randomForest" fitting with weighted presence/absences-s. 
+#' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
+#' or "cart.tree" (see details)
+#' @param algorithm.args Further arguments to be passed to the selected algorithm for modeling (functions involved 
+#' are described in details)
+#' @param weighting Logical for "glm", "mars" and "rf" fitting with weighted presence/absences-s
 #' Default is FALSE.
 #' The processing time is considerably increased if weighting option is selected when applying 
 #' "mars" algorithm (see \code{\link[earth]{earth}}.
@@ -19,29 +21,25 @@
 #' @param diagrams Logical. Only applied if \code{x} contains data for different background extents 
 #' (see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
 #' AUC extent fitting be printed? default is FALSE. 
+#' @param tuneRF.args list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"
 #' 
 #'  
 #' 
 #' @return A list of six components is returned for each species in \code{x}:
-#' 
+#' \itemize{
 #'  \item{model }{fitted model using all data for training}
 #'  \item{auc }{AUC statistic in the cross validation}
 #'  \item{kappa }{kappa statistic in the cross validation}
 #'  \item{tss }{true skill statistic in the cross validation }
 #'  \item{fold.models }{fitted models of each data partition for cross validation}
 #'  \item{ObsPred }{cross model prediction (e.g. for further assessment of model accuracy)}
-#'  
+#'  }
 #' 
 #' @details This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package 
 #' \pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. If \code{threshold} is not specified the value
 #' that maximisez the TSS (true skill statistic) is used to calculate the accuracy.
 #' 
 #' 
-#' \code{mopaTrain} uses the algorithm implementations of the following R packages: 
-#' \pkg{earth} for "mars"; \pkg{ranger} for "randomForest"; 
-#' \pkg{dismo} for "maxent"; \pkg{rpart} for "cart.rpart";
-#' \pkg{e1071} for "svm"; \pkg{tree} for "cart.tree";
-#' \pkg{stats} for "glm".
 #' 
 #' If \code{y} contains data for different background extents (see \code{\link[mopa]{backgroundRadios}} and
 #' \code{\link[mopa]{pseudoAbsences}}), \code{mopaFitting} performs the species distribution modelling for 
@@ -52,7 +50,21 @@
 #' as the threshold extent (see Figure 3 in Iturbide et al., 2015), being the corresponding fitted SDM the 
 #' one returned by \code{mopaFitting}. If argument \code{diagrams} is set to TRUE, A fitted model plot 
 #' (as in Fig. 3 in Iturbide et al., 2015) is printed in the plotting environment.
+#'
+#'   
+#' \code{mopaTrain} uses the algorithm implementations of the following functions and R packages: 
+#' \itemize{
+#' \item{"mars" }{function \code{\link[earth]{earth}} from package \pkg{earth}} 
+#' \item{"rf" }{function \code{\link[ranger]{ranger}} from package \pkg{ranger}} 
+#' \item{"maxent" }{function \code{\link[dismo]{maxent}} from package \pkg{dismo}} 
+#' \item{"cart.rpart" }{function \code{\link[rpart]{rpart}} from package \pkg{rpart}}
+#' \item{"svm" }{function \code{\link[e1071]{best.svm}} from package \pkg{e1071}}
+#' \item{"cart.tree" }{function \code{\link[tree]{tree}} from package \pkg{tree}} 
+#' \item{"glm" }{function \code{\link[stats]{glm}} from  package \pkg{stats}}
+#' }
 #' 
+#' For example, when appying "glm", further arguments from function \code{\link[stats]{glm}} can be 
+#' passed to \code{mopaTrain} by using \code{algorithm.args}.
 #' 
 #' @seealso \code{\link[mopa]{mopaPredict}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}}, 
 #' \code{\link[mopa]{OCSVMprofiling}}, \code{\link[mopa]{backgroundRadios}}
@@ -99,10 +111,12 @@
 mopaTrain <- function(y, 
                         x, 
                         k = 10, 
-                        algorithm = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"), 
+                        algorithm = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"), 
+                        algorithm.args = NULL,
                         weighting = FALSE,
                         threshold = NULL,
-                        diagrams = FALSE){
+                        diagrams = FALSE,
+                        tuneRF.args = NULL){
   mfit <- list()
   for(i in 1:length(y)){
     message("[", Sys.time(), "] realization ", i)
@@ -110,9 +124,11 @@ mopaTrain <- function(y,
                               x = x, 
                               k = k, 
                               algorithm = algorithm, 
+                              algorithm.args = algorithm.args,
                               weighting = weighting,
                               threshold = threshold,
-                              diagrams = diagrams)
+                              diagrams = diagrams,
+                              tuneRF.args = tuneRF.args)
   }
   names(mfit) <- names(y)
   return(mfit)
@@ -124,7 +140,7 @@ mopaTrain <- function(y,
 #' @title Easy species distribution modeling and cross validation
 #' @description Species distribution modeling and k-fold cross validation 
 #' for a set of presence/absence data per species, also considering different background 
-#' extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
+#' extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
 #' and "cart.tree" 
 #' 
 #' @param x Object returned by function \code{link[mopa]{pseudoAbsences}} or list/s of data frames with coordinates
@@ -132,13 +148,16 @@ mopaTrain <- function(y,
 #' @param y RasterStack of variables for modelling
 #' 
 #' @param k Integer. Number of folds for cross validation. Default is 10
-#' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
+#' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
 #' or "cart.tree"
-#' @param weighting Logical for "glm", "mars" and "randomForest" fitting with weighted presence/absences-s. Default is FALSE.
+#' @param algorithm.args Further arguments to be passed to the selected algorithm for modeling (functions involved 
+#' are described in details)
+#' @param weighting Logical for "glm", "mars" and "rf" fitting with weighted presence/absences-s. Default is FALSE.
 #' @param threshold Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).
 #' @param diagrams logical. Only applied if \code{x} contains data for different background extents 
 #' (see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
 #' AUC extent fitting be printed? default is FALSE. 
+#' @param tuneRF.args list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"
 #' 
 #'  
 #' 
@@ -175,11 +194,13 @@ mopaTrain <- function(y,
 mopaTrain0 <- function(y, 
                         x, 
                         k = 10, 
-                        algorithm = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"), 
+                        algorithm = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"), 
+                        algorithm.args = NULL,
                         weighting = FALSE,
                         threshold = NULL,
-                        diagrams = FALSE){
-  algorithm <- match.arg(algorithm, choices = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"))
+                        diagrams = FALSE,
+                        tuneRF.args = NULL){
+  algorithm <- match.arg(algorithm, choices = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"))
   data <- y
   biostack <- x
   if (class(data[[1]]) != "list"){
@@ -200,7 +221,8 @@ mopaTrain0 <- function(y,
       xx <- leaveOneOut(x)
       # mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)},
       #                 error = function(err){xxx = list(rep(NA, k), NA, NA)})
-      aucmat[i, j] <- modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)$auc
+      aucmat[i, j] <- modelo(kdata = xx, data=sp.bio, algorithm = algorithm, algorithm.args = algorithm.args,
+                             weighting = weighting, threshold = threshold, tuneRF.args = tuneRF.args)$auc
       rm(xx, x, sp.bio)
     }
   }
@@ -214,7 +236,8 @@ mopaTrain0 <- function(y,
     xx <- leaveOneOut(x)
     # mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)},
     #                 error = function(err){xxx = list(rep(NA, k), NA, NA)})
-    mod[[i]] <- modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)
+    mod[[i]] <- modelo(kdata = xx, data=sp.bio, algorithm = algorithm, algorithm.args = algorithm.args,
+                       weighting = weighting, threshold = threshold, tuneRF.args = tuneRF.args)
     mod[[i]]$extent <- extents[[i]][ind[i]]
     rm(xx, x, sp.bio)
   }
@@ -229,17 +252,20 @@ mopaTrain0 <- function(y,
 
 #' @title Species distribution modelling and cross validation
 #' @description Species distribution modelling with k-fold cross validation. 
-#' Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart" 
+#' Algorithms supported are "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
 #' and "cart.tree" 
 #' @param kdata Object returned by function leaveOneOut
 #' @param data Object returned by function biomat. 2D matrix with the dependent variable 
 #' (presence/absence) in the first column and the independent variables in the rest 
 #' (extracted from varstack) 
-#' @param algorithm Any character of the following: \code{"glm"}, "svm", "maxent", "mars", "randomForest", "cart.rpart" 
+#' @param algorithm Any character of the following: \code{"glm"}, "svm", "maxent", "mars", "rf", "cart.rpart" 
 #' or "cart.tree"
+#' @param algorithm.args Further arguments to be passed to the selected algorithm for modeling (functions involved 
+#' are described in details)
 #' @param weighting Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars", 
-#' "randomForest" and "cart.rpart". Default is FALSE.
+#' "rf" and "cart.rpart". Default is FALSE.
 #' @param threshold Cut value between 0 and 1 to calculate the confusion matrix. Default is 0.5.
+#' @param tuneRF.args list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"
 #'
 #'  
 #' 
@@ -274,7 +300,11 @@ mopaTrain0 <- function(y,
 
 
 
-modelo <- function(kdata, data, algorithm = c("glm","svm","maxent","mars","randomForest","cart.rpart","cart.tree"), weighting = FALSE, threshold = 0.5){
+modelo <- function(kdata, data, 
+                   algorithm = c("glm","svm","maxent","mars","rf","cart.rpart","cart.tree"), 
+                   algorithm.args = NULL,
+                   weighting = FALSE, threshold = NULL,
+                   tuneRF.args = NULL){
   mod <- list()
   pmod <- list()
   algorithm <- as.character(algorithm)
@@ -317,31 +347,36 @@ modelo <- function(kdata, data, algorithm = c("glm","svm","maxent","mars","rando
     }
     # Training
     if(algorithm == "glm") {
-      mod[[i]] <- glm(V1 ~., data=dftrn, family=binomial(link="logit"), weights = weights)
+      mod[[i]] <- do.call(glm, c(list(formula = V1 ~., data = dftrn, family = binomial(link="logit"), weights = weights), algorithm.args))
     } else if(algorithm == "svm"){
-      mod[[i]] <- best.svm(V1 ~., data=dftrn)
+      mod[[i]] <- do.call(best.svm, c(list(x = V1 ~., data = dftrn), algorithm.args))
     } else if(algorithm == "maxent"){
-      mod[[i]] <- maxent(x = dftrn[ ,-1], p=dftrn[,1])
+      mod[[i]] <- do.call(maxent, c(list(x = dftrn[ ,-1], p=dftrn[,1]), algorithm.args))
     } else if(algorithm == "mars"){
-      mod[[i]] <- earth(x = dftrn[ ,-1], y = dftrn[,1], weights = weights, Force.weights = Force.weights)
+      mod[[i]] <- do.call(earth, c(list(x = dftrn[ ,-1], y = dftrn[,1], weights = weights), algorithm.args))
     } else if(algorithm=="cart.rpart"){
-      mod[[i]] <- rpart(V1 ~., data=dftrn, weights = weights)
+      mod[[i]] <- do.call(rpart, c(list(V1 ~., data=dftrn, weights = weights), algorithm.args))
     } else if(algorithm == "cart.tree"){
-      mod[[i]]<- tree(V1 ~., data=dftrn, weights = weights)
-    } else if(algorithm == "randomForest"){
+      mod[[i]]<- do.call(tree, c(list(V1 ~., data=dftrn, weights = weights), algorithm.args))
+    } else if(algorithm == "rf"){
       # dftrn$V1 <- as.factor(dftrn$V1)
       # mod[[i]]<- randomForest(V1 ~., data=dftrn, strata = dftrn$V1, sampsize = weights.rf)
-      mtry1 <- tuneRF(dftrn[,-1], dftrn[,1], plot = F)
-      mtry <- mtry1[which(mtry1[,2] == min(mtry1[,2])),1]
-      mod[[i]]<- ranger(V1 ~., data=dftrn, case.weights = weights, num.trees = 300, mtry = mtry)
-      
+      if("mtry" %in% names(algorithm.args) == FALSE){
+        setbefore <- TRUE
+        suppressMessages(
+          mtry1 <- do.call(tuneRF, c(list(dftrn[,-1], dftrn[,1], plot = F), tuneRF.args))
+        )
+        mtry <- mtry1[which(mtry1[,2] == min(mtry1[,2])),1]
+        algorithm.args$mtry <- mtry
+      }
+      mod[[i]]<- do.call(ranger, c(list(V1 ~., data=dftrn, case.weights = weights), algorithm.args))
     }
     # Predictions
     if (algorithm == "cart.rpart") {
       pmod[[i]] <- predict(mod[[i]], dftst[,-1])
     }else if (algorithm=="cart.tree"){
       pmod[[i]] <- predict(mod[[i]], dftst[,-1])
-    }else if(algorithm == "randomForest"){
+    }else if(algorithm == "rf"){
       pmod[[i]] <- predict(mod[[i]], dftst[ ,-1])$predictions
     }else{
       pmod[[i]] <- predict(mod[[i]], dftst[ ,-1], type="response")
@@ -352,24 +387,29 @@ modelo <- function(kdata, data, algorithm = c("glm","svm","maxent","mars","rando
   
   # allTraining
   if(algorithm == "glm") {
-    allmod <- glm(V1 ~., data=alltrn, family=binomial(link="logit"), weights = all.weights)
+    allmod <- do.call(glm, c(list(V1 ~., data=alltrn, family=binomial(link="logit"), weights = all.weights), algorithm.args))
   } else if(algorithm == "svm"){
-    allmod <- best.svm(V1 ~., data=alltrn)
+    allmod <- do.call(best.svm, c(list(V1 ~., data=alltrn), algorithm.args))
   } else if(algorithm == "maxent"){
-    allmod <- maxent(x = alltrn[ ,-1], p=alltrn[,1])
+    allmod <- do.call(maxent, c(list(x = alltrn[ ,-1], p=alltrn[,1]), algorithm.args))
   } else if(algorithm == "mars"){
-    allmod <- earth(x = alltrn[ ,-1], y = alltrn[,1], weights = all.weights)
+    allmod <- do.call(earth, c(list(x = alltrn[ ,-1], y = alltrn[,1], weights = all.weights), algorithm.args))
   } else if(algorithm=="cart.rpart"){
-    allmod <- rpart(V1 ~., data=alltrn, weights = all.weights)
+    allmod <- do.call(rpart, c(list(V1 ~., data=alltrn, weights = all.weights), algorithm.args))
   } else if(algorithm == "cart.tree"){
-    allmod <- tree(V1 ~., data=alltrn, weights = all.weights)
-  } else if(algorithm == "randomForest"){
+    allmod <- do.call(tree, c(list(V1 ~., data=alltrn, weights = all.weights), algorithm.args))
+  } else if(algorithm == "rf"){
     # alltrn$V1 <- as.factor(alltrn$V1)
     # allmod <- randomForest(V1 ~., data=alltrn, strata = alltrn$V1, sampsize = all.weights.rf)
-    mtry1 <- tuneRF(alltrn[,-1], alltrn[,1], plot = F)
-    mtry <- mtry1[which(mtry1[,2] == min(mtry1[,2])),1]
-    allmod <- ranger(V1 ~., data=alltrn, case.weights = all.weights, num.trees = 300)
-    
+    if(setbefore){
+      message(":::Applying tuneRF to obtain parameter mytr")
+      suppressMessages(
+        mtry1 <- tuneRF(alltrn[,-1], alltrn[,1], plot = F)
+      )
+      mtry <- mtry1[which(mtry1[,2] == min(mtry1[,2])),1]
+      algorithm.args$mtry <- mtry
+    }
+    allmod <- do.call(ranger, c(list(V1 ~., data=alltrn, case.weights = all.weights), algorithm.args))
   }
   
   

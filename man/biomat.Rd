@@ -38,7 +38,7 @@ str(mat)
 }
 }
 \author{
-M. Iturbide \email{maibide@gmail.com}
+M. Iturbide
 }
 \keyword{internal}
 

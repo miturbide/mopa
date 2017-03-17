@@ -17,7 +17,7 @@
 #' 
 #' 
 #' 
-#' @author M. Iturbide \email{maibide@@gmail.com}
+#' @author M. Iturbide 
 #' 
 #' @examples
 #' \dontrun{
@@ -34,15 +34,20 @@
 #' @keywords internal
 #' @import sp
 #' @import raster
+#' @export
 
 biomat<-function(data, varstack){ #, projection=CRS("+proj=longlat +init=epsg:4326")) {
-  bio<-varstack
-  coord.esp<-data[,1:2]
-  sp.coord.esp<-SpatialPoints(coord.esp)
+  bio <- varstack
+  coord.esp <- data[,1:2]
+  sp.coord.esp <- SpatialPoints(coord.esp)
   # proj4string(sp.coord.esp)<-projection
   # proj4string(bio)<-projection
-  z<-extract(bio,sp.coord.esp)
-  bio.mat<-cbind(data[,3],z)
-  bio.df<-as.data.frame(bio.mat)
+  z <- extract(bio,sp.coord.esp)
+  if(ncol(data) == 3){
+    bio.mat <- cbind(data[,3],z)
+  }else{
+    bio.mat <- z
+  }
+  bio.df <- as.data.frame(bio.mat)
   return(bio.df)
 }

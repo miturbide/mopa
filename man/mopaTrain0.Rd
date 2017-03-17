@@ -4,9 +4,9 @@
 \alias{mopaTrain0}
 \title{Easy species distribution modeling and cross validation}
 \usage{
-mopaTrain0(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars",
-  "randomForest", "cart.rpart", "cart.tree"), weighting = FALSE,
-  threshold = NULL, diagrams = FALSE)
+mopaTrain0(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars", "rf",
+  "cart.rpart", "cart.tree"), algorithm.args = NULL, weighting = FALSE,
+  threshold = NULL, diagrams = FALSE, tuneRF.args = NULL)
 }
 \arguments{
 \item{y}{RasterStack of variables for modelling}
@@ -16,16 +16,21 @@ in the first two columns and presence/absence (1=presence, 0=absence) in the thi
 
 \item{k}{Integer. Number of folds for cross validation. Default is 10}
 
-\item{algorithm}{Any character of the following: "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart"
+\item{algorithm}{Any character of the following: "glm", "svm", "maxent", "mars", "rf", "cart.rpart"
 or "cart.tree"}
 
-\item{weighting}{Logical for "glm", "mars" and "randomForest" fitting with weighted presence/absences-s. Default is FALSE.}
+\item{algorithm.args}{Further arguments to be passed to the selected algorithm for modeling (functions involved
+are described in details)}
+
+\item{weighting}{Logical for "glm", "mars" and "rf" fitting with weighted presence/absences-s. Default is FALSE.}
 
 \item{threshold}{Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).}
 
 \item{diagrams}{logical. Only applied if \code{x} contains data for different background extents
 (see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of
 AUC extent fitting be printed? default is FALSE.}
+
+\item{tuneRF.args}{list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"}
 }
 \value{
 A list of six components is returned for each species in \code{x}:
@@ -40,7 +45,7 @@ A list of six components is returned for each species in \code{x}:
 \description{
 Species distribution modeling and k-fold cross validation
 for a set of presence/absence data per species, also considering different background
-extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "randomForest", "cart.rpart"
+extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "rf", "cart.rpart"
 and "cart.tree"
 }
 \author{
