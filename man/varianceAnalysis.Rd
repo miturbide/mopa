@@ -4,7 +4,7 @@
 \alias{varianceAnalysis}
 \title{Variance analysis of RasterStack objects}
 \usage{
-varianceAnalysis(predictions, component1, component2)
+varianceAnalysis(predictions, component1, component2, stick = NULL)
 }
 \arguments{
 \item{predictions}{list of raster objects as returned by \code{\link[mopa]{mopaPredict}}}
@@ -14,6 +14,12 @@ the variance analysis.}
 
 \item{component2}{Character of the names in \code{predictions} that correspond to the second component in
 the variance analysis.}
+
+\item{stick}{Character of the component names corresponding to the components that are not being
+analyzed (component 3,..). One name for each component must be provided,
+e.g. if there is only one component left (i.e. component 3)
+stick must be a single character and if there are two (i.e. component 3 and 4) stick
+must be a character string of length 2.}
 }
 \value{
 A list of two RasterStack objects, the first containing the global mean and standard deviation and the

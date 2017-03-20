@@ -322,7 +322,13 @@ modelo <- function(kdata, data,
     all.weights <- rep(10, length(alltrn$V1))
     all.weights.rf <- nrow(alltrn)
   }
+  nm <- character()
   for(i in 1:length(kdata)) {
+    if(i < 10){
+      nm[i] <- paste0("0", i)
+    }else{
+      nm[i] <- as.character(i)
+    }
     length(mod) <- i
     length(pmod) <- i
     dftst <- na.omit(kdata[[i]]$test)
@@ -426,7 +432,7 @@ modelo <- function(kdata, data,
   mod.tss <- sensitivity(cmx(dat, threshold = threshold),st.dev = FALSE) + 
     specificity (cmx(dat, threshold = threshold),st.dev = FALSE) - 1
   rm(ori, p)
-  names(mod) <- paste0("fold", 1:length(kdata))
+  names(mod) <- paste0("fold", nm)
   return(list("model"=allmod, "auc" = mod.auc, "kappa"=mod.kappa, "tss"= mod.tss ,"fold.models" = mod, "ObsPred" = dat)) # behar dira ere modeloak
 }
 

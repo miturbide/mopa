@@ -48,31 +48,37 @@
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
 #' @export
-#' @importFrom grid depth
 
 mopaPredict <- function(models, varstack){
   if(class(varstack) != "list"){
     varstack <- list(varstack)
   }
-  suppressWarnings(
-    ml <- depth(models)-2 
-  )
-  if(ml < 3){
+  ml <- depth(models)-1
+  repk <- 4-ml
+  while(repk != 0){
+    repk <- repk - 1
     models <- list(models)
   }
   pred <- list()
   for(l in 1:length(models)){
     prd <- list()
     for(i in 1:length(models[[l]])){
-      prd.var <- list()
-      for(n in 1:length(varstack)){
-        prd.var[[n]] <- mopaPredict0(models[[l]][[i]], varstack = varstack[[n]])
-      }
+      prd0 <- list()
+      for(k in 1:length(models[[l]][[i]])){
+        prd.var <- list()
+        for(n in 1:length(varstack)){
+          prd.var[[n]] <- mopaPredict0(models[[l]][[i]][[k]], varstack = varstack[[n]])
+        }
       names(prd.var) <- names(varstack)
       if(length(prd.var)==1)  prd.var <- prd.var[[1]]
-      prd[[i]] <- prd.var
+      prd0[[k]] <- prd.var
+      }
+      names(prd0) <- names(models[[l]][[i]])
+      if(length(prd0)==1)  prd0 <- prd0[[1]]
+      prd[[i]] <- prd0
     }
     names(prd) <- names(models[[l]])
+    if(length(prd)==1)  prd <- prd[[1]]
     pred[[l]] <- prd
   }
   names(pred) <- names(models)
@@ -138,4 +144,24 @@ mopaPredict0 <- function(models, varstack){
   return(ras)
 }
 
+#end
+
+
+#' @title Level depth in a list
+#' @description Level depth in a list 
+#' 
+#' @param this list
+#'  
+#' @return number of nesting lists
+#' @author M. Iturbide 
+
+depth <- function(this){
+  that <- this
+  i <- 0
+  while(is.list(that)){
+    i <- i + 1
+    that <- that[[1]]
+  }
+  return(i+1)
+}
 #end

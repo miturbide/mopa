@@ -10,6 +10,11 @@
 #' the variance analysis.
 #' @param component2 Character of the names in \code{predictions} that correspond to the second component in 
 #' the variance analysis.
+#' @param stick Character of the component names corresponding to the components that are not being 
+#' analyzed (component 3,..). One name for each component must be provided, 
+#' e.g. if there is only one component left (i.e. component 3) 
+#' stick must be a single character and if there are two (i.e. component 3 and 4) stick 
+#' must be a character string of length 2. 
 #' 
 #' @details Rasters are extracted from \code{predictions} using function \code{\link[base]{grep}}, by matching
 #' names in \code{predictions} and characters in \code{componen1} and \code{componen2}. 
@@ -65,7 +70,8 @@
 #' @export
 #' @importFrom stats sd
 
-varianceAnalysis <- function(predictions, component1, component2){
+varianceAnalysis <- function(predictions, component1, component2, stick = NULL){
+  d <- depth(predictions)
   comp2 <- list()
   for(i in 1:length(component2)){
     comp2[[i]] <- extractFromPrediction(predictions, component2[i])
@@ -76,10 +82,28 @@ varianceAnalysis <- function(predictions, component1, component2){
   for(i in 1:length(component1)){
     comp1[[i]] <- extractFromPrediction(comp2, component1[i])
   }
+  
+  if(d > 2){
+    a <- d -3
+    i <- 0
+    if(is.null(stick) | length(stick) != a){
+      stop("Available components in prediction is more than 2 or 3, 
+           set argument stick to select the component member/s that is/are kept 
+           constant in the analysis")
+    }
+      while(a!= 0){
+        a <- a-1
+        i <- i+1
+        comp10 <- stack(unlist(comp1))
+        comp1 <- extractFromPrediction(comp10, stick[i])
+      }
+    }
+  
+  
   bothcomp <- stack(unlist(comp1))
   names(bothcomp)
-  if(length(component1)*length(component2)!= nlayers(bothcomp)) stop("speciefied components do not completely 
-                                                                     match with layer names in predictions")
+  if(length(component1)*length(component2)!= nlayers(bothcomp)) stop("speciefied component names do not completely 
+                                                                     match with names in predictions")
   datos <- array(NA, dim = c(length(component1)*length(component2), ncell(bothcomp)), dimnames = list(names(bothcomp)))
   for(i in 1:nlayers(bothcomp)){
     datos[i, ] <- bothcomp[[i]]@data@values
