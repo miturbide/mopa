@@ -233,3 +233,64 @@ pseudoAbsences <- function (xy, background, realizations = 1, exclusion.buffer =
 
 
 #end
+
+  
+  
+  #' @title Bind presences and absences  
+  #' @description Binds presence and absence data for each background extension 
+  #' 
+  #' @param presences Data frame or list of data frames with coordinates for presence data 
+  #' (each row is a point)
+  #' @param absences Object returned by function \code{\link[mopa]{pseudoAbsences}}. 
+  #' List/s of data frames with coordinates for absence data (each row is a point)
+  #' 
+  #' @return  List/s of matrixes with xy coordinates for presence/pseudo-absence data.
+  #' Each matrix correspond to a different background extent
+  #' 
+  #' 
+  #'
+  #' 
+  #' 
+  #' 
+  #' @author M. Iturbide \email{maibide@@gmail.com}
+
+  
+  
+  
+  bindPresAbs <- function (presences, absences){
+    presaus<-list()
+    
+    if (class(absences[[1]])=="matrix"){
+      absences <- list(absences)
+    } else {absences <- absences}
+    
+    if (class(presences)=="data.frame"){
+      presences <- list(presences)
+    } else {presences <- presences}
+    
+    
+    for (i in 1:length(presences)){
+      pres<-presences[[i]]
+      prau<-list()
+      pr<-cbind(pres, rep(1, nrow(pres)))
+      names(pr)<-c("x", "y", "v")
+      au<-absences[[i]]
+      for (j in 1:length(au)){
+        aj<-cbind(as.data.frame(au[[j]]), rep(0,nrow(au[[j]])))
+        names(aj)<-names(pr)
+        prau[[j]]<-rbind(pr, aj)
+      }
+      names(prau)<-names(au)
+      presaus[[i]]<-prau
+      rm(aj, pr, au, prau)
+    }
+    if (length(presaus) == 1){
+      presaus <-presaus[[1]]
+    }else{
+      names(presaus)<-names(presences)
+    }
+    return(presaus)
+  }
+  
+  #end
+  

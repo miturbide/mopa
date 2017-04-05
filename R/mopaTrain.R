@@ -442,6 +442,7 @@ modelo <- function(kdata, data,
 
 
 #' @title Cut value of the max TSS
+#' @description Cut value of the max TSS
 #' @param Obs Observed values
 #' @param Fit fitted values
 #'   
@@ -493,12 +494,13 @@ cutTSS <-  function(Obs, Fit){
 
 
 
-#' @title Internarl function for KappaRepet 
-#' @param Misc data
+#' @title Internarl function for cutTSS 
+#' @description  Internarl function for cutTSS
+#' @param data data
 
 
 TSS.Stat <-
-  function(Misc)
+  function(data)
   {
     if(dim(Misc)[1]==1){
       if(row.names(Misc)[1]=="FALSE") Misc<-rbind(Misc, c(0,0))
