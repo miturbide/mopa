@@ -29,6 +29,11 @@ NULL
 #' @references Petit, R. J. \emph{et al} 2002. Chloroplast DNA variation in european 
 #' white oaks: Phylogeography and patterns of diversity based on data from over 2600 populations. 
 #' Forest Ecology and Management 156 (1-3), 5-26.
+#' 
+#' Evolution of Trees and Forest Communities \cr 
+#' Ten years of the EVOLTREE network \cr
+#' Evoltree E-Lab - An information system for forest genetics \cr
+#' ISBN: 978-2-9519296-3-9
 NULL
 
 #' @title Quercus pubsencens distribution
