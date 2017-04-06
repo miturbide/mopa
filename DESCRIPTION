@@ -25,7 +25,8 @@ Imports:
     ranger,
     abind
 Suggests:
-    rJava (>= 0.5-0)
+    rJava (>= 0.5-0),
+    caret
 Author: Maialen Iturbide [aut, cre], Joaquin Bedia [ctb]
 Maintainer: Maialen Iturbide <maibide@gmail.com>
 Description: Species distribution modelling and implementations of different methods for pseudo-absence data generation 

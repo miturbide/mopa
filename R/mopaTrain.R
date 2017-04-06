@@ -13,8 +13,8 @@
 #' or "cart.tree" (see details)
 #' @param algorithm.args Further arguments to be passed to the selected algorithm for modeling (functions involved 
 #' are described in details)
-#' @param weighting Logical for "glm", "mars" and "rf" fitting with weighted presence/absences-s
-#' Default is FALSE.
+#' @param weighting Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars", 
+#' "rf", cart.tree and "cart.rpart". Default is FALSE.
 #' The processing time is considerably increased if weighting option is selected when applying 
 #' "mars" algorithm (see \code{\link[earth]{earth}}.
 #' @param threshold Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).
@@ -502,22 +502,22 @@ cutTSS <-  function(Obs, Fit){
 TSS.Stat <-
   function(data)
   {
-    if(dim(Misc)[1]==1){
-      if(row.names(Misc)[1]=="FALSE") Misc<-rbind(Misc, c(0,0))
+    if(dim(data)[1]==1){
+      if(row.names(data)[1]=="FALSE") data <- rbind(data, c(0,0))
       else {
-        a<-Misc
-        Misc<-c(0,0)
-        Misc<-rbind(Misc, a)
+        a<-data
+        data<-c(0,0)
+        data<-rbind(data, a)
         
       }
     }
-    n <- sum(Misc)
-    a <- Misc[1,1]
-    b <- Misc[1,2]
-    c <- Misc[2,1]
-    d <- Misc[2,2]
-    sens<-a/(a+c)
-    spec<-d/(b+d)
+    n <- sum(data)
+    a <- data[1,1]
+    b <- data[1,2]
+    c <- data[2,1]
+    d <- data[2,2]
+    sens <- a/(a+c)
+    spec <- d/(b+d)
     K <- (sens + spec) - 1        #TSS
     return(K)
   }
