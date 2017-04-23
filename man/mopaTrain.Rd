@@ -22,8 +22,8 @@ or "cart.tree" (see details)}
 \item{algorithm.args}{Further arguments to be passed to the selected algorithm for modeling (functions involved 
 are described in details)}
 
-\item{weighting}{Logical for "glm", "mars" and "rf" fitting with weighted presence/absences-s
-Default is FALSE.
+\item{weighting}{Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars", 
+"rf", cart.tree and "cart.rpart". Default is FALSE.
 The processing time is considerably increased if weighting option is selected when applying 
 "mars" algorithm (see \code{\link[earth]{earth}}.}
 

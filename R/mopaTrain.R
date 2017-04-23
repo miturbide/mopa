@@ -423,11 +423,7 @@ modelo <- function(kdata, data,
   p <- unlist(pmod)
   dat <- as.data.frame(cbind("id" = as.integer(c(1:length(ori))), "obs" = ori, "pred" = p))
   if(is.null(threshold)) threshold <- cutTSS(Obs = dat$obs, Fit = dat$pred)$CutOff 
-  p.auc <- p
-  p.auc[which(p>=threshold)] <- 1
-  p.auc[which(p.auc!=1)] <- 0
-  dat.auc <- as.data.frame(cbind(as.integer(c(1:length(ori))), ori, p.auc))
-  mod.auc <- auc(dat.auc, st.dev = FALSE)
+  mod.auc <- auc(dat, st.dev = FALSE)
   mod.kappa <- Kappa(cmx(dat, threshold = threshold), st.dev = FALSE)
   mod.tss <- sensitivity(cmx(dat, threshold = threshold),st.dev = FALSE) + 
     specificity (cmx(dat, threshold = threshold),st.dev = FALSE) - 1

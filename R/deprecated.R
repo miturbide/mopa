@@ -71,12 +71,12 @@
 allModeling <- function(data, 
                         varstack, 
                         k = 10, 
-                        algorithm = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"), 
+                        algorithm = c("glm", "svm", "maxent", "mars", , "rf", "randomForest", "cart.rpart", "cart.tree"), 
                         weighting = FALSE,
                         threshold = 0.5,
                         destdir =getwd(), 
                         projection = CRS("+proj=longlat +init=epsg:4326")){
-  algorithm <- match.arg(algorithm, choices = c("glm", "svm", "maxent", "mars", "randomForest", "cart.rpart", "cart.tree"))
+  algorithm <- match.arg(algorithm, choices = c("glm", "svm", "maxent", "mars", "rf","randomForest", "cart.rpart", "cart.tree"))
   biostack <- varstack
   if (class(data[[1]]) != "list"){
     data <- list(data)
