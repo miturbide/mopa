@@ -16,6 +16,8 @@ This is specified as a list, indicating the name
 of the aggregation function in first place (as character), and other optional arguments to be passed 
 to the aggregation function. Default to mean (i.e., clim.fun = list(FUN="mean",na.rm = TRUE)).}
 
+\item{varname}{Variable name of the grid}
+
 \item{crs}{Optional (Default NA). Character or object of class CRS. PROJ.4 type description of a Coordinate Reference System (map projection). 
 If this argument is missing, and the x coordinates are withing -360 .. 360 and the y coordinates are 
 within -90 .. 90, "+proj=longlat +datum=WGS84" is used. Also see under Details if x is a character (filename).}
@@ -25,7 +27,7 @@ A raster for grid objects and a RasterStack for multigrids.
 }
 \description{
 Transform a grid or multigrid to collections of raster files for modeling
-with the \code{\link[mopa]{mopa}} package.
+with the \code{mopa} package.
 }
 \examples{
 \dontrun{
@@ -39,7 +41,7 @@ spplot(tx_ras)
 }
 }
 \seealso{
-\code{\link{climatology}}; \code{\link{loadGridData}}
+\code{\link[transformeR]{climatology}}; \code{\link[loadeR]{loadGridData}}
 }
 \author{
 M. Iturbide

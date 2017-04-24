@@ -2,16 +2,18 @@
 % Please edit documentation in R/pseudoAbsences.R
 \name{pseudoAbsences0}
 \alias{pseudoAbsences0}
-\title{Pseudo-absences}
+\title{Pseudo-absences internal}
 \usage{
 pseudoAbsences0(xy, background, exclusion.buffer = 0.0166, prevalence = 0.5,
   kmeans = FALSE, varstack = NULL)
 }
 \arguments{
-\item{xy}{Data frame or list of data frames with coordinates (each row is a point)}
+\item{xy}{Data frame or list of data frames with coordinates (each row is a point), this is, 
+presence data}
 
 \item{background}{Matrix or list/s of matrixes with background coordinates in columns.
-Object derived from function delimit, OCSVMprofiling or bgRadio.}
+Object derived from function \code{\link[mopa]{backgroundGrid}}, \code{\link[mopa]{OCSVMprofiling}} 
+or \code{\link[mopa]{backgroundRadios}}.}
 
 \item{exclusion.buffer}{value of the minimum distance to be kept between presence data and 
 pseudo-absence data. Default is 0.0166}
@@ -22,26 +24,17 @@ presences and absences)}
 \item{kmeans}{Logical. If FALSE (default) pseudo-absences are generated at random. If TRUE
 k-means clustering of the background is done and centroids are extracted as pseudo-absences.}
 
-\item{varstack}{RasterStack of variables for modelling}
-}
-\value{
-List/s of data frames
+\item{varstack}{RasterStack of variables for to compute the k-means clustering. Used if \code{kmeans}
+= TRUE.}
 }
 \description{
-Pseudo-absence data generation at random or by k-means clustering inside backgrounds of 
-different extent
-}
-\details{
-Details.The application of this function is the third step in a three-step proccess 
-to generate pseudo-absences.
+Pseudo-absence data generation at random or by k-means clustering inside a single
+background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadios}})
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
-}
-\seealso{
-\code{\link[mopa]{mopaTrain}}
 }
 \author{
 M. Iturbide

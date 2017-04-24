@@ -2,7 +2,7 @@
 % Please edit documentation in R/mopaTrain.R
 \name{modelo}
 \alias{modelo}
-\title{Species distribution modelling and cross validation}
+\title{Species distribution modeling and cross validation}
 \usage{
 modelo(kdata, data, algorithm = c("glm", "svm", "maxent", "mars", "rf",
   "cart.rpart", "cart.tree"), algorithm.args = NULL, weighting = FALSE,
@@ -38,7 +38,7 @@ A list with six components:
  \item{ObsPred }{cross model prediction}
 }
 \description{
-Species distribution modelling with k-fold cross validation. 
+Species distribution modeling with k-fold cross validation. 
 Algorithms supported are "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
 and "cart.tree"
 }

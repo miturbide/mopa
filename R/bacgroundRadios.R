@@ -1,12 +1,14 @@
 #' @title Background extent restriction for a sequence of distances 
 #' @description Creation of point-grid backgrounds through the establishment of extent 
-#' limitations for a sequence of distances, with the length of the half diagonal of the 
-#' bounding box around xy records as the maximum distance
+#' limitations for a sequence of distances, from near presence locations to the length 
+#' of the half diagonal of the bounding that encloses the background (study area).
 #' 
-#' @param xy Data frame or list of data frames with coordinates (each row is a point)
+#' @param xy Data frame or list of data frames with coordinates (each row is a point) 
+#' ---typically species presence data--- to be considered as starting points from which different 
+#' backgroun extents are created.
 #' @param background Matrix or list of matrixes of background coordinates.
 #' Object derived from function \code{\link[mopa]{OCSVMprofiling}} ($absence). 
-#' Alternatively, object derived from function \code{\link[mopa]{delimit}} ($bbs.grid) 
+#' Alternatively, object derived from function \code{\link[mopa]{backgroundGrid}} ($xy) 
 #' if the environmental profiling step is going to be avoided in the pseudo-absence 
 #' generation proccess). 
 #' @param start Value for the minimum distance to consider for extent limitations. 
@@ -20,11 +22,13 @@
 #' background extent.
 #' 
 #' 
-#' @details Argument unit is only used to set extent distances in km. This function forms part of the 
-#' second step in a three-step proccess to generate pseudo-absences, and is aimed at 
+#' @details Argument unit is only used to set extent distances in km. This function is aimed at 
 #' creating backgrounds of different extent for pseudo-absence samplig based on an initial 
 #' point grid (derived from function \code{\link[mopa]{OCSVMprofiling}} or function 
-#' \code{\link[mopa]{backgroundGrid}}). 
+#' \code{\link[mopa]{backgroundGrid}}). If this function is used for a subsequent application of
+#' functions \code{\link[mopa]{pseudoAbsences}} and \code{\link[mopa]{mopaTrain}}, the last will perform species distribution
+#' modeling for each of the extents here established, and will return the fitted model that belongs to 
+#' the optimum background extent (see references). 
 #' 
 #' @seealso \code{\link[mopa]{mopaTrain}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}}, 
 #' \code{\link[mopa]{OCSVMprofiling}}

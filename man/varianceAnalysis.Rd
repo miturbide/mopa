@@ -7,12 +7,12 @@
 varianceAnalysis(predictions, component1, component2, stick = NULL)
 }
 \arguments{
-\item{predictions}{list of raster objects as returned by \code{\link[mopa]{mopaPredict}}}
+\item{predictions}{listed lists of raster objects as returned by \code{\link[mopa]{mopaPredict}}}
 
-\item{component1}{Character of the names in \code{predictions} that correspond to the first component in 
+\item{component1}{Character of the names in the list (e.g.\code{predictions}) that correspond to the first component in 
 the variance analysis.}
 
-\item{component2}{Character of the names in \code{predictions} that correspond to the second component in 
+\item{component2}{Character of the names in the list (e.g.\code{predictions}) that correspond to the second component in 
 the variance analysis.}
 
 \item{stick}{Character of the component names corresponding to the components that are not being 
@@ -27,14 +27,14 @@ second containing the percentage of variance correponding to each component in t
 (component1, component2 and components 1 and 2).
 }
 \description{
-Extract componets of list of objects 
+Extract componets of lists of objects 
 (as returned by function \code{\link[mopa]{mopaPredict}}) 
 and perform variance analysis to obtain raster objects of the 
 contribution of each component to the observed varaibility.
 }
 \details{
-Rasters are extracted from \code{predictions} using function \code{\link[base]{grep}}, by matching
-names in \code{predictions} and characters in \code{componen1} and \code{componen2}. 
+Rasters are extracted using function \code{\link[base]{grep}}, by matching
+names in the lists and characters in \code{componen1} and \code{componen2}. 
 The contribution of componen1 in front component2 to the spread (uncertainty) of the projected probabilities 
 in \code{predictions} is here assessed using a simple analysis of variance approach, where the total 
 variance (V) can be decomposed as the summation of the variance explained by component1 (Vcomp1), 
@@ -65,9 +65,9 @@ modsRS <- extractFromModel(models = fittingRS, value = "model")
 
 #MODEL PREDICTION AND ANALYSIS OF THE VARIABILITY IN PROJECTIONS
 prdRS.fut <- mopaPredict(models = modsRS, varstack = biostack$future)
-component2 <- names(prdRS.fut$realization01)
-component1 <- names(prdRS.fut)
-result <- varianceAnalaysis(prdRS.fut, component1, component2)
+component2 <- names(prdRS.fut)
+component1 <- names(prdRS.fut$realization01$H11)
+result <- varianceAnalysis(prdRS.fut, component1, component2, stick = "H11")
 spplot(result$variance, col.regions = rev(get_col_regions()))
 }
 

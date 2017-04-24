@@ -40,7 +40,7 @@
 #' prdTS <- mopaPredict(models = modsTS, varstack = biostack$baseline)
 #' spplot(stack(prdTS))
 #' prdTS.fut <- mopaPredict(models = modsTS, varstack = biostack$future)
-#' spplot(stack(prdTS.fut))
+#' spplot(stack(prdTS.fut$H11))
 #' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -91,8 +91,8 @@ mopaPredict <- function(models, varstack){
 #end
 
 
-#' @title Model prediction 
-#' @description Model projection into a RasterStack
+#' @title Internal function for model prediction 
+#' @description Internal function for model projection into a RasterStack
 #' 
 #' @param models model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}. 
 #' @param varstack RasterStack or list of RasterStacks of variables for projecting. If list, named lists are

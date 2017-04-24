@@ -2,17 +2,17 @@
 % Please edit documentation in R/OCSVMprofiling.R
 \name{OCSVMprofiling}
 \alias{OCSVMprofiling}
-\title{Environmental profiling with one-classification support vector machine}
+\title{Environmental profiling with One-Classification Support Vector Machine}
 \usage{
 OCSVMprofiling(xy, varstack, background = NULL, nu = 0.5)
 }
 \arguments{
 \item{xy}{Data frame or list of data frames with coordinates (each row is a point)}
 
-\item{varstack}{RasterStack of variables for modelling}
+\item{varstack}{RasterStack of variables for modeling}
 
 \item{background}{Object derived from function \code{\link[mopa]{backgroundGrid}}. If NULL (default),
-the background is extracted from varstack
+the background is extracted from varstack.
 Matrix or list of matrixes of the background xy coordinates in columns.}
 
 \item{nu}{parameter needed for one-classification \code{\link[e1071]{svm}}. 
@@ -26,14 +26,14 @@ as absence, each matrix correspond to a different background extent}
 each matrix correspond to a different background extent}
 }
 \description{
-Presence-only modelling and classification of coordinates predicted as 
+Presence-only modeling and classification of coordinates predicted as 
 presence and absence
 }
 \details{
 This function constitutes the 
 first step from a three-step proccess to generate pseudo-absences, and is aimed at 
-separating from background (see \code{\link[mopa]{delimit}}) those areas (xy records) 
-suitable for the species.
+excluding the suitable areas for the species (xy records) from the background 
+for pseudo-absences generation.
 }
 \examples{
 \dontrun{

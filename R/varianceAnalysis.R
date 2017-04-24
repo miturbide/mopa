@@ -1,14 +1,14 @@
 #' @title Variance analysis of RasterStack objects
-#' @description Extract componets of list of objects 
+#' @description Extract componets of lists of objects 
 #' (as returned by function \code{\link[mopa]{mopaPredict}}) 
 #' and perform variance analysis to obtain raster objects of the 
 #' contribution of each component to the observed varaibility.
 #' 
 #' 
-#' @param predictions list of raster objects as returned by \code{\link[mopa]{mopaPredict}}
-#' @param component1 Character of the names in \code{predictions} that correspond to the first component in 
+#' @param predictions listed lists of raster objects as returned by \code{\link[mopa]{mopaPredict}}
+#' @param component1 Character of the names in the list (e.g.\code{predictions}) that correspond to the first component in 
 #' the variance analysis.
-#' @param component2 Character of the names in \code{predictions} that correspond to the second component in 
+#' @param component2 Character of the names in the list (e.g.\code{predictions}) that correspond to the second component in 
 #' the variance analysis.
 #' @param stick Character of the component names corresponding to the components that are not being 
 #' analyzed (component 3,..). One name for each component must be provided, 
@@ -16,8 +16,8 @@
 #' stick must be a single character and if there are two (i.e. component 3 and 4) stick 
 #' must be a character string of length 2. 
 #' 
-#' @details Rasters are extracted from \code{predictions} using function \code{\link[base]{grep}}, by matching
-#' names in \code{predictions} and characters in \code{componen1} and \code{componen2}. 
+#' @details Rasters are extracted using function \code{\link[base]{grep}}, by matching
+#' names in the lists and characters in \code{componen1} and \code{componen2}. 
 #' The contribution of componen1 in front component2 to the spread (uncertainty) of the projected probabilities 
 #' in \code{predictions} is here assessed using a simple analysis of variance approach, where the total 
 #' variance (V) can be decomposed as the summation of the variance explained by component1 (Vcomp1), 
@@ -60,9 +60,9 @@
 #' 
 #' #MODEL PREDICTION AND ANALYSIS OF THE VARIABILITY IN PROJECTIONS
 #' prdRS.fut <- mopaPredict(models = modsRS, varstack = biostack$future)
-#' component2 <- names(prdRS.fut$realization01)
-#' component1 <- names(prdRS.fut)
-#' result <- varianceAnalaysis(prdRS.fut, component1, component2)
+#' component2 <- names(prdRS.fut)
+#' component1 <- names(prdRS.fut$realization01$H11)
+#' result <- varianceAnalysis(prdRS.fut, component1, component2, stick = "H11")
 #' spplot(result$variance, col.regions = rev(get_col_regions()))
 #' }
 #' 

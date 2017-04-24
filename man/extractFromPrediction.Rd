@@ -2,18 +2,17 @@
 % Please edit documentation in R/extractFromPrediction.R
 \name{extractFromPrediction}
 \alias{extractFromPrediction}
-\title{Extrac objects from lists returned by function modelPredict}
+\title{Extract values from objects or list of objects}
 \usage{
 extractFromPrediction(predictions, value)
 }
 \arguments{
-\item{predictions}{Object or list of objects returned by \code{\link[mopa]{mopaPredict}}, 
-i.e. list/s of rasters.}
+\item{predictions}{listed lists of objects (e.g. as returned by \code{\link[mopa]{mopaPredict}})}
 
-\item{value}{Character pointing to the name of component/s in predictions}
+\item{value}{Character pointing to the name of component/s in the list}
 }
 \description{
-Extract values from objects or list of objects 
+Extrac objects from lists returned by function \code{\link[mopa]{mopaPredict}}
 returned by function \code{\link[mopa]{mopaPredict}}
 }
 \examples{

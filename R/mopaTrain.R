@@ -4,10 +4,10 @@
 #' extents (optional). Algorithms supported are "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
 #' and "cart.tree" 
 #' 
-#' @param y Object returned by function \code{\link[mopa]{pseudoAbsences}} or list/s of data frames with coordinates
+#' @param y Object returned by function \code{\link[mopa]{pseudoAbsences}} or data frame or list/s of data 
+#' frames with coordinates
 #'  in the first two columns and presence/absence (1=presence, 0=absence) in the third column. 
-#' @param x RasterStack of variables for modelling
-#' 
+#' @param x RasterStack of variables for modeling
 #' @param k Integer. Number of folds for cross validation. Default is 10
 #' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
 #' or "cart.tree" (see details)
@@ -15,8 +15,8 @@
 #' are described in details)
 #' @param weighting Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars", 
 #' "rf", cart.tree and "cart.rpart". Default is FALSE.
-#' The processing time is considerably increased if weighting option is selected when applying 
-#' "mars" algorithm (see \code{\link[earth]{earth}}.
+#' The processing time is considerably increased if weighting option is selected when the  
+#' "mars" algorithm (see \code{\link[earth]{earth}} is applied.
 #' @param threshold Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).
 #' @param diagrams Logical. Only applied if \code{x} contains data for different background extents 
 #' (see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
@@ -36,13 +36,14 @@
 #'  }
 #' 
 #' @details This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package 
-#' \pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. If \code{threshold} is not specified the value
-#' that maximisez the TSS (true skill statistic) is used to calculate the accuracy.
+#' \pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. If \code{threshold} is 
+#' not specified the value
+#' that maximisez the TSS (true skill statistic) is used to calculate the confusion matrix.
 #' 
 #' 
 #' 
 #' If \code{y} contains data for different background extents (see \code{\link[mopa]{backgroundRadios}} and
-#' \code{\link[mopa]{pseudoAbsences}}), \code{mopaFitting} performs the species distribution modelling for 
+#' \code{\link[mopa]{pseudoAbsences}}), \code{\link[mopa]{mopaTrain}} performs the species distribution modeling for 
 #' each different background extent, and fits obtained AUCs (corresponding to different background extents) 
 #' to three non linear models (Michaelis-Menten, exponential2 and exponential3). 
 #' The model that scores the lowest error is automatically selected to extract the Vm coefficient (equation 1 in 
@@ -250,8 +251,8 @@ mopaTrain0 <- function(y,
 
 
 
-#' @title Species distribution modelling and cross validation
-#' @description Species distribution modelling with k-fold cross validation. 
+#' @title Species distribution modeling and cross validation
+#' @description Species distribution modeling with k-fold cross validation. 
 #' Algorithms supported are "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
 #' and "cart.tree" 
 #' @param kdata Object returned by function leaveOneOut

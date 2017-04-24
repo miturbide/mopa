@@ -25,7 +25,7 @@ A raster for grid objects and a RasterStack for multigrids.
 }
 \description{
 Transform a grid or multigrid to collections of raster files for modeling
-with the \code{\link[mopa]{mopa}} package.
+with the \code{mopa} package.
 }
 \examples{
 \dontrun{

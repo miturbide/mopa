@@ -19,7 +19,7 @@
 
 #' @title Transform a grid or multigrid to a set of predictors to be used for modeling
 #' @description Transform a grid or multigrid to collections of raster files for modeling
-#' with the \code{\link[mopa]{mopa}} package.
+#' with the \code{mopa} package.
 #' @param grid Input grid or multigrid without member or runtime dimensions. Grids returned by function 
 #' \code{\link[transformeR]{climatology}} are also supported.
 #' @param clim.fun Function to compute the climatology (i.e. function for temporal aggregation). 
@@ -68,13 +68,14 @@ grid2mopa <- function(grid, clim.fun = list(FUN = "mean", na.rm = TRUE), crs = N
 
 #' @title Transform a grid or multigrid to a set of predictors to be used for modeling
 #' @description Transform a grid or multigrid to collections of raster files for modeling
-#' with the \code{\link[mopa]{mopa}} package.
+#' with the \code{mopa} package.
 #' @param grid Input grid or multigrid without member or runtime dimensions. Grid returned by function 
 #' \code{\link[transformeR]{climatology}} are also supported.
 #' @param clim.fun Function to compute the climatology (i.e. function for temporal aggregation). 
 #' This is specified as a list, indicating the name 
 #' of the aggregation function in first place (as character), and other optional arguments to be passed 
 #' to the aggregation function. Default to mean (i.e., clim.fun = list(FUN="mean",na.rm = TRUE)).
+#' @param varname Variable name of the grid
 #' @param crs Optional (Default NA). Character or object of class CRS. PROJ.4 type description of a Coordinate Reference System (map projection). 
 #' If this argument is missing, and the x coordinates are withing -360 .. 360 and the y coordinates are 
 #' within -90 .. 90, "+proj=longlat +datum=WGS84" is used. Also see under Details if x is a character (filename).
@@ -82,7 +83,7 @@ grid2mopa <- function(grid, clim.fun = list(FUN = "mean", na.rm = TRUE), crs = N
 #' @importFrom raster raster flip stack
 #' @import transformeR
 #' @author M. Iturbide
-#' @seealso \code{\link{climatology}}; \code{\link{loadGridData}}
+#' @seealso \code{\link[transformeR]{climatology}}; \code{\link[loadeR]{loadGridData}}
 #' @export
 #' @examples \dontrun{
 #' #' # Maximum July surface temp forecast climatology

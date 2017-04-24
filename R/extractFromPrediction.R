@@ -1,10 +1,9 @@
-#' @title Extrac objects from lists returned by function modelPredict
-#' @description Extract values from objects or list of objects 
+#' @title Extract values from objects or list of objects
+#' @description  Extrac objects from lists returned by function \code{\link[mopa]{mopaPredict}}
 #' returned by function \code{\link[mopa]{mopaPredict}}
 #' 
-#' @param predictions Object or list of objects returned by \code{\link[mopa]{mopaPredict}}, 
-#' i.e. list/s of rasters.
-#' @param value Character pointing to the name of component/s in predictions
+#' @param predictions listed lists of objects (e.g. as returned by \code{\link[mopa]{mopaPredict}})
+#' @param value Character pointing to the name of component/s in the list
 #' 
 
 #' 

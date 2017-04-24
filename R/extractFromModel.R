@@ -1,5 +1,5 @@
-#' @title Extrac objects from lists returned by function modelFitting
-#' @description Extract values returned by function modelFitting 
+#' @title Extrac objects from lists returned by function \code{\link[mopa]{mopaTrain}}
+#' @description Extract values returned by function \code{\link[mopa]{mopaTrain}}
 #' 
 #' @param models Object returned by \code{\link[mopa]{mopaTrain}}.
 #' @param value Any character of the following: "model", "auc", "kappa", "tss", "fold.models", "ObsPred"
@@ -46,7 +46,7 @@
 #' k = 10, algorithm = "glm", weighting = TRUE)
 #' 
 #' modsTS <- extractFromModel(models = fittingTS, value = "model")
-#' modsTS <- extractFromModel(models = fittingTS, value = "ObsPred")
+#' ObsPredTS <- extractFromModel(models = fittingTS, value = "ObsPred")
 #' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -68,8 +68,8 @@ extractFromModel <- function(models, value = c("model", "auc", "kappa", "tss", "
 #end
 
 
-#' @title Extrac objects from lists returned by function modelFitting
-#' @description Extract values returned by function modelFitting 
+#' @title Internal function to extrac objects from lists returned by function \code{\link[mopa]{mopaTrain}}
+#' @description Internal function to extract values returned by function \code{\link[mopa]{mopaTrain}}
 #' 
 #' @param models Object returned by \code{\link[mopa]{mopaTrain}}.
 #' @param value Any character of the following: "model", "auc", "kappa", "tss", "fold.models", "ObsPred"

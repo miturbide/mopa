@@ -2,7 +2,7 @@
 % Please edit documentation in R/mopaPredict.R
 \name{mopaPredict0}
 \alias{mopaPredict0}
-\title{Model prediction}
+\title{Internal function for model prediction}
 \usage{
 mopaPredict0(models, varstack)
 }
@@ -16,7 +16,7 @@ recommended}
 RasterStack of the projected probabilities
 }
 \description{
-Model projection into a RasterStack
+Internal function for model projection into a RasterStack
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 

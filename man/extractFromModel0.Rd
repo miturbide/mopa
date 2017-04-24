@@ -2,7 +2,7 @@
 % Please edit documentation in R/extractFromModel.R
 \name{extractFromModel0}
 \alias{extractFromModel0}
-\title{Extrac objects from lists returned by function modelFitting}
+\title{Internal function to extrac objects from lists returned by function \code{\link[mopa]{mopaTrain}}}
 \usage{
 extractFromModel0(models, value = c("model", "auc", "kappa", "tss",
   "fold.models", "ObsPred"))
@@ -22,7 +22,7 @@ Depending on the specified value:
  \item{ObsPred }{Observed and prediced (cross model prediction) values}
 }
 \description{
-Extract values returned by function modelFitting
+Internal function to extract values returned by function \code{\link[mopa]{mopaTrain}}
 }
 \details{
 \code{ObsPred} allows to calculate further accuracy measures.

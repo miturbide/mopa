@@ -1,11 +1,12 @@
 
 #' @title Pseudo-absences 
-#' @description Pseudo-absence data generation at random or by k-means clustering inside backgrounds of 
-#' different extent
-#' 
-#' @param xy Data frame or list of data frames with coordinates (each row is a point)
+#' @description Pseudo-absence data generation at random or by k-means clustering inside a single
+#' background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadios}})
+#' @param xy Data frame or list of data frames with coordinates (each row is a point), this is, 
+#' presence data
 #' @param background Matrix or list/s of matrixes with background coordinates in columns.
-#' Object derived from function delimit, OCSVMprofiling or bgRadio. 
+#' Object derived from function \code{\link[mopa]{backgroundGrid}}, \code{\link[mopa]{OCSVMprofiling}} 
+#' or \code{\link[mopa]{backgroundRadios}}. 
 #' @param realizations Integer. Number of realizations (default = 1).
 #' @param exclusion.buffer value of the minimum distance to be kept between presence data and 
 #' pseudo-absence data. Default is 0.0166
@@ -13,14 +14,16 @@
 #' presences and absences)
 #' @param kmeans Logical. If FALSE (default) pseudo-absences are generated at random. If TRUE
 #' k-means clustering of the background is done and centroids are extracted as pseudo-absences.
-#' @param varstack RasterStack of variables for modelling
+#' @param varstack RasterStack of variables for to compute the k-means clustering. Used if \code{kmeans}
+#' = TRUE.
 #' 
 #' 
-#' @return  List/s of data frames 
+#' @return  data frame or list/s of data frames 
 #' 
 #' 
-#' @details Details.The application of this function is the third step in a three-step proccess 
-#' to generate pseudo-absences. 
+#' @details Details. The application of this function could be preceded by the application
+#' of functions \code{\link[mopa]{OCSVMprofiling}} and/or \code{\link[mopa]{backgroundRadios}}
+#' in order to consider alternative methods for pseudo-absence data generation (see references).
 #' 
 #' @seealso \code{\link[mopa]{mopaTrain}}
 #' 
@@ -99,29 +102,22 @@ pseudoAbsences <- function (xy, background, realizations = 1, exclusion.buffer =
 
   
   
-#' @title Pseudo-absences 
-#' @description Pseudo-absence data generation at random or by k-means clustering inside backgrounds of 
-#' different extent
-#' 
-#' @param xy Data frame or list of data frames with coordinates (each row is a point)
+#' @title Pseudo-absences internal
+#' @description Pseudo-absence data generation at random or by k-means clustering inside a single
+#' background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadios}})
+#' @param xy Data frame or list of data frames with coordinates (each row is a point), this is, 
+#' presence data
 #' @param background Matrix or list/s of matrixes with background coordinates in columns.
-#' Object derived from function delimit, OCSVMprofiling or bgRadio. 
+#' Object derived from function \code{\link[mopa]{backgroundGrid}}, \code{\link[mopa]{OCSVMprofiling}} 
+#' or \code{\link[mopa]{backgroundRadios}}. 
 #' @param exclusion.buffer value of the minimum distance to be kept between presence data and 
 #' pseudo-absence data. Default is 0.0166
 #' @param prevalence Proportion of presences against absences. Default is 0.5 (equal number of 
 #' presences and absences)
 #' @param kmeans Logical. If FALSE (default) pseudo-absences are generated at random. If TRUE
 #' k-means clustering of the background is done and centroids are extracted as pseudo-absences.
-#' @param varstack RasterStack of variables for modelling
-#' 
-#' 
-#' @return  List/s of data frames 
-#' 
-#' 
-#' @details Details.The application of this function is the third step in a three-step proccess 
-#' to generate pseudo-absences. 
-#' 
-#' @seealso \code{\link[mopa]{mopaTrain}}
+#' @param varstack RasterStack of variables for to compute the k-means clustering. Used if \code{kmeans}
+#' = TRUE.
 #' 
 #' 
 #' @author M. Iturbide 

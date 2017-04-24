@@ -1,12 +1,12 @@
 
-#' @title Environmental profiling with one-classification support vector machine
-#' @description Presence-only modelling and classification of coordinates predicted as 
+#' @title Environmental profiling with One-Classification Support Vector Machine
+#' @description Presence-only modeling and classification of coordinates predicted as 
 #' presence and absence
 #' 
 #' @param xy Data frame or list of data frames with coordinates (each row is a point)
-#' @param varstack RasterStack of variables for modelling
+#' @param varstack RasterStack of variables for modeling
 #' @param background Object derived from function \code{\link[mopa]{backgroundGrid}}. If NULL (default),
-#' the background is extracted from varstack
+#' the background is extracted from varstack.
 #' Matrix or list of matrixes of the background xy coordinates in columns. 
 #' @param nu parameter needed for one-classification \code{\link[e1071]{svm}}. 
 #' Default is 0.5
@@ -21,8 +21,8 @@
 #' 
 #' @details This function constitutes the 
 #' first step from a three-step proccess to generate pseudo-absences, and is aimed at 
-#' separating from background (see \code{\link[mopa]{delimit}}) those areas (xy records) 
-#' suitable for the species. 
+#' excluding the suitable areas for the species (xy records) from the background 
+#' for pseudo-absences generation. 
 #' 
 #' 
 #' 

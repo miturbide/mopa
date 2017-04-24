@@ -8,11 +8,13 @@ backgroundRadios(xy, background, start = 0.166, by = 0.083,
   unit = c("decimal degrees", "utm"))
 }
 \arguments{
-\item{xy}{Data frame or list of data frames with coordinates (each row is a point)}
+\item{xy}{Data frame or list of data frames with coordinates (each row is a point) 
+---typically species presence data--- to be considered as starting points from which different 
+backgroun extents are created.}
 
 \item{background}{Matrix or list of matrixes of background coordinates.
 Object derived from function \code{\link[mopa]{OCSVMprofiling}} ($absence). 
-Alternatively, object derived from function \code{\link[mopa]{delimit}} ($bbs.grid) 
+Alternatively, object derived from function \code{\link[mopa]{backgroundGrid}} ($xy) 
 if the environmental profiling step is going to be avoided in the pseudo-absence 
 generation proccess).}
 
@@ -31,15 +33,17 @@ background extent.
 }
 \description{
 Creation of point-grid backgrounds through the establishment of extent 
-limitations for a sequence of distances, with the length of the half diagonal of the 
-bounding box around xy records as the maximum distance
+limitations for a sequence of distances, from near presence locations to the length 
+of the half diagonal of the bounding that encloses the background (study area).
 }
 \details{
-Argument unit is only used to set extent distances in km. This function forms part of the 
-second step in a three-step proccess to generate pseudo-absences, and is aimed at 
+Argument unit is only used to set extent distances in km. This function is aimed at 
 creating backgrounds of different extent for pseudo-absence samplig based on an initial 
 point grid (derived from function \code{\link[mopa]{OCSVMprofiling}} or function 
-\code{\link[mopa]{backgroundGrid}}).
+\code{\link[mopa]{backgroundGrid}}). If this function is used for a subsequent application of
+functions \code{\link[mopa]{pseudoAbsences}} and \code{\link[mopa]{mopaTrain}}, the last will perform species distribution
+modeling for each of the extents here established, and will return the fitted model that belongs to 
+the optimum background extent (see references).
 }
 \examples{
 \dontrun{

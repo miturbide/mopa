@@ -47,7 +47,7 @@ modsTS <- extractFromModel(models = fittingTS, value = "model")
 prdTS <- mopaPredict(models = modsTS, varstack = biostack$baseline)
 spplot(stack(prdTS))
 prdTS.fut <- mopaPredict(models = modsTS, varstack = biostack$future)
-spplot(stack(prdTS.fut))
+spplot(stack(prdTS.fut$H11))
 }
 
 }

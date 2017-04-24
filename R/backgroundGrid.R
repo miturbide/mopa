@@ -27,6 +27,10 @@
 #' bg.subdomain <- backgroundGrid(r, extent(c(-10, 30, 35, 65)))
 #' # Background of the whole study area
 #' bg <- backgroundGrid(r)
+#' # plot(bg$xy)
+#' # plot(bg.subdomain$xy)
+#' # plot(bg.species$xy$H11)
+#' # plot(bg.species$xy$H01)
 #' }
 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 

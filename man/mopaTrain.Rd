@@ -9,10 +9,11 @@ mopaTrain(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars", "rf",
   threshold = NULL, diagrams = FALSE, tuneRF.args = NULL)
 }
 \arguments{
-\item{y}{Object returned by function \code{\link[mopa]{pseudoAbsences}} or list/s of data frames with coordinates
-in the first two columns and presence/absence (1=presence, 0=absence) in the third column.}
+\item{y}{Object returned by function \code{\link[mopa]{pseudoAbsences}} or data frame or list/s of data 
+frames with coordinates
+ in the first two columns and presence/absence (1=presence, 0=absence) in the third column.}
 
-\item{x}{RasterStack of variables for modelling}
+\item{x}{RasterStack of variables for modeling}
 
 \item{k}{Integer. Number of folds for cross validation. Default is 10}
 
@@ -24,8 +25,8 @@ are described in details)}
 
 \item{weighting}{Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars", 
 "rf", cart.tree and "cart.rpart". Default is FALSE.
-The processing time is considerably increased if weighting option is selected when applying 
-"mars" algorithm (see \code{\link[earth]{earth}}.}
+The processing time is considerably increased if weighting option is selected when the  
+"mars" algorithm (see \code{\link[earth]{earth}} is applied.}
 
 \item{threshold}{Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).}
 
@@ -54,13 +55,14 @@ and "cart.tree"
 }
 \details{
 This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package 
-\pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. If \code{threshold} is not specified the value
-that maximisez the TSS (true skill statistic) is used to calculate the accuracy.
+\pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. If \code{threshold} is 
+not specified the value
+that maximisez the TSS (true skill statistic) is used to calculate the confusion matrix.
 
 
 
 If \code{y} contains data for different background extents (see \code{\link[mopa]{backgroundRadios}} and
-\code{\link[mopa]{pseudoAbsences}}), \code{mopaFitting} performs the species distribution modelling for 
+\code{\link[mopa]{pseudoAbsences}}), \code{\link[mopa]{mopaTrain}} performs the species distribution modeling for 
 each different background extent, and fits obtained AUCs (corresponding to different background extents) 
 to three non linear models (Michaelis-Menten, exponential2 and exponential3). 
 The model that scores the lowest error is automatically selected to extract the Vm coefficient (equation 1 in 
