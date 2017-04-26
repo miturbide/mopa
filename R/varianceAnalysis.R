@@ -6,15 +6,17 @@
 #' 
 #' 
 #' @param predictions listed lists of raster objects as returned by \code{\link[mopa]{mopaPredict}}
-#' @param component1 Character of the names in the list (e.g.\code{predictions}) that correspond to the first component in 
+#' @param component1 Character. Options are "SP", "PA", "SDM", "baseClim" and "newClim" (see Details). If exist, "foldModel" is 
+#' another option. Selected option corresponds to the first component in 
 #' the variance analysis.
-#' @param component2 Character of the names in the list (e.g.\code{predictions}) that correspond to the second component in 
+#' @param component2 Character. Options are "SP", "PA", "SDM", "baseClim" and "newClim" (see Details). If exist, "foldModel" is 
+#' another option. Selected option corresponds to the second component in 
 #' the variance analysis.
-#' @param stick Character of the component names corresponding to the components that are not being 
-#' analyzed (component 3,..). One name for each component must be provided, 
-#' e.g. if there is only one component left (i.e. component 3) 
-#' stick must be a single character and if there are two (i.e. component 3 and 4) stick 
-#' must be a character string of length 2. 
+#' @param stick Optional. Character of the component names corresponding to the components that are not being 
+#' analyzed (component3, component4...). One name for each component is provided, componets that only have one choice 
+#' (e.g. a single species, a single baseline climate, etc.) are automatically
+#' passed to parameter stick inside the function. If \code{stick = NULL} the first element of each component is selected.
+#' If stick is specified, the selected a name must be provided for each of the components that have multi-choices.
 #' 
 #' @details Rasters are extracted using function \code{\link[base]{grep}}, by matching
 #' names in the lists and characters in \code{componen1} and \code{componen2}. 
@@ -24,6 +26,18 @@
 #' component2 (Vcomp2) and the combination of the previous two (Vcomp12):
 #' 
 #' \eqn{V = Vcomp1 + Vcomp2 + Vcomp2}.
+#' 
+#' Description of the components:
+#' \itemize{
+#' \item{SP:} presence data sets 
+#' \item{PA:} pseudo-absence realizations 
+#' \item{SDM:} modeling algorithms 
+#' \item{baseClim:} bseline climate, i.e. sets of vaiables used for model calibration in function
+#'  \code{\link[mopa]{mopaTrain}}, 
+#' \item{newClim:} new climate, i.e. sets of vaiables used to project models (e.g. future climate projections) in
+#' function \code{\link[mopa]{mopaPredict}} .
+#' }
+#' 
 #' 
 #' @return A list of two RasterStack objects, the first containing the global mean and standard deviation and the 
 #' second containing the percentage of variance correponding to each component in the analysis 
@@ -71,7 +85,28 @@
 #' @importFrom stats sd
 
 varianceAnalysis <- function(predictions, component1, component2, stick = NULL){
-  d <- depth(predictions)
+  namescomps <-  c(component1, component2, paste(component1, "and", component2))
+  d <- depth(predictions) -1
+  choices <- c("SP", "PA", "SDM", "baseClim", "newClim", "foldModel")[1:d]
+  component1 <- match.arg(component1, choices = choices)
+  component2 <- match.arg(component2, choices = choices)
+  if(component1 == component2) stop("component1 and 2 are equal, please select another component")
+  wl1 <- which(choices == component1)
+  wl2 <- which(choices == component2)
+  dl <- depthLength(predictions)
+  dl1 <- dl[wl1]
+  dl2 <- dl[wl2]
+  if(dl1 == 1) stop("there is only one choice for ", component1, " please chose another component")
+  if(dl2 == 1) stop("there is only one choice for ", component2, " please chose another component")
+  if(is.null(stick)){
+    stick <- depthnames1(predictions)[-c(wl1, wl2)]
+  }else{
+    stick0 <- depthnames1(predictions)[which(dl ==1)]
+    stick <- unique(c(stick, stick0))
+  }
+  component1 <- depthnames(predictions, wl1)
+  component2 <- depthnames(predictions, wl2)
+  
   comp2 <- list()
   for(i in 1:length(component2)){
     comp2[[i]] <- extractFromPrediction(predictions, component2[i])
@@ -83,27 +118,26 @@ varianceAnalysis <- function(predictions, component1, component2, stick = NULL){
     comp1[[i]] <- extractFromPrediction(comp2, component1[i])
   }
   
-  if(d > 2){
-    a <- d -3
+    a <- length(stick) 
     i <- 0
-    if(is.null(stick) | length(stick) != a){
-      stop("Available components in prediction is more than 2 or 3, 
-           set argument stick to select the component member/s that is/are kept 
+    if(d - a != 2){
+      stop("There are components in prediction with multiple choices, please 
+           set argument stick correctly to select the component member/s that is/are kept 
            constant in the analysis")
     }
-      while(a!= 0){
-        a <- a-1
-        i <- i+1
-        comp10 <- stack(unlist(comp1))
-        comp1 <- extractFromPrediction(comp10, stick[i])
-      }
+    while(a!= 0){
+      a <- a-1
+      i <- i+1
+      comp10 <- stack(unlist(comp1))
+      comp1 <- extractFromPrediction(comp10, stick[i])
     }
+    
   
   
   bothcomp <- stack(unlist(comp1))
   names(bothcomp)
-  if(length(component1)*length(component2)!= nlayers(bothcomp)) stop("speciefied component names do not completely 
-                                                                     match with names in predictions")
+   if(length(component1)*length(component2)!= nlayers(bothcomp)) stop("speciefied component names do not completely 
+                                                                      match with names in predictions")
   datos <- array(NA, dim = c(length(component1)*length(component2), ncell(bothcomp)), dimnames = list(names(bothcomp)))
   for(i in 1:nlayers(bothcomp)){
     datos[i, ] <- bothcomp[[i]]@data@values
@@ -159,12 +193,49 @@ varianceAnalysis <- function(predictions, component1, component2, stick = NULL){
   l2 <- stack(bothcomp[[1]], bothcomp[[2]], bothcomp[[3]])
   
   names(l1) <- c("mean", "sd")
-  onename <- deparse(substitute(component1))
-  twoname <- deparse(substitute(component2))
-  names(l2) <- c(onename, twoname, paste(onename, "and", twoname))
+  names(l2) <- namescomps
   
   return(list("mean" = l1, "variance" = l2))
 }
 
 
 #end
+
+
+depthLength <- function(this){
+  that <- this
+  i <- 0
+  len <- numeric()
+  while(is.list(that)){
+    i <- i + 1
+    len[i] <- length(that)
+    that <- that[[1]]
+  }
+  return(len)
+}
+
+
+depthnames1 <- function(this){
+  that <- this
+  i <- 0
+  len <- character()
+  while(is.list(that)){
+    i <- i + 1
+    len[i] <- names(that)[1]
+    that <- that[[1]]
+  }
+  return(len)
+}
+
+depthnames <- function(this, ind){
+  that <- this
+  i <- 0
+  while(is.list(that)){
+    i <- i + 1
+    if(i == ind){
+      len <- names(that)
+    }
+    that <- that[[1]]
+  }
+  return(len)
+}

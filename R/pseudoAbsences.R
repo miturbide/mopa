@@ -81,27 +81,45 @@
 
 pseudoAbsences <- function (xy, background, realizations = 1, exclusion.buffer = 0.0166, prevalence = 0.5, 
                             kmeans = FALSE, varstack = NULL){
-  pa <- list()
-  nm <- character()
+  
+  if (any(c("data.frame", "matrix") == class(xy))) xy <- list(xy)
+  if (any(c("data.frame", "matrix") == class(background))){
+    background <- rep(list(background), length(xy))
+    if(length(xy) > 1) message("The same background will be used for all presence datasets in xy")
+  } 
+  if(length(xy) != length(background)) stop("xy and background do not have the same length")
+  if(any(c("matrix", "data.frame") == class(background[[1]]))){
+    background <- lapply(seq(length(background)), function(x){list(background[[x]])})
+  }
+  spa <- list()
+  for(j in 1:length(xy)){
+    pa <- list()
+    nm <- character()
+    message("[", Sys.time(), "] Generating pseudo-absences for species ", j)
+    xy1 <- xy[[j]]
+    background1 <- background[[j]]
     for(i in 1:realizations){
-      message("[", Sys.time(), "] Realization ", i)
-      pa[[i]] <- pseudoAbsences0(xy, background, exclusion.buffer = exclusion.buffer, prevalence = prevalence,
-      kmeans =  kmeans, varstack = varstack)
+      message(":::[", Sys.time(), "] Realization ", i)
+      pa[[i]] <- pseudoAbsences0(xy1, background1, exclusion.buffer = exclusion.buffer, prevalence = prevalence,
+                                 kmeans =  kmeans, varstack = varstack)
       if(i < 10){
         nm[i] <- paste0("0", i)
       }else{
         nm[i] <- as.character(i)
       }
     }
-  
-    names(pa) <- paste0("realization", nm)
-    return(pa) 
+    names(pa) <- paste0("PA", nm)
+    spa[[j]] <- pa
+  }
+  if(is.null(names(xy))) names(xy) <- paste0("species", 1:length(xy))
+  names(spa) <- names(xy)
+  return(spa) 
 }
 
 #end
 
-  
-  
+
+
 #' @title Pseudo-absences internal
 #' @description Pseudo-absence data generation at random or by k-means clustering inside a single
 #' background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadios}})
@@ -132,161 +150,121 @@ pseudoAbsences <- function (xy, background, realizations = 1, exclusion.buffer =
 #' @importFrom spatstat disc
 #' @importFrom stats kmeans na.omit
 #' 
- 
- 
-  
-  pseudoAbsences0 <- function(xy, background, exclusion.buffer = 0.0166, prevalence = 0.5, 
-                              kmeans = FALSE, varstack = NULL){
-    polybuffs <- list()
-    r <- exclusion.buffer
-    prev <- (1 - prevalence) * 2
-    if (any(c("data.frame", "matrix") == class(xy))) xy <- list(xy)
-    if (any(c("data.frame", "matrix") == class(background))){
-      background <- rep(list(background), length(xy))
-      if(length(xy) > 1) message("The same background will be used for all presence datasets in xy")
-    } 
-    if(length(xy) != length(background)) stop("xy and background do not have the same length")
-    if(any(c("matrix", "data.frame") == class(background[[1]]))){
-      background <- lapply(seq(length(background)), function(x){list(background[[x]])})
-    } 
-    for (j in 1:length(xy)) {
-      pres.1km <- xy[[j]]
-      polys <- list()
-      for (i in 1:nrow(pres.1km)) {
-        discbuff <- disc(radius = r, centre = c(pres.1km[i, 
-                                                         1], pres.1km[i, 2]))
-        discpoly <- Polygon(rbind(cbind(discbuff$bdry[[1]]$x, 
-                                        y = discbuff$bdry[[1]]$y), c(discbuff$bdry[[1]]$x[1], 
-                                                                     y = discbuff$bdry[[1]]$y[1])))
-        polys <- c(polys, discpoly)
-      }
-      spolys <- list()
-      for (i in 1:length(polys)) {
-        spolybuff <- Polygons(list(polys[[i]]), ID = i)
-        spolys <- c(spolys, spolybuff)
-        spol <- SpatialPolygons(spolys)
-        # proj4string(spol) <- projection
-      }
-      polybuffs[[j]] <- spol
-    }
-    aa <- list()
-    for (j in 1:length(background)) {
-      message(":: generating pseudo-absences for species ", 
-              j, " out of ", length(background))
-      aus <- list()
-      coords.l <- background[[j]]
-      polpol <- polybuffs[[j]]
-      pr <- xy[[j]]
-      for (i in 1:length(coords.l)) {
-        #       print(paste("b =", i, "out of", as.character(length(coords.l))))
-        coords <- coords.l[[i]]
-        sp.coords <- SpatialPoints(coords)
-        # proj4string(sp.coords) <- projection
-        a <- over(sp.coords, polpol)
-        abs.bg <- coords[which(is.na(a)), 1:2]
-        
-        if (kmeans == TRUE) {
-          abs.aus <- cbind(abs.bg, rep(0, nrow(abs.bg)))
-          if(length(abs.aus) != 0){
-            abs.bio<-biomat(data = abs.aus, varstack)#, projection)
-            aus[[i]] <- kmeans(cbind(abs.bg, abs.bio[,-1]), centers = prev * nrow(pr))$centers[,1:2]
-          }else{
-            aus[[i]] <- NULL
-          }
-        }else {
-          
-          aus[[i]] <- tryCatch({abs.bg[sample(1:nrow(abs.bg), size = prev * 
-                                                nrow(pr)), ]}, error = function(err){aus[[i]] <- NULL})
-          
-        }
-      }
-      
-      
-      
-      names(aus) <- names(coords.l)
-      ind <- rep(NA,length(aus))
-      for(n in 1:length(aus)){
-        if(is.null(aus[[n]])){
-          message("Background ", names(coords.l)[n], " is too small for sampling and will be ignored")
-          ind[n] <- n
-        }
-      }
-      as <- unname(na.omit(ind))
-      if(length(as)!=0){
-        aa[[j]] <- aus[-as]
-      }else{
-        aa[[j]] <- aus
-      }
-    }
-    if (length(aa) == 1) {
-      aa <- aa[[1]]
-    } else {
-      names(aa) <- names(xy)
-    }
-    ab <- bindPresAbs(xy, aa)
-    return(ab)
+
+
+
+pseudoAbsences0 <- function(xy, background, exclusion.buffer = 0.0166, prevalence = 0.5, 
+                            kmeans = FALSE, varstack = NULL){
+  polybuffs <- list()
+  r <- exclusion.buffer
+  prev <- (1 - prevalence) * 2
+  pr <- xy
+  polys <- list()
+  for (i in 1:nrow(pr)) {
+    discbuff <- disc(radius = r, centre = c(pr[i, 
+                                                     1], pr[i, 2]))
+    discpoly <- Polygon(rbind(cbind(discbuff$bdry[[1]]$x, 
+                                    y = discbuff$bdry[[1]]$y), c(discbuff$bdry[[1]]$x[1], 
+                                                                 y = discbuff$bdry[[1]]$y[1])))
+    polys <- c(polys, discpoly)
   }
+  spolys <- list()
+  for (i in 1:length(polys)) {
+    spolybuff <- Polygons(list(polys[[i]]), ID = i)
+    spolys <- c(spolys, spolybuff)
+    spol <- SpatialPolygons(spolys)
+    # proj4string(spol) <- projection
+  }
+  
+  
+    aus <- list()
+    coords.l <- background
+    for (i in 1:length(coords.l)) {
+      #       print(paste("b =", i, "out of", as.character(length(coords.l))))
+      coords <- coords.l[[i]]
+      sp.coords <- SpatialPoints(coords)
+      # proj4string(sp.coords) <- projection
+      a <- over(sp.coords, spol)
+      abs.bg <- coords[which(is.na(a)), 1:2]
+      
+      if (kmeans == TRUE) {
+        abs.aus <- cbind(abs.bg, rep(0, nrow(abs.bg)))
+        if(length(abs.aus) != 0){
+          abs.bio<-biomat(data = abs.aus, varstack)#, projection)
+          aus[[i]] <- kmeans(cbind(abs.bg, abs.bio[,-1]), centers = prev * nrow(pr))$centers[,1:2]
+        }else{
+          aus[[i]] <- NULL
+        }
+      }else {
+        
+        aus[[i]] <- tryCatch({abs.bg[sample(1:nrow(abs.bg), size = prev * 
+                                              nrow(pr)), ]}, error = function(err){aus[[i]] <- NULL})
+        
+      }
+    }
+    
+    
+    
+    names(aus) <- names(coords.l)
+    ind <- rep(NA,length(aus))
+    for(n in 1:length(aus)){
+      if(is.null(aus[[n]])){
+        message("Background ", names(coords.l)[n], " is too small for sampling and will be ignored")
+        ind[n] <- n
+      }
+    }
+    as <- unname(na.omit(ind))
+    if(length(as)!=0){
+      aa <- aus[-as]
+    }else{
+      aa <- aus
+    }
+  
+  ab <- bindPresAbs(xy, aa)
+  return(ab)
+}
 
 
 #end
 
-  
-  
-  #' @title Bind presences and absences  
-  #' @description Binds presence and absence data for each background extension 
-  #' 
-  #' @param presences Data frame or list of data frames with coordinates for presence data 
-  #' (each row is a point)
-  #' @param absences Object returned by function \code{\link[mopa]{pseudoAbsences}}. 
-  #' List/s of data frames with coordinates for absence data (each row is a point)
-  #' 
-  #' @return  List/s of matrixes with xy coordinates for presence/pseudo-absence data.
-  #' Each matrix correspond to a different background extent
-  #' 
-  #' 
-  #'
-  #' 
-  #' 
-  #' 
-  #' @author M. Iturbide \email{maibide@@gmail.com}
 
-  
-  
-  
-  bindPresAbs <- function (presences, absences){
-    presaus<-list()
-    
-    if (class(absences[[1]])=="matrix"){
-      absences <- list(absences)
-    } else {absences <- absences}
-    
-    if (class(presences)=="data.frame"){
-      presences <- list(presences)
-    } else {presences <- presences}
-    
-    
-    for (i in 1:length(presences)){
-      pres<-presences[[i]]
-      prau<-list()
-      pr<-cbind(pres, rep(1, nrow(pres)))
-      names(pr)<-c("x", "y", "v")
-      au<-absences[[i]]
-      for (j in 1:length(au)){
-        aj<-cbind(as.data.frame(au[[j]]), rep(0,nrow(au[[j]])))
-        names(aj)<-names(pr)
-        prau[[j]]<-rbind(pr, aj)
-      }
-      names(prau)<-names(au)
-      presaus[[i]]<-prau
-      rm(aj, pr, au, prau)
+
+#' @title Bind presences and absences  
+#' @description Binds presence and absence data for each background extension 
+#' 
+#' @param presences Data frame or list of data frames with coordinates for presence data 
+#' (each row is a point)
+#' @param absences Object returned by function \code{\link[mopa]{pseudoAbsences}}. 
+#' List/s of data frames with coordinates for absence data (each row is a point)
+#' 
+#' @return  List/s of matrixes with xy coordinates for presence/pseudo-absence data.
+#' Each matrix correspond to a different background extent
+#' 
+#' 
+#'
+#' 
+#' 
+#' 
+#' @author M. Iturbide \email{maibide@@gmail.com}
+
+
+
+
+bindPresAbs <- function (presences, absences){
+  pres <- presences
+  prau<-list()
+  pr <- cbind(pres, rep(1, nrow(pres)))
+  names(pr)<-c("x", "y", "v")
+  au <- absences
+    for (j in 1:length(au)){
+      aj <- cbind(as.data.frame(au[[j]]), rep(0,nrow(au[[j]])))
+      names(aj)<-names(pr)
+      prau[[j]]<-rbind(pr, aj)
     }
-    if (length(presaus) == 1){
-      presaus <-presaus[[1]]
-    }else{
-      names(presaus)<-names(presences)
-    }
-    return(presaus)
-  }
-  
-  #end
-  
+  names(prau)<-names(au)
+  presaus <-prau
+  rm(aj, pr, au, prau)
+  return(presaus)
+}
+
+#end

@@ -6,7 +6,8 @@
 \usage{
 mopaTrain0(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars", "rf",
   "cart.rpart", "cart.tree"), algorithm.args = NULL, weighting = FALSE,
-  threshold = NULL, diagrams = FALSE, tuneRF.args = NULL)
+  threshold = NULL, diagrams = FALSE, tuneRF.args = NULL,
+  plotnames = "unnamed")
 }
 \arguments{
 \item{y}{RasterStack of variables for modelling}
@@ -31,6 +32,8 @@ are described in details)}
 AUC extent fitting be printed? default is FALSE.}
 
 \item{tuneRF.args}{list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"}
+
+\item{plotnames}{names to be printed in the diagrams}
 }
 \value{
 A list of six components is returned for each species in \code{x}:

@@ -2,7 +2,7 @@
 #' @description Model projection into a RasterStack
 #' 
 #' @param models model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}. 
-#' @param varstack RasterStack or list of RasterStack objects with variables for projecting
+#' @param newClim RasterStack or list of RasterStack objects with variables for projecting
 #'  
 #' 
 #' @return RasterStack of the projected probabilities
@@ -37,9 +37,9 @@
 #' modsTS <- extractFromModel(models = fittingTS, value = "model")
 #' 
 #' #MODEL PREDICTION
-#' prdTS <- mopaPredict(models = modsTS, varstack = biostack$baseline)
+#' prdTS <- mopaPredict(models = modsTS, newClim = biostack$baseline)
 #' spplot(stack(prdTS))
-#' prdTS.fut <- mopaPredict(models = modsTS, varstack = biostack$future)
+#' prdTS.fut <- mopaPredict(models = modsTS, newClim = biostack$future)
 #' spplot(stack(prdTS.fut$H11))
 #' }
 #' 
@@ -49,40 +49,52 @@
 #' 
 #' @export
 
-mopaPredict <- function(models, varstack){
-  if(class(varstack) != "list"){
-    varstack <- list(varstack)
+mopaPredict <- function(models, newClim){
+  if(class(newClim) != "list"){
+    newClim <- list(newClim)
   }
-  ml <- depth(models)-1
-  repk <- 4-ml
-  while(repk != 0){
-    repk <- repk - 1
-    models <- list(models)
-  }
+  # ml <- depth(models)-1
+  # repk <- 5-ml
+  # while(repk != 0){
+  #   repk <- repk - 1
+  #   models <- list(models)
+  # }
   pred <- list()
   for(l in 1:length(models)){
     prd <- list()
     for(i in 1:length(models[[l]])){
       prd0 <- list()
       for(k in 1:length(models[[l]][[i]])){
-        prd.var <- list()
-        for(n in 1:length(varstack)){
-          prd.var[[n]] <- mopaPredict0(models[[l]][[i]][[k]], varstack = varstack[[n]])
+        prd1 <- list()
+        for(h in 1:length(models[[l]][[i]][[k]])){
+          prd.var <- list()
+          nm <- character()
+          for(n in 1:length(newClim)){
+            prd.var[[n]] <- mopaPredict0(models[[l]][[i]][[k]][[h]], newClim = newClim[[n]])
+            if(n < 10){
+              nm[n] <- paste0("0", n)
+            }else{
+              nm[n] <- as.character(n)
+            }
+          }
+          if(is.null(names(newClim))) names(newClim) <- paste0("newClim", nm)
+          names(prd.var) <- names(newClim)
+          # if(length(prd.var)==1)  prd.var <- prd.var[[1]]
+          prd1[[h]] <- prd.var
         }
-      names(prd.var) <- names(varstack)
-      if(length(prd.var)==1)  prd.var <- prd.var[[1]]
-      prd0[[k]] <- prd.var
+        names(prd1) <- names(models[[l]][[i]][[k]])
+        prd0[[k]] <- prd1
       }
       names(prd0) <- names(models[[l]][[i]])
-      if(length(prd0)==1)  prd0 <- prd0[[1]]
+      # if(length(prd0)==1)  prd0 <- prd0[[1]]
       prd[[i]] <- prd0
     }
     names(prd) <- names(models[[l]])
-    if(length(prd)==1)  prd <- prd[[1]]
+    # if(length(prd)==1)  prd <- prd[[1]]
     pred[[l]] <- prd
   }
   names(pred) <- names(models)
-  if(length(pred) == 1) pred <- pred[[1]]
+  # if(length(pred) == 1) pred <- pred[[1]]
   return(pred)
 }
 
@@ -95,7 +107,7 @@ mopaPredict <- function(models, varstack){
 #' @description Internal function for model projection into a RasterStack
 #' 
 #' @param models model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}. 
-#' @param varstack RasterStack or list of RasterStacks of variables for projecting. If list, named lists are
+#' @param newClim RasterStack or list of RasterStacks of variables for projecting. If list, named lists are
 #' recommended
 #'  
 #' 
@@ -111,32 +123,32 @@ mopaPredict <- function(models, varstack){
 #' 
 #' 
 
-mopaPredict0 <- function(models, varstack){
+mopaPredict0 <- function(models, newClim){
   suppressWarnings(if(class(models) != "list") models <- list(models))
-  b1 <- cbind(coordinates(varstack), rep(1, nrow(coordinates(varstack))))
-  projenviro <- biomat(data = b1, varstack = varstack)[,-1]
+  b1 <- cbind(coordinates(newClim), rep(1, nrow(coordinates(newClim))))
+  projenviro <- biomat(data = b1, varstack = newClim)[,-1]
   pro <- rep(NA, nrow(projenviro))
   projenviro2 <- projenviro[which(!is.na(projenviro[,1])),]
-  projectionland <- cbind(coordinates(varstack), projenviro)
+  projectionland <- cbind(coordinates(newClim), projenviro)
   ras <- list()
   for (i in 1:length(models)){
     alg <- models[[i]]
     algorithm <- class(alg)[1]
     if(algorithm != "MaxEnt"){
       if (algorithm == "rpart") {
-            pro <- predict(alg, projenviro)
+        pro <- predict(alg, projenviro)
       }else if (algorithm=="cart.tree"){
-            pro <- predict(alg, projenviro)
+        pro <- predict(alg, projenviro)
       }else if(algorithm == "ranger"){
-            pro[which(!is.na(projenviro[,1]))] <- predict(alg, projenviro2)$predictions
+        pro[which(!is.na(projenviro[,1]))] <- predict(alg, projenviro2)$predictions
       }else{
-            pro <- predict(alg, projenviro, type="response")
+        pro <- predict(alg, projenviro, type="response")
       }
       pro[which(pro > 1)] <- 1
       pro[which(pro < 0)] <- 0
-      ras[[i]] <- raster(SpatialPixelsDataFrame(coordinates(varstack), as.data.frame(pro)))
+      ras[[i]] <- raster(SpatialPixelsDataFrame(coordinates(newClim), as.data.frame(pro)))
     }else{
-      ras[[i]] <- predict(alg, varstack)
+      ras[[i]] <- predict(alg, newClim)
     }
   }
   names(ras) <- names(models)

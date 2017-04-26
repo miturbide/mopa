@@ -9,17 +9,19 @@ varianceAnalysis(predictions, component1, component2, stick = NULL)
 \arguments{
 \item{predictions}{listed lists of raster objects as returned by \code{\link[mopa]{mopaPredict}}}
 
-\item{component1}{Character of the names in the list (e.g.\code{predictions}) that correspond to the first component in 
+\item{component1}{Character. Options are "SP", "PA", "SDM", "baseClim" and "newClim" (see Details). If exist, "foldModel" is 
+another option. Selected option corresponds to the first component in 
 the variance analysis.}
 
-\item{component2}{Character of the names in the list (e.g.\code{predictions}) that correspond to the second component in 
+\item{component2}{Character. Options are "SP", "PA", "SDM", "baseClim" and "newClim" (see Details). If exist, "foldModel" is 
+another option. Selected option corresponds to the second component in 
 the variance analysis.}
 
-\item{stick}{Character of the component names corresponding to the components that are not being 
-analyzed (component 3,..). One name for each component must be provided, 
-e.g. if there is only one component left (i.e. component 3) 
-stick must be a single character and if there are two (i.e. component 3 and 4) stick 
-must be a character string of length 2.}
+\item{stick}{Optional. Character of the component names corresponding to the components that are not being 
+analyzed (component3, component4...). One name for each component is provided, componets that only have one choice 
+(e.g. a single species, a single baseline climate, etc.) are automatically
+passed to parameter stick inside the function. If \code{stick = NULL} the first element of each component is selected.
+If stick is specified, the selected a name must be provided for each of the components that have multi-choices.}
 }
 \value{
 A list of two RasterStack objects, the first containing the global mean and standard deviation and the 
@@ -41,6 +43,17 @@ variance (V) can be decomposed as the summation of the variance explained by com
 component2 (Vcomp2) and the combination of the previous two (Vcomp12):
 
 \eqn{V = Vcomp1 + Vcomp2 + Vcomp2}.
+
+Description of the components:
+\itemize{
+\item{SP:} presence data sets 
+\item{PA:} pseudo-absence realizations 
+\item{SDM:} modeling algorithms 
+\item{baseClim:} bseline climate, i.e. sets of vaiables used for model calibration in function
+ \code{\link[mopa]{mopaTrain}}, 
+\item{newClim:} new climate, i.e. sets of vaiables used to project models (e.g. future climate projections) in
+function \code{\link[mopa]{mopaPredict}} .
+}
 }
 \examples{
 \dontrun{

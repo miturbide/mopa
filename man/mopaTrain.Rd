@@ -13,15 +13,15 @@ mopaTrain(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars", "rf",
 frames with coordinates
  in the first two columns and presence/absence (1=presence, 0=absence) in the third column.}
 
-\item{x}{RasterStack of variables for modeling}
+\item{x}{RasterStack ot list of RasterStacks of variables for modeling, a.k.a baseline environment/climatology}
 
 \item{k}{Integer. Number of folds for cross validation. Default is 10}
 
-\item{algorithm}{Any character of the following: "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
-or "cart.tree" (see details)}
+\item{algorithm}{Character string of the algorithms for modeling. Options are the following: 
+"glm", "svm", "maxent", "mars", "rf", "cart.rpart" and "cart.tree" (see details)}
 
 \item{algorithm.args}{Further arguments to be passed to the selected algorithm for modeling (functions involved 
-are described in details)}
+are described in details).}
 
 \item{weighting}{Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars", 
 "rf", cart.tree and "cart.rpart". Default is FALSE.
@@ -55,9 +55,10 @@ and "cart.tree"
 }
 \details{
 This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package 
-\pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. If \code{threshold} is 
-not specified the value
-that maximisez the TSS (true skill statistic) is used to calculate the confusion matrix.
+\pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. 
+
+If \code{threshold} is not specified the value that maximisez the TSS (true skill statistic) is 
+used to calculate the confusion matrix.
 
 
 

@@ -7,12 +7,12 @@
 #' @param y Object returned by function \code{\link[mopa]{pseudoAbsences}} or data frame or list/s of data 
 #' frames with coordinates
 #'  in the first two columns and presence/absence (1=presence, 0=absence) in the third column. 
-#' @param x RasterStack of variables for modeling
+#' @param x RasterStack ot list of RasterStacks of variables for modeling, a.k.a baseline environment/climatology
 #' @param k Integer. Number of folds for cross validation. Default is 10
-#' @param algorithm Any character of the following: "glm", "svm", "maxent", "mars", "rf", "cart.rpart" 
-#' or "cart.tree" (see details)
+#' @param algorithm Character string of the algorithms for modeling. Options are the following: 
+#' "glm", "svm", "maxent", "mars", "rf", "cart.rpart" and "cart.tree" (see details)
 #' @param algorithm.args Further arguments to be passed to the selected algorithm for modeling (functions involved 
-#' are described in details)
+#' are described in details). 
 #' @param weighting Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars", 
 #' "rf", cart.tree and "cart.rpart". Default is FALSE.
 #' The processing time is considerably increased if weighting option is selected when the  
@@ -36,9 +36,10 @@
 #'  }
 #' 
 #' @details This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package 
-#' \pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. If \code{threshold} is 
-#' not specified the value
-#' that maximisez the TSS (true skill statistic) is used to calculate the confusion matrix.
+#' \pkg{PresenceAbsence}. \strong{Note:} Package \pkg{SDMTools} must be detached. 
+#' 
+#' If \code{threshold} is not specified the value that maximisez the TSS (true skill statistic) is 
+#' used to calculate the confusion matrix.
 #' 
 #' 
 #' 
@@ -110,29 +111,55 @@
 
 
 mopaTrain <- function(y, 
-                        x, 
-                        k = 10, 
-                        algorithm = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"), 
-                        algorithm.args = NULL,
-                        weighting = FALSE,
-                        threshold = NULL,
-                        diagrams = FALSE,
-                        tuneRF.args = NULL){
-  mfit <- list()
-  for(i in 1:length(y)){
-    message("[", Sys.time(), "] realization ", i)
-    mfit[[i]] <- mopaTrain0(y = y[[i]], 
-                              x = x, 
+                      x, 
+                      k = 10, 
+                      algorithm = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"), 
+                      algorithm.args = NULL,
+                      weighting = FALSE,
+                      threshold = NULL,
+                      diagrams = FALSE,
+                      tuneRF.args = NULL){
+  if(class(x) != "list") x <- list(x)
+  smfit <- list()
+  for(j in 1:length(y)){
+    message("[", Sys.time(), "] Modeling species ", j)
+    yy <- y[[j]]
+    mfit <- list()
+    for(i in 1:length(yy)){
+      message(":::[", Sys.time(), "] realization ", i)
+      fit <- list()
+        for(h in 1:length(algorithm)){
+          fitbase <- list()
+          nm <- character()
+          for(l in 1:length(x)){
+          fitbase[[l]] <- mopaTrain0(y = yy[[i]], 
+                              x = x[[l]], 
                               k = k, 
-                              algorithm = algorithm, 
+                              algorithm = algorithm[h], 
                               algorithm.args = algorithm.args,
                               weighting = weighting,
                               threshold = threshold,
                               diagrams = diagrams,
-                              tuneRF.args = tuneRF.args)
+                              tuneRF.args = tuneRF.args,
+                              plotnames = paste0(names(y)[j], " ralization ", i))
+          if(l < 10){
+            nm[l] <- paste0("0", l)
+          }else{
+            nm[l] <- as.character(l)
+          }
+          }
+          if(is.null(names(x))) names(x) <- paste0("baseClim", nm)
+          names(fitbase) <- names(x)
+          fit[[h]] <- fitbase
+    }
+      names(fit) <- algorithm
+      mfit[[i]] <- fit
+    }
+    names(mfit) <- names(yy)
+    smfit[[j]] <- mfit
   }
-  names(mfit) <- names(y)
-  return(mfit)
+  names(smfit) <- names(y)
+  return(smfit)
 }
 
 
@@ -158,6 +185,7 @@ mopaTrain <- function(y,
 #' @param diagrams logical. Only applied if \code{x} contains data for different background extents 
 #' (see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
 #' AUC extent fitting be printed? default is FALSE. 
+#' @param plotnames names to be printed in the diagrams
 #' @param tuneRF.args list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"
 #' 
 #'  
@@ -200,13 +228,14 @@ mopaTrain0 <- function(y,
                         weighting = FALSE,
                         threshold = NULL,
                         diagrams = FALSE,
-                        tuneRF.args = NULL){
+                        tuneRF.args = NULL,
+                        plotnames = "unnamed"){
   algorithm <- match.arg(algorithm, choices = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"))
   data <- y
   biostack <- x
   if (class(data[[1]]) != "list"){
     data <- list(data)
-    names(data) <- "unnamed"
+    names(data) <- plotnames
   }
   extents <- array(dim = c(length(data), max(unlist(lapply(data, length)))), dimnames = list(c(names(data))))
   aucmat <- array(dim = c(length(data), max(unlist(lapply(data, length)))), dimnames = list(c(names(data))))
@@ -242,7 +271,7 @@ mopaTrain0 <- function(y,
     mod[[i]]$extent <- extents[[i]][ind[i]]
     rm(xx, x, sp.bio)
   }
-  names(mod) <- names(data)
+  if(length(mod) == 1) mod <- mod[[1]]
   return(mod)
 }
 

@@ -4,12 +4,12 @@
 \alias{mopaPredict}
 \title{Model prediction}
 \usage{
-mopaPredict(models, varstack)
+mopaPredict(models, newClim)
 }
 \arguments{
 \item{models}{model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}.}
 
-\item{varstack}{RasterStack or list of RasterStack objects with variables for projecting}
+\item{newClim}{RasterStack or list of RasterStack objects with variables for projecting}
 }
 \value{
 RasterStack of the projected probabilities
@@ -44,9 +44,9 @@ algorithm = "glm", weighting = TRUE)
 modsTS <- extractFromModel(models = fittingTS, value = "model")
 
 #MODEL PREDICTION
-prdTS <- mopaPredict(models = modsTS, varstack = biostack$baseline)
+prdTS <- mopaPredict(models = modsTS, newClim = biostack$baseline)
 spplot(stack(prdTS))
-prdTS.fut <- mopaPredict(models = modsTS, varstack = biostack$future)
+prdTS.fut <- mopaPredict(models = modsTS, newClim = biostack$future)
 spplot(stack(prdTS.fut$H11))
 }
 

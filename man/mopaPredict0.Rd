@@ -4,12 +4,12 @@
 \alias{mopaPredict0}
 \title{Internal function for model prediction}
 \usage{
-mopaPredict0(models, varstack)
+mopaPredict0(models, newClim)
 }
 \arguments{
 \item{models}{model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}.}
 
-\item{varstack}{RasterStack or list of RasterStacks of variables for projecting. If list, named lists are
+\item{newClim}{RasterStack or list of RasterStacks of variables for projecting. If list, named lists are
 recommended}
 }
 \value{

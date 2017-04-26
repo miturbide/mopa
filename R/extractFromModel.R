@@ -57,13 +57,29 @@
 
 
 extractFromModel <- function(models, value = c("model", "auc", "kappa", "tss", "fold.models", "ObsPred")){
-  extmod <- list()
+  extmod <- list()  
   for(i in 1:length(models)){
-    extmod[[i]] <- extractFromModel0(models = models[[i]], value = value)
+    extmod1 <- list()
+    for(l in 1:length(models[[i]])){
+      extmod2 <- list()
+      for(n in 1:length(models[[i]][[l]])){
+        extmod3 <- list()
+        for(h in 1:length(models[[i]][[l]][[n]])){
+          extmod3[[h]] <- extractFromModel0(models = models[[i]][[l]][[n]][[h]], value = value)
+        }
+        names(extmod3) <- names(models[[i]][[l]][[n]])
+        extmod2[[n]] <- extmod3
+      }
+      names(extmod2) <- names(models[[i]][[l]])
+      extmod1[[l]] <- extmod2
+    }
+    names(extmod1) <- names(models[[i]])
+    extmod[[i]] <- extmod1
   }
   names(extmod) <- names(models)
   return(extmod)
 }
+
 
 #end
 
@@ -100,20 +116,12 @@ extractFromModel <- function(models, value = c("model", "auc", "kappa", "tss", "
 
 extractFromModel0 <- function(models, value = c("model", "auc", "kappa", "tss", "fold.models", "ObsPred")){
   value <- match.arg(value, choices = c("model", "auc", "kappa", "tss", "fold.models", "ObsPred"))
-  if(class(models[[1]]) != "list") models <- list(models)
-  modelvalue<-list()
-  for (i in 1:length(models)){
-    if (value == "model"){modelvalue[[i]]<-models[[i]]$model
-    } else if (value == "auc"){modelvalue[[i]]<-models[[i]]$auc
-    } else if (value == "kappa"){modelvalue[[i]]<-models[[i]]$kappa
-    } else if (value == "tss"){modelvalue[[i]]<-models[[i]]$tss
-    } else if (value == "fold.models"){modelvalue[[i]]<-models[[i]]$fold.models
-    } else if (value == "ObsPred"){modelvalue[[i]]<-models[[i]]$ObsPred}
-  } 
-  names(modelvalue) <- names(models)
-  suppressWarnings(
-    if(length(models) == 1) modelvalue <- modelvalue[[1]]
-  )
+  if (value == "model"){modelvalue <- models$model
+    } else if (value == "auc"){modelvalue <- models$auc
+    } else if (value == "kappa"){modelvalue <-models$kappa
+    } else if (value == "tss"){modelvalue<-models$tss
+    } else if (value == "fold.models"){modelvalue <-models$fold.models
+    } else if (value == "ObsPred"){modelvalue <-models$ObsPred}
   return(modelvalue)
 }
 
