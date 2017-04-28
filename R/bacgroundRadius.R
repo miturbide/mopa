@@ -46,9 +46,9 @@
 #' ## environmental profiling
 #' bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline, 
 #' background = bg$xy)
-#' bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
+#' bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
 #' start = 0.166, by = 0.083*10, unit = "decimal degrees")
-#' bg.extents2 <- backgroundRadios(xy = Oak_phylo2, background = bg.profiled$absence, 
+#' bg.extents2 <- backgroundRadius(xy = Oak_phylo2, background = bg.profiled$absence, 
 #' start = 0.166, by = 0.083*10, unit = "decimal degrees")
 #' 
 #' }
@@ -64,7 +64,7 @@
 
 
 
-backgroundRadios <- function(xy, background, start= 0.166, by= 0.083, 
+backgroundRadius <- function(xy, background, start= 0.166, by= 0.083, 
                     unit = c("decimal degrees", "utm")){
   unit <- match.arg(unit, choices = c("decimal degrees", "utm"))
   if(class(xy) == "matrix") xy <- as.data.frame(xy)
