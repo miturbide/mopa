@@ -13,7 +13,7 @@ presence data}
 
 \item{background}{Matrix or list/s of matrixes with background coordinates in columns.
 Object derived from function \code{\link[mopa]{backgroundGrid}}, \code{\link[mopa]{OCSVMprofiling}} 
-or \code{\link[mopa]{backgroundRadios}}.}
+or \code{\link[mopa]{backgroundRadius}}.}
 
 \item{exclusion.buffer}{value of the minimum distance to be kept between presence data and 
 pseudo-absence data. Default is 0.0166}
@@ -29,7 +29,7 @@ k-means clustering of the background is done and centroids are extracted as pseu
 }
 \description{
 Pseudo-absence data generation at random or by k-means clustering inside a single
-background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadios}})
+background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadius}})
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 

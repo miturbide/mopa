@@ -11,7 +11,6 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
-#' \dontrun{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -31,9 +30,8 @@
 #' modsRS <- extractFromModel(models = fittingRS, value = "model")
 #' 
 #' #MODEL PREDICTION
-#' prdTS.fut <- mopaPredict(models = modsTS, varstack = biostack$future)
-#' prdTS.fut.sub <- extractFromPrediction(prdTS.fut, "realization01")
-#' }
+#' prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
+#' prdRS.fut.sub <- extractFromPrediction(prdRS.fut, "PA01")
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

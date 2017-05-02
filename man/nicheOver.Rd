@@ -25,7 +25,6 @@ via operating the difference between two vectors of probability distributions.
  O: Pianka index (Pianka, 1973).
 }
 \examples{
-\dontrun{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -35,12 +34,12 @@ r <- biostack$baseline[[1]]
 bg <- backgroundGrid(r)
 
 ## inside different background extents
-bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
+bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
 start = 0.166, by = 0.083*10, unit = "decimal degrees")
 TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
 exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, k = 10, 
-algorithm = "glm", weighting = TRUE, diagrams = T)
+algorithm = "glm", weighting = TRUE, diagrams = TRUE)
 
 ## considering an unique background extent
 RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
@@ -52,17 +51,14 @@ modsTS <- extractFromModel(models = fittingTS, value = "model")
 modsRS <- extractFromModel(models = fittingRS, value = "model")
 
 #MODEL PREDICTION
-prdTS <- mopaPredict(models = modsTS, varstack = biostack$baseline)
-prdRS <- mopaPredict(models = modsRS, varstack = biostack$future)
+prdTS <- mopaPredict(models = modsTS, newClim = biostack$baseline)
+prdRS <- mopaPredict(models = modsRS, newClim = biostack$future)
 
 #NICHE OVERLAP
 no <- nicheOver(stack(unlist(list("TS" = prdTS, "RS" = prdRS))), metric = "D")
 library(lattice)
 levelplot(no, col.regions = rev(terrain.colors(16)))
 
-no2 <- nicheOver(stack(prdTS))
-levelplot(no2, col.regions = rev(terrain.colors(16)))
-}
 
 }
 \references{

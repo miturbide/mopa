@@ -11,7 +11,6 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
-#' \dontrun{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -21,12 +20,12 @@
 #' bg <- backgroundGrid(r)
 #' 
 #' ## inside different background extents
-#' bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
+#' bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
 #' start = 0.166, by = 0.083*10, unit = "decimal degrees")
 #' TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
 #' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 #' fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, k = 10, 
-#' algorithm = "glm", weighting = TRUE, diagrams = T)
+#' algorithm = "glm", weighting = TRUE, diagrams = TRUE)
 #' 
 #' ## considering an unique background extent
 #' RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
@@ -38,10 +37,9 @@
 #' 
 #' #MODEL PREDICTION
 #' prdTS <- mopaPredict(models = modsTS, newClim = biostack$baseline)
-#' spplot(stack(prdTS))
+#' spplot(stack(prdTS$H11$PA01$glm$baseClim01))
 #' prdTS.fut <- mopaPredict(models = modsTS, newClim = biostack$future)
-#' spplot(stack(prdTS.fut$H11))
-#' }
+#' spplot(stack(prdTS.fut$H11$PA01$glm$baseClim01$MPI))
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

@@ -24,26 +24,6 @@
 #' 
 #' @author M. Iturbide 
 #' 
-#' @examples
-#' \dontrun{
-#' data(Oak_phylo2)
-#' data(biostack)
-#' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
-#' r <- biostack$baseline[[1]]
-#' 
-#' ## Background of the whole study area
-#' bg <- backgroundGrid(r)
-#' 
-#' ## Modelling inside different background extents
-#' bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
-#' start = 0.166, by = 0.083*10, unit = "decimal degrees")
-#' TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
-#' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-#' 
-#' ## If diagrams = TRUE, mopaTrain prints the diagrams of the fitting
-#' fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, 
-#' k = 10, algorithm = "glm", weighting = TRUE, diagrams = T)
-#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
@@ -116,7 +96,7 @@ AUCextentFit <- function (testmat, extents, diagrams = FALSE) {
                "exponential2" = unname(coef(asym)[1]))
     rep <- 1
     if(any(testmat[i, ] > min(coefs))){
-      while(!any(testmat[i, ] > coefs[which(names(coefs) == nls.fun)], na.rm = T)){
+      while(!any(testmat[i, ] > coefs[which(names(coefs) == nls.fun)], na.rm = TRUE)){
         rep <- rep + 1
         nls.fun <- names(resid)[rep]
       }
@@ -157,7 +137,7 @@ AUCextentFit <- function (testmat, extents, diagrams = FALSE) {
     dfa <- do.call("rbind", dat)
     
     
-    pl<-xyplot( y ~ x|group, data = dfa, ylab="AUC", xlab="Background extent", 
+    pl<-xyplot( y ~ x|group, data = dfa, ylab="AUC", xlab="Background radius", 
                 key = list(text = list(lab=c("Michaelis Menten", "exponential 3", "exponential 2")), lines = list(lwd=c(1,1,1), span=0.5, col=c("red", "black", "green")),
                            columns =1),
                 

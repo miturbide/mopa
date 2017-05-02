@@ -18,7 +18,6 @@ RasterStack of the projected probabilities
 Model projection into a RasterStack
 }
 \examples{
-\dontrun{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -28,12 +27,12 @@ r <- biostack$baseline[[1]]
 bg <- backgroundGrid(r)
 
 ## inside different background extents
-bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
+bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
 start = 0.166, by = 0.083*10, unit = "decimal degrees")
 TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
 exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, k = 10, 
-algorithm = "glm", weighting = TRUE, diagrams = T)
+algorithm = "glm", weighting = TRUE, diagrams = TRUE)
 
 ## considering an unique background extent
 RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
@@ -45,10 +44,9 @@ modsTS <- extractFromModel(models = fittingTS, value = "model")
 
 #MODEL PREDICTION
 prdTS <- mopaPredict(models = modsTS, newClim = biostack$baseline)
-spplot(stack(prdTS))
+spplot(stack(prdTS$H11$PA01$glm$baseClim01))
 prdTS.fut <- mopaPredict(models = modsTS, newClim = biostack$future)
-spplot(stack(prdTS.fut$H11))
-}
+spplot(stack(prdTS.fut$H11$PA01$glm$baseClim01$MPI))
 
 }
 \references{

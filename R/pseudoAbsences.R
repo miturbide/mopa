@@ -1,12 +1,12 @@
 
 #' @title Pseudo-absences 
 #' @description Pseudo-absence data generation at random or by k-means clustering inside a single
-#' background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadios}})
+#' background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadius}})
 #' @param xy Data frame or list of data frames with coordinates (each row is a point), this is, 
 #' presence data
 #' @param background Matrix or list/s of matrixes with background coordinates in columns.
 #' Object derived from function \code{\link[mopa]{backgroundGrid}}, \code{\link[mopa]{OCSVMprofiling}} 
-#' or \code{\link[mopa]{backgroundRadios}}. 
+#' or \code{\link[mopa]{backgroundRadius}}. 
 #' @param realizations Integer. Number of realizations (default = 1).
 #' @param exclusion.buffer value of the minimum distance to be kept between presence data and 
 #' pseudo-absence data. Default is 0.0166
@@ -22,7 +22,7 @@
 #' 
 #' 
 #' @details Details. The application of this function could be preceded by the application
-#' of functions \code{\link[mopa]{OCSVMprofiling}} and/or \code{\link[mopa]{backgroundRadios}}
+#' of functions \code{\link[mopa]{OCSVMprofiling}} and/or \code{\link[mopa]{backgroundRadius}}
 #' in order to consider alternative methods for pseudo-absence data generation (see references).
 #' 
 #' @seealso \code{\link[mopa]{mopaTrain}}
@@ -31,7 +31,6 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
-#' \dontrun{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -44,9 +43,9 @@
 #' background = bg$xy)
 #' 
 #' ## different background extents
-#' bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
+#' bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
 #' start = 0.166, by = 0.083*10, unit = "decimal degrees")
-#' bg.extents2 <- backgroundRadios(xy = Oak_phylo2, background = bg.profiled$absence, 
+#' bg.extents2 <- backgroundRadius(xy = Oak_phylo2, background = bg.profiled$absence, 
 #' start = 0.166, by = 0.083*10, unit = "decimal degrees")
 #' 
 #' ## inside different background extents
@@ -62,7 +61,6 @@
 #' ## with k-means clustering
 #' TS_kmeans <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents2, 
 #' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = TRUE, varstack = biostack$baseline)
-#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
@@ -122,12 +120,12 @@ pseudoAbsences <- function (xy, background, realizations = 1, exclusion.buffer =
 
 #' @title Pseudo-absences internal
 #' @description Pseudo-absence data generation at random or by k-means clustering inside a single
-#' background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadios}})
+#' background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadius}})
 #' @param xy Data frame or list of data frames with coordinates (each row is a point), this is, 
 #' presence data
 #' @param background Matrix or list/s of matrixes with background coordinates in columns.
 #' Object derived from function \code{\link[mopa]{backgroundGrid}}, \code{\link[mopa]{OCSVMprofiling}} 
-#' or \code{\link[mopa]{backgroundRadios}}. 
+#' or \code{\link[mopa]{backgroundRadius}}. 
 #' @param exclusion.buffer value of the minimum distance to be kept between presence data and 
 #' pseudo-absence data. Default is 0.0166
 #' @param prevalence Proportion of presences against absences. Default is 0.5 (equal number of 

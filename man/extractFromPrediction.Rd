@@ -16,7 +16,6 @@ Extrac objects from lists returned by function \code{\link[mopa]{mopaPredict}}
 returned by function \code{\link[mopa]{mopaPredict}}
 }
 \examples{
-\dontrun{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -36,9 +35,8 @@ algorithm = "glm", weighting = TRUE)
 modsRS <- extractFromModel(models = fittingRS, value = "model")
 
 #MODEL PREDICTION
-prdTS.fut <- mopaPredict(models = modsTS, varstack = biostack$future)
-prdTS.fut.sub <- extractFromPrediction(prdTS.fut, "realization01")
-}
+prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
+prdRS.fut.sub <- extractFromPrediction(prdRS.fut, "PA01")
 
 }
 \references{

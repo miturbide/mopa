@@ -19,7 +19,7 @@
 #' "mars" algorithm (see \code{\link[earth]{earth}} is applied.
 #' @param threshold Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).
 #' @param diagrams Logical. Only applied if \code{x} contains data for different background extents 
-#' (see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
+#' (see \code{\link[mopa]{backgroundRadius}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
 #' AUC extent fitting be printed? default is FALSE. 
 #' @param tuneRF.args list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"
 #' 
@@ -43,7 +43,7 @@
 #' 
 #' 
 #' 
-#' If \code{y} contains data for different background extents (see \code{\link[mopa]{backgroundRadios}} and
+#' If \code{y} contains data for different background extents (see \code{\link[mopa]{backgroundRadius}} and
 #' \code{\link[mopa]{pseudoAbsences}}), \code{\link[mopa]{mopaTrain}} performs the species distribution modeling for 
 #' each different background extent, and fits obtained AUCs (corresponding to different background extents) 
 #' to three non linear models (Michaelis-Menten, exponential2 and exponential3). 
@@ -69,12 +69,11 @@
 #' passed to \code{mopaTrain} by using \code{algorithm.args}.
 #' 
 #' @seealso \code{\link[mopa]{mopaPredict}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}}, 
-#' \code{\link[mopa]{OCSVMprofiling}}, \code{\link[mopa]{backgroundRadios}}
+#' \code{\link[mopa]{OCSVMprofiling}}, \code{\link[mopa]{backgroundRadius}}
 #' @author M. Iturbide 
 #' 
 #' @examples
 #' 
-#' \dontrun{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -84,20 +83,18 @@
 #' bg <- backgroundGrid(r)
 #' 
 #' ## inside different background extents
-#' bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
+#' bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
 #' start = 0.166, by = 0.083*10, unit = "decimal degrees")
 #' TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
 #' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 #' fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, k = 10, 
-#' algorithm = "glm", weighting = TRUE, diagrams = T)
+#' algorithm = "glm", weighting = TRUE, diagrams = TRUE)
 #' 
 #' ## considering an unique background extent
 #' RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy,
 #'  exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 #' glmRS <- mopaTrain(y = RS_random, x = biostack$baseline, 
 #' k = 10, algorithm = "glm", weighting = TRUE)
-#' 
-#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
@@ -141,7 +138,7 @@ mopaTrain <- function(y,
                               threshold = threshold,
                               diagrams = diagrams,
                               tuneRF.args = tuneRF.args,
-                              plotnames = paste0(names(y)[j], " ralization ", i))
+                              plotnames = paste0(names(y)[j], " PAralization ", i))
           if(l < 10){
             nm[l] <- paste0("0", l)
           }else{
@@ -183,7 +180,7 @@ mopaTrain <- function(y,
 #' @param weighting Logical for "glm", "mars" and "rf" fitting with weighted presence/absences-s. Default is FALSE.
 #' @param threshold Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).
 #' @param diagrams logical. Only applied if \code{x} contains data for different background extents 
-#' (see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
+#' (see \code{\link[mopa]{backgroundRadius}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
 #' AUC extent fitting be printed? default is FALSE. 
 #' @param plotnames names to be printed in the diagrams
 #' @param tuneRF.args list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"
@@ -204,7 +201,7 @@ mopaTrain <- function(y,
 #' 
 #' 
 #' @seealso \code{\link[mopa]{mopaPredict}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}}, 
-#' \code{\link[mopa]{OCSVMprofiling}}, \code{\link[mopa]{backgroundRadios}}
+#' \code{\link[mopa]{OCSVMprofiling}}, \code{\link[mopa]{backgroundRadius}}
 #' 
 #' @author M. Iturbide 
 #' 

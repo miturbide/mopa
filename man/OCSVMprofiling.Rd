@@ -36,7 +36,6 @@ excluding the suitable areas for the species (xy records) from the background
 for pseudo-absences generation.
 }
 \examples{
-\dontrun{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -49,7 +48,6 @@ background = bg$xy)
 ##plot
 plot(bg.profiled$absence$H11, pch="*")
 points(bg.profiled$presence$H11, pch="*", col= "pink4")
-}
 
 }
 \references{

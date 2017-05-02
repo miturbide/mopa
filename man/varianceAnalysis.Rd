@@ -56,7 +56,6 @@ function \code{\link[mopa]{mopaPredict}} .
 }
 }
 \examples{
-\dontrun{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -77,12 +76,9 @@ algorithm = "glm", weighting = TRUE)
 modsRS <- extractFromModel(models = fittingRS, value = "model")
 
 #MODEL PREDICTION AND ANALYSIS OF THE VARIABILITY IN PROJECTIONS
-prdRS.fut <- mopaPredict(models = modsRS, varstack = biostack$future)
-component2 <- names(prdRS.fut)
-component1 <- names(prdRS.fut$realization01$H11)
-result <- varianceAnalysis(prdRS.fut, component1, component2, stick = "H11")
+prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
+result <- varianceAnalysis(prdRS.fut, "PA", "newClim", stick = "H11")
 spplot(result$variance, col.regions = rev(get_col_regions()))
-}
 
 
 }

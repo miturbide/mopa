@@ -13,7 +13,7 @@ presence data}
 
 \item{background}{Matrix or list/s of matrixes with background coordinates in columns.
 Object derived from function \code{\link[mopa]{backgroundGrid}}, \code{\link[mopa]{OCSVMprofiling}} 
-or \code{\link[mopa]{backgroundRadios}}.}
+or \code{\link[mopa]{backgroundRadius}}.}
 
 \item{realizations}{Integer. Number of realizations (default = 1).}
 
@@ -34,15 +34,14 @@ data frame or list/s of data frames
 }
 \description{
 Pseudo-absence data generation at random or by k-means clustering inside a single
-background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadios}})
+background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadius}})
 }
 \details{
 Details. The application of this function could be preceded by the application
-of functions \code{\link[mopa]{OCSVMprofiling}} and/or \code{\link[mopa]{backgroundRadios}}
+of functions \code{\link[mopa]{OCSVMprofiling}} and/or \code{\link[mopa]{backgroundRadius}}
 in order to consider alternative methods for pseudo-absence data generation (see references).
 }
 \examples{
-\dontrun{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -55,9 +54,9 @@ bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline,
 background = bg$xy)
 
 ## different background extents
-bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
+bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
 start = 0.166, by = 0.083*10, unit = "decimal degrees")
-bg.extents2 <- backgroundRadios(xy = Oak_phylo2, background = bg.profiled$absence, 
+bg.extents2 <- backgroundRadius(xy = Oak_phylo2, background = bg.profiled$absence, 
 start = 0.166, by = 0.083*10, unit = "decimal degrees")
 
 ## inside different background extents
@@ -73,7 +72,6 @@ exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 ## with k-means clustering
 TS_kmeans <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents2, 
 exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = TRUE, varstack = biostack$baseline)
-}
 
 }
 \references{

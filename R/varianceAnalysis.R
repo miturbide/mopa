@@ -52,7 +52,6 @@
 #' 
 #' 
 #' @examples
-#' \dontrun{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -73,12 +72,9 @@
 #' modsRS <- extractFromModel(models = fittingRS, value = "model")
 #' 
 #' #MODEL PREDICTION AND ANALYSIS OF THE VARIABILITY IN PROJECTIONS
-#' prdRS.fut <- mopaPredict(models = modsRS, varstack = biostack$future)
-#' component2 <- names(prdRS.fut)
-#' component1 <- names(prdRS.fut$realization01$H11)
-#' result <- varianceAnalysis(prdRS.fut, component1, component2, stick = "H11")
+#' prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
+#' result <- varianceAnalysis(prdRS.fut, "PA", "newClim", stick = "H11")
 #' spplot(result$variance, col.regions = rev(get_col_regions()))
-#' }
 #' 
 #' 
 #' @export
@@ -170,10 +166,10 @@ varianceAnalysis <- function(predictions, component1, component2, stick = NULL){
   
   uno.dos <- apply(uno.dos, FUN = "mean", MARGIN=2, na.rm = TRUE)
   
-  plot(dos^2+uno^2+uno.dos, typ = "l")
-  lines(varGlobal^2, col = "red")
-  sd(dos^2+uno^2+uno.dos - varGlobal, na.rm = T)
-  mean(dos^2+uno^2+uno.dos - varGlobal, na.rm = T)
+  # plot(dos^2+uno^2+uno.dos, typ = "l")
+  # lines(varGlobal^2, col = "red")
+  # sd(dos^2+uno^2+uno.dos - varGlobal, na.rm = T)
+  # mean(dos^2+uno^2+uno.dos - varGlobal, na.rm = T)
   
   uno100 <- uno^2 *100 / (uno^2+dos^2+uno.dos)
   dos100 <- dos^2 *100 / (uno^2+dos^2+uno.dos)

@@ -36,7 +36,6 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
-#' \dontrun{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -50,8 +49,6 @@
 #' start = 0.166, by = 0.083*10, unit = "decimal degrees")
 #' bg.extents2 <- backgroundRadius(xy = Oak_phylo2, background = bg.profiled$absence, 
 #' start = 0.166, by = 0.083*10, unit = "decimal degrees")
-#' 
-#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

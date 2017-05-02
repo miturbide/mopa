@@ -30,28 +30,6 @@ asymptotic exponential (exponential 2). For details about these functions, see t
 This function is internally used by function \code{\link[mopa]{mopaTrain}}, to fit AUC 
 scores to the background extents at which were obtained (see reference below).
 }
-\examples{
-\dontrun{
-data(Oak_phylo2)
-data(biostack)
-projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
-r <- biostack$baseline[[1]]
-
-## Background of the whole study area
-bg <- backgroundGrid(r)
-
-## Modelling inside different background extents
-bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
-start = 0.166, by = 0.083*10, unit = "decimal degrees")
-TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-
-## If diagrams = TRUE, mopaTrain prints the diagrams of the fitting
-fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, 
-k = 10, algorithm = "glm", weighting = TRUE, diagrams = T)
-}
-
-}
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

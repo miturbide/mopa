@@ -28,7 +28,7 @@ are described in details)}
 \item{threshold}{Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).}
 
 \item{diagrams}{logical. Only applied if \code{x} contains data for different background extents 
-(see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
+(see \code{\link[mopa]{backgroundRadius}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
 AUC extent fitting be printed? default is FALSE.}
 
 \item{tuneRF.args}{list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"}
@@ -58,7 +58,7 @@ Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 }
 \seealso{
 \code{\link[mopa]{mopaPredict}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}}, 
-\code{\link[mopa]{OCSVMprofiling}}, \code{\link[mopa]{backgroundRadios}}
+\code{\link[mopa]{OCSVMprofiling}}, \code{\link[mopa]{backgroundRadius}}
 }
 \author{
 M. Iturbide

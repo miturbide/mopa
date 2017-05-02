@@ -31,7 +31,7 @@ The processing time is considerably increased if weighting option is selected wh
 \item{threshold}{Cut value between 0 and 1 to calculate the confusion matrix. Default is NULL (see Details).}
 
 \item{diagrams}{Logical. Only applied if \code{x} contains data for different background extents 
-(see \code{\link[mopa]{backgroundRadios}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
+(see \code{\link[mopa]{backgroundRadius}} and \code{\link[mopa]{pseudoAbsences}}). Should diagrams of 
 AUC extent fitting be printed? default is FALSE.}
 
 \item{tuneRF.args}{list of arguments from function \code{\link[randomForest]{tuneRF}}. Only used when algorihm = "rf"}
@@ -62,7 +62,7 @@ used to calculate the confusion matrix.
 
 
 
-If \code{y} contains data for different background extents (see \code{\link[mopa]{backgroundRadios}} and
+If \code{y} contains data for different background extents (see \code{\link[mopa]{backgroundRadius}} and
 \code{\link[mopa]{pseudoAbsences}}), \code{\link[mopa]{mopaTrain}} performs the species distribution modeling for 
 each different background extent, and fits obtained AUCs (corresponding to different background extents) 
 to three non linear models (Michaelis-Menten, exponential2 and exponential3). 
@@ -89,7 +89,6 @@ passed to \code{mopaTrain} by using \code{algorithm.args}.
 }
 \examples{
 
-\dontrun{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -99,20 +98,18 @@ r <- biostack$baseline[[1]]
 bg <- backgroundGrid(r)
 
 ## inside different background extents
-bg.extents <- backgroundRadios(xy = Oak_phylo2, background = bg$xy, 
+bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
 start = 0.166, by = 0.083*10, unit = "decimal degrees")
 TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
 exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, k = 10, 
-algorithm = "glm", weighting = TRUE, diagrams = T)
+algorithm = "glm", weighting = TRUE, diagrams = TRUE)
 
 ## considering an unique background extent
 RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy,
  exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 glmRS <- mopaTrain(y = RS_random, x = biostack$baseline, 
 k = 10, algorithm = "glm", weighting = TRUE)
-
-}
 
 }
 \references{
@@ -122,7 +119,7 @@ Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 }
 \seealso{
 \code{\link[mopa]{mopaPredict}}, \code{\link[mopa]{pseudoAbsences}}, \code{\link[mopa]{backgroundGrid}}, 
-\code{\link[mopa]{OCSVMprofiling}}, \code{\link[mopa]{backgroundRadios}}
+\code{\link[mopa]{OCSVMprofiling}}, \code{\link[mopa]{backgroundRadius}}
 }
 \author{
 M. Iturbide
