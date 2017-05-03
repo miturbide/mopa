@@ -12,11 +12,11 @@
 #' @param component2 Character. Options are "SP", "PA", "SDM", "baseClim" and "newClim" (see Details). If exist, "foldModel" is 
 #' another option. Selected option corresponds to the second component in 
 #' the variance analysis.
-#' @param stick Optional. Character of the component names corresponding to the components that are not being 
-#' analyzed (component3, component4...). One name for each component is provided, componets that only have one choice 
-#' (e.g. a single species, a single baseline climate, etc.) are automatically
-#' passed to parameter stick inside the function. If \code{stick = NULL} the first element of each component is selected.
-#' If stick is specified, the selected a name must be provided for each of the components that have multi-choices.
+#' @param fixed Optional. Character of the component names corresponding to the components that are not being 
+#' analyzed (component3, component4...). One name for each component is provided, components that only have one choice 
+#' (e.g. a single species, a single baseline climate, etc.) are internally fixed.
+#'  If \code{fixed = NULL} the first element of each component is selected.
+#' If \code{fixed} is specified, the selected name must be provided for each of the components that have multi-choices.
 #' 
 #' @details Rasters are extracted using function \code{\link[base]{grep}}, by matching
 #' names in the lists and characters in \code{componen1} and \code{componen2}. 
@@ -73,14 +73,14 @@
 #' 
 #' #MODEL PREDICTION AND ANALYSIS OF THE VARIABILITY IN PROJECTIONS
 #' prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
-#' result <- varianceAnalysis(prdRS.fut, "PA", "newClim", stick = "H11")
+#' result <- varianceAnalysis(prdRS.fut, "PA", "newClim", fixed = "H11")
 #' spplot(result$variance, col.regions = rev(get_col_regions()))
 #' 
 #' 
 #' @export
 #' @importFrom stats sd
 
-varianceAnalysis <- function(predictions, component1, component2, stick = NULL){
+varianceAnalysis <- function(predictions, component1, component2, fixed = NULL) {
   namescomps <-  c(component1, component2, paste(component1, "and", component2))
   d <- depth(predictions) -1
   choices <- c("SP", "PA", "SDM", "baseClim", "newClim", "foldModel")[1:d]
@@ -94,6 +94,7 @@ varianceAnalysis <- function(predictions, component1, component2, stick = NULL){
   dl2 <- dl[wl2]
   if(dl1 == 1) stop("there is only one choice for ", component1, " please chose another component")
   if(dl2 == 1) stop("there is only one choice for ", component2, " please chose another component")
+  stick <- fixed
   if(is.null(stick)){
     stick <- depthnames1(predictions)[-c(wl1, wl2)]
   }else{
@@ -132,8 +133,7 @@ varianceAnalysis <- function(predictions, component1, component2, stick = NULL){
   
   bothcomp <- stack(unlist(comp1))
   names(bothcomp)
-   if(length(component1)*length(component2)!= nlayers(bothcomp)) stop("speciefied component names do not completely 
-                                                                      match with names in predictions")
+   if(length(component1)*length(component2) != nlayers(bothcomp)) stop("The specified component names do not match the names in the predictions", call. = FALSE)
   datos <- array(NA, dim = c(length(component1)*length(component2), ncell(bothcomp)), dimnames = list(names(bothcomp)))
   for(i in 1:nlayers(bothcomp)){
     datos[i, ] <- bothcomp[[i]]@data@values

@@ -4,7 +4,7 @@
 \alias{varianceAnalysis}
 \title{Variance analysis of RasterStack objects}
 \usage{
-varianceAnalysis(predictions, component1, component2, stick = NULL)
+varianceAnalysis(predictions, component1, component2, fixed = NULL)
 }
 \arguments{
 \item{predictions}{listed lists of raster objects as returned by \code{\link[mopa]{mopaPredict}}}
@@ -17,11 +17,11 @@ the variance analysis.}
 another option. Selected option corresponds to the second component in 
 the variance analysis.}
 
-\item{stick}{Optional. Character of the component names corresponding to the components that are not being 
-analyzed (component3, component4...). One name for each component is provided, componets that only have one choice 
-(e.g. a single species, a single baseline climate, etc.) are automatically
-passed to parameter stick inside the function. If \code{stick = NULL} the first element of each component is selected.
-If stick is specified, the selected a name must be provided for each of the components that have multi-choices.}
+\item{fixed}{Optional. Character of the component names corresponding to the components that are not being 
+analyzed (component3, component4...). One name for each component is provided, components that only have one choice 
+(e.g. a single species, a single baseline climate, etc.) are internally fixed.
+ If \code{fixed = NULL} the first element of each component is selected.
+If \code{fixed} is specified, the selected name must be provided for each of the components that have multi-choices.}
 }
 \value{
 A list of two RasterStack objects, the first containing the global mean and standard deviation and the 
@@ -77,7 +77,7 @@ modsRS <- extractFromModel(models = fittingRS, value = "model")
 
 #MODEL PREDICTION AND ANALYSIS OF THE VARIABILITY IN PROJECTIONS
 prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
-result <- varianceAnalysis(prdRS.fut, "PA", "newClim", stick = "H11")
+result <- varianceAnalysis(prdRS.fut, "PA", "newClim", fixed = "H11")
 spplot(result$variance, col.regions = rev(get_col_regions()))
 
 
