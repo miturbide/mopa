@@ -5,10 +5,10 @@
 #' 
 #' @param xy Data frame or list of data frames with coordinates (each row is a point) 
 #' ---typically species presence data--- to be considered as starting points from which different 
-#' backgroun extents are created.
-#' @param background Matrix or list of matrixes of background coordinates.
-#' Object derived from function \code{\link[mopa]{OCSVMprofiling}} ($absence). 
-#' Alternatively, object derived from function \code{\link[mopa]{backgroundGrid}} ($xy) 
+#' background extents are created.
+#' @param background Matrix or list of matrices of background coordinates.
+#' Object derived from function \code{\link[mopa]{OCSVMprofiling}} (component \code{$absence}). 
+#' Alternatively, object derived from function \code{\link[mopa]{backgroundGrid}} (component \code{$xy}) 
 #' if the environmental profiling step is going to be avoided in the pseudo-absence 
 #' generation proccess). 
 #' @param start Value for the minimum distance to consider for extent limitations. 
@@ -16,7 +16,7 @@
 #' @param by Value of the distance to consider from one extent to the following. 
 #' Default is 0.083
 #' @param unit Character indicating the coordinate system of the objects. 
-#' Default is "Decimal degrees", alternatively "utm" can be used
+#' Default is \code{"decimal degrees"}, alternatively \code{"utm"} can be used
 #' 
 #' @return List/s of matrixes with xy coordinates, each matrix correspond to a different 
 #' background extent.
