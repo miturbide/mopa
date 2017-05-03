@@ -119,7 +119,7 @@ varianceAnalysis <- function(predictions, component1, component2, fixed = NULL) 
     i <- 0
     if(d - a != 2){
       stop("There are components in prediction with multiple choices, please 
-           set argument stick correctly to select the component member/s that is/are kept 
+           set argument 'fixed' correctly to select the component member/s that is/are kept 
            constant in the analysis")
     }
     while(a!= 0){
