@@ -28,7 +28,7 @@ Suggests:
 Type: Package
 Title: Species Distribution MOdeling with Pseudo-Absences
 Version: 1.0.0
-Date: 2017-04-02
+Date: 2017-05-02
 Authors@R: as.person(c(
     "Joaquin Bedia <bediaj@unican.es> [ctb]",
     "Maialen Iturbide <miturbide@ifca.unican.es> [aut, cre]",
