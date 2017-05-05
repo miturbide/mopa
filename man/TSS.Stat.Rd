@@ -7,8 +7,9 @@
 TSS.Stat(data)
 }
 \arguments{
-\item{data}{data}
+\item{data}{data generated in function cutTSS}
 }
 \description{
 Internarl function for cutTSS
 }
+\keyword{internal}

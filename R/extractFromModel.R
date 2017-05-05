@@ -47,10 +47,6 @@
 #' modsTS <- extractFromModel(models = fittingTS, value = "model")
 #' ObsPredTS <- extractFromModel(models = fittingTS, value = "ObsPred")
 #' 
-#' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
-#' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
-#' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
-#' 
 #' @export
 
 
@@ -101,15 +97,11 @@ extractFromModel <- function(models, value = c("model", "auc", "kappa", "tss", "
 #' 
 #' @details \code{ObsPred} allows to calculate further accuracy measures. 
 #' 
-#' 
+#' @keywords internal
 #' 
 #' @author M. Iturbide 
 #' 
-#' 
-#' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
-#' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
-#' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
-#' 
+
 
 
 extractFromModel0 <- function(models, value = c("model", "auc", "kappa", "tss", "fold.models", "ObsPred")){

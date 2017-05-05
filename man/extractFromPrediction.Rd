@@ -7,13 +7,12 @@
 extractFromPrediction(predictions, value)
 }
 \arguments{
-\item{predictions}{listed lists of objects (e.g. as returned by \code{\link[mopa]{mopaPredict}})}
+\item{predictions}{Listed lists of objects (e.g. as returned by \code{\link[mopa]{mopaPredict}})}
 
 \item{value}{Character pointing to the name of component/s in the list}
 }
 \description{
-Extrac objects from lists returned by function \code{\link[mopa]{mopaPredict}}
-returned by function \code{\link[mopa]{mopaPredict}}
+Extrac objects from lists returned by function \code{\link[mopa]{mopaPredict}}.
 }
 \examples{
 data(Oak_phylo2)
@@ -38,11 +37,6 @@ modsRS <- extractFromModel(models = fittingRS, value = "model")
 prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
 prdRS.fut.sub <- extractFromPrediction(prdRS.fut, "PA01")
 
-}
-\references{
-Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
-A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
-Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 }
 \author{
 M. Iturbide

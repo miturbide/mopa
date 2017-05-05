@@ -2,7 +2,7 @@
 % Please edit documentation in R/pseudoAbsences.R
 \name{pseudoAbsences}
 \alias{pseudoAbsences}
-\title{Pseudo-absences}
+\title{Pseudo-absence data generation}
 \usage{
 pseudoAbsences(xy, background, realizations = 1, exclusion.buffer = 0.0166,
   prevalence = 0.5, kmeans = FALSE, varstack = NULL)

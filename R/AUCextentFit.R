@@ -8,8 +8,8 @@
 #' asymptotic exponential (exponential 2). For details about these functions, see the 
 #' "non-linear regression" section of THE R BOOK by Michael J. Crawley.
 #' 
-#' @param testmat matrix. Data in each row is fitted separatelly.
-#' @param extents vector of increasing values that is fitted to each row in \code{testmat}.
+#' @param testmat Matrix. Data in each row is fitted separatelly.
+#' @param extents Vector of increasing values that is fitted to each row in \code{testmat}.
 #' @param diagrams Logical (default is FALSE). If TRUE diagrams of the fitted models are returned.
 #' 
 #' @details This function is internally used by function \code{\link[mopa]{mopaTrain}}, to fit AUC 
@@ -29,6 +29,7 @@
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
+#' @keywords internal
 #' @export
 #' @import lattice
 #' @importFrom stats nls coef na.omit 

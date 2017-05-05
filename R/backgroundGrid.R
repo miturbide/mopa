@@ -1,13 +1,13 @@
 
 #' @title Create background coordinates from raster object
 #' @description Creates the background coordinates used for defining the study area and for generating pseudo-absences.
-#' @param raster raster object with projection (\code{?raster::projection} and \code{?crs}) 
+#' @param raster Raster object with projection (\code{?raster::projection} and \code{?crs}) 
 #' from which to extract the the point grid (used as background coordinates for generating pseudo-absences)
-#' @param spatial.subset object of class extent (see \code{\link[raster]{extent}}) or a two
+#' @param spatial.subset Object of class extent (see \code{\link[raster]{extent}}) or a two
 #' column data.frame (or matrix) of coordinates (xy, each row is a point).
 #' 
 #' @details If a data.frame, matrix or a list of the previous is passed to \code{spatial.subset} the bounding coordinates
-#' are extracted to delimit the background. For example, to bound the study area to the spatial distribution of a species
+#' are extracted to delimit the background. For example, to bound the study area to the spatial distribution of a species.
 #' 
 #' @return A list with a SpatialPolygons object and a matrix of the background coordinates 
 #' 
@@ -69,18 +69,19 @@ backgroundGrid <- function(raster, spatial.subset = NULL){
 
 
 #' @title Bounding box coordinates of xy records
-#' @description Creates a vector or a list of vectors of bounding coordinates around point records (xy records)
+#' @description Creates a vector or a list of vectors of bounding coordinates around point records (xy records).
+#' This is an internal function used by function
+#' \code{\link{backgroundGrid}}. 
 #' @param xy Data frame or list of data frames with coordinates (each row is a point)
 #' 
-#' @return A vector or a list of vectors with bounding coordinates in the following form: c(x1, x2, y1, y2). 
+#' @return A vector or a list of vectors with bounding coordinates 
+#' in the following form: c(x1, x2, y1, y2). 
 #' 
 #' @author M. Iturbide 
 #' 
-#' @examples 
-#' \dontrun{
-#' data(Oak_phylo2)
-#' oak.bounds <- boundingCoords(xy = Oak_phylo2)
-#' }
+#' 
+#' @keywords internal
+#' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
@@ -113,18 +114,19 @@ boundingCoords<-function(xy){
 
 #' @title Delimit study area and background coordinates
 #' @description Creation of polygon shapes from bounding coordinates and delimitation of 
-#' SpatialPoints data to the defined boundaries
+#' SpatialPoints data to the defined boundaries. This is an internal function used by function
+#' \code{\link{backgroundGrid}}. 
 #' 
 #' @param bounding.coords A vector or a list of vectors with bounding coordinates in the following form: c(x1, x2, y1, y2). 
 #' Also object returned by function \code{\link{boundingCoords}}. 
-#' @param grid Projected SpatialPoints object
+#' @param grid SpatialPoints object
 #' @param names Character. Names or IDs to be given to each shape. If not specified names of the object passed to 
 #' bounding.coords will be given. In case this object has no names the background numbers will be used as names. 
 #' 
 #' @return A list with two components: 
 #' \itemize{
-#'  \item{bbs}{SpatialPolygons of the bounding boxes} 
-#'  \item{bbs.grid}{list(s) of matrix(ces) of the background xy coordinates in columns}.
+#'  \item{polygons}{SpatialPolygons of the bounding boxes} 
+#'  \item{xy}{list(s) of matrix(ces) of the background xy coordinates in columns}.
 #' }
 #' 
 #' @details This function is aimed at restricting the study area inside the bounding boxes 
@@ -140,44 +142,16 @@ boundingCoords<-function(xy){
 #' 
 #' @author M. Iturbide 
 #' 
-#' @examples
-#' \dontrun{
-#' data(Oak_phylo2)
-#' data(biostackENSEMBLES)
-#' presences <- Oak_phylo2
-#' 
-#' ##creation of point grid from raster object
-#' sp_grid <- background(biostackENSEMBLES$baseline$bio2)
-#' 
-#' ##delimit study area to the whole study domain for both species
-#' bc <- rep(list(boundingCoords(coordinates(sp_grid))), length(presences))
-#' del <- delimit(bounding.coords = bc, grid = sp_grid)
-#' ## Plot presences and bounding boxes
-#' plot(del$bbs, asp = 1)
-#' for (i in 1:length(presences)){
-#'   points(presences[[i]], col = colors()[i*50])
-#' }
-#' 
-#' ##delimit study area to the bounding coordinates of each species
-#' bc <- boundingCoords(presences)
-#' del <- delimit(bounding.coords = bc, grid = sp_grid)
-#' 
-#' ## Plot presences and bounding boxes
-#' plot(del$bbs, asp = 1)
-#' for (i in 1:length(presences)){
-#'   points(presences[[i]], col = colors()[i*50])
-#'   }
-#'}
 #'
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
-#' 
+#' @keywords internal
 #' @import sp
 #' @importFrom splancs bboxx
 
-delimit<-function(bounding.coords, grid, names = NULL){
+delimit <- function(bounding.coords, grid, names = NULL){
   if (class(bounding.coords) != "list") bounding.coords <- list(bounding.coords)
   boundsmat <- lapply(1:length(bounding.coords), function(x){
     matrix(bounding.coords[[x]], ncol = 2, byrow = T)
@@ -215,7 +189,7 @@ delimit<-function(bounding.coords, grid, names = NULL){
   }else{
     names(bbs.grid) <- rn
   } 
-  return(list("plygons" = bbs, "xy" = bbs.grid))
+  return(list("polygons" = bbs, "xy" = bbs.grid))
 }
 
 

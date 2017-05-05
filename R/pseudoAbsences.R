@@ -1,5 +1,5 @@
 
-#' @title Pseudo-absences 
+#' @title Pseudo-absence data generation
 #' @description Pseudo-absence data generation at random or by k-means clustering inside a single
 #' background or a group of backgrounds (e.g. of different extent, \code{\link[mopa]{backgroundRadius}})
 #' @param xy Data frame or list of data frames with coordinates (each row is a point), this is, 
@@ -143,7 +143,7 @@ pseudoAbsences <- function (xy, background, realizations = 1, exclusion.buffer =
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
-#' 
+#' @keywords internal
 #' @import sp
 #' @importFrom spatstat disc
 #' @importFrom stats kmeans na.omit
@@ -240,10 +240,10 @@ pseudoAbsences0 <- function(xy, background, exclusion.buffer = 0.0166, prevalenc
 #' 
 #' 
 #'
+#' @keywords internal
 #' 
 #' 
-#' 
-#' @author M. Iturbide \email{maibide@@gmail.com}
+#' @author M. Iturbide
 
 
 

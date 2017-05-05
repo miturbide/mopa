@@ -23,7 +23,7 @@ frames with coordinates
 \item{algorithm.args}{Further arguments to be passed to the selected algorithm for modeling (functions involved 
 are described in details).}
 
-\item{weighting}{Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars", 
+\item{weighting}{Logical for model fitting with weighted presence/absences. Applicable for algorithms "glm", "mars", 
 "rf", cart.tree and "cart.rpart". Default is FALSE.
 The processing time is considerably increased if weighting option is selected when the  
 "mars" algorithm (see \code{\link[earth]{earth}} is applied.}

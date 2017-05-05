@@ -1,7 +1,7 @@
 #' @title Model prediction 
 #' @description Model projection into a RasterStack
 #' 
-#' @param models model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}. 
+#' @param models Model class object (e.g. "glm") or list of model class objects, e.g. as returned by function \code{\link[mopa]{extractFromModel}}. 
 #' @param newClim RasterStack or list of RasterStack objects with variables for projecting
 #'  
 #' 
@@ -114,7 +114,7 @@ mopaPredict <- function(models, newClim){
 #' 
 #' @author M. Iturbide 
 #' 
-#' 
+#' @keywords internal
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
@@ -161,8 +161,9 @@ mopaPredict0 <- function(models, newClim){
 #' @description Level depth in a list 
 #' 
 #' @param this list
-#'  
+#' 
 #' @return number of nesting lists
+#' @keywords internal
 #' @author M. Iturbide 
 
 depth <- function(this){

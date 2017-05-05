@@ -13,7 +13,7 @@
 #' "glm", "svm", "maxent", "mars", "rf", "cart.rpart" and "cart.tree" (see details)
 #' @param algorithm.args Further arguments to be passed to the selected algorithm for modeling (functions involved 
 #' are described in details). 
-#' @param weighting Logical for model fitting with weighted presence/absences-s. Applicable for algorithms "glm", "mars", 
+#' @param weighting Logical for model fitting with weighted presence/absences. Applicable for algorithms "glm", "mars", 
 #' "rf", cart.tree and "cart.rpart". Default is FALSE.
 #' The processing time is considerably increased if weighting option is selected when the  
 #' "mars" algorithm (see \code{\link[earth]{earth}} is applied.
@@ -210,6 +210,7 @@ mopaTrain <- function(y,
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 #' 
+#' @keywords internal
 #' 
 #' @import raster
 #' @import sp
@@ -468,8 +469,9 @@ modelo <- function(kdata, data,
 #' @description Cut value of the max TSS
 #' @param Obs Observed values
 #' @param Fit fitted values
-#'   
-#' @return threshold that of the max TSS
+#'    
+#' @return threshold of the max TSS
+#' @keywords internal
 
 
 cutTSS <-  function(Obs, Fit){
@@ -519,7 +521,8 @@ cutTSS <-  function(Obs, Fit){
 
 #' @title Internarl function for cutTSS 
 #' @description  Internarl function for cutTSS
-#' @param data data
+#' @param data data generated in function cutTSS
+#' @keywords internal
 
 
 TSS.Stat <-

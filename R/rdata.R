@@ -2,7 +2,7 @@
 #' @description A dataset of class SpatialPolygonsDataFrame of the World map
 #' @name wrld
 #' @docType data
-#' @author M. Iturbide \email{maibide@@gmail.com}
+#' @author M. Iturbide 
 #' @keywords map
 NULL
 
@@ -23,10 +23,10 @@ NULL
 #' BIO15 \tab Precipitation Seasonality\cr
 #' BIO18 \tab Precipitation of Warmest Quarter\cr
 #' BIO19 \tab Precipitation of Coldest Quarter\cr
+#' \cr
+#' \cr
 #' }
 #' 
-#' \cr
-#' \cr
 #' 
 #' @section Regional Climate Models: 
 #' \tabular{rrrr}{

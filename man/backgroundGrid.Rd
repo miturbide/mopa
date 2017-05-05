@@ -7,10 +7,10 @@
 backgroundGrid(raster, spatial.subset = NULL)
 }
 \arguments{
-\item{raster}{raster object with projection (\code{?raster::projection} and \code{?crs}) 
+\item{raster}{Raster object with projection (\code{?raster::projection} and \code{?crs}) 
 from which to extract the the point grid (used as background coordinates for generating pseudo-absences)}
 
-\item{spatial.subset}{object of class extent (see \code{\link[raster]{extent}}) or a two
+\item{spatial.subset}{Object of class extent (see \code{\link[raster]{extent}}) or a two
 column data.frame (or matrix) of coordinates (xy, each row is a point).}
 }
 \value{
@@ -21,7 +21,7 @@ Creates the background coordinates used for defining the study area and for gene
 }
 \details{
 If a data.frame, matrix or a list of the previous is passed to \code{spatial.subset} the bounding coordinates
-are extracted to delimit the background. For example, to bound the study area to the spatial distribution of a species
+are extracted to delimit the background. For example, to bound the study area to the spatial distribution of a species.
 }
 \examples{
 data(Oak_phylo2)

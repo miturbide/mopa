@@ -8,6 +8,6 @@
 A dataset of class SpatialPolygonsDataFrame of the World map
 }
 \author{
-M. Iturbide \email{maibide@gmail.com}
+M. Iturbide
 }
 \keyword{map}

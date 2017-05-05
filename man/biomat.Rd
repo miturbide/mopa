@@ -10,32 +10,24 @@ biomat(data, varstack)
 \item{data}{Data frame with coordinates in the first two columns and presence/absence 
 (1=presence, 0=absence) in the third column.}
 
-\item{varstack}{RasterStack of variables for modelling}
-
-\item{projection}{Object of class CRS with the coordinate reference system. Default is 
-CRS("+proj=longlat +init=epsg:4326")}
+\item{varstack}{RasterStack of the variables from which values are extracted for each point in
+\code{data}.}
 }
 \value{
 2D matrix with the dependent variable (presence/absence) in the first column
 and the independent variables (extracted from varstack) in the rest.
 }
 \description{
-Prepares matrix with variables for modelling
-}
-\details{
-Details.
+Prepares matrix with variables for modeling
 }
 \examples{
-\dontrun{
 data(biostack)
 data(Oak_phylo2)
 dfp <-cbind(Oak_phylo2[[1]], "pa"= rep(1,nrow(Oak_phylo2[[1]])))
 dfa <-cbind(Oak_phylo2[[2]], "pa"= rep(0,nrow(Oak_phylo2[[2]])))
 df3 <-rbind(dfp, dfa)
-str(df3)
-mat <-biomat(df3, biostack)
+mat <-biomat(df3, biostack$baseline)
 str(mat)
-}
 
 }
 \author{

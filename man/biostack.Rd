@@ -21,10 +21,9 @@ BIO9 \tab Mean Temperature of Driest Quarter\cr
 BIO15 \tab Precipitation Seasonality\cr
 BIO18 \tab Precipitation of Warmest Quarter\cr
 BIO19 \tab Precipitation of Coldest Quarter\cr
+\cr
+\cr
 }
-
-\cr
-\cr
 }
 
 \section{Regional Climate Models}{

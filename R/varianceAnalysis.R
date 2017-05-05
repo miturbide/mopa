@@ -198,6 +198,11 @@ varianceAnalysis <- function(predictions, component1, component2, fixed = NULL) 
 #end
 
 
+#' @title Depth length in a list
+#' @description Depth length in a list
+#' @param this List
+#' @keywords internal
+#' 
 depthLength <- function(this){
   that <- this
   i <- 0
@@ -209,8 +214,12 @@ depthLength <- function(this){
   }
   return(len)
 }
+#end
 
-
+#' @title Depth names in a list 1
+#' @description Depth length in a list 1
+#' @param this List
+#' @keywords internal
 depthnames1 <- function(this){
   that <- this
   i <- 0
@@ -222,7 +231,12 @@ depthnames1 <- function(this){
   }
   return(len)
 }
+#end
 
+#' @title Depth length in a list
+#' @description Depth length in a list
+#' @param this List
+#' @keywords internal
 depthnames <- function(this, ind){
   that <- this
   i <- 0
@@ -235,3 +249,4 @@ depthnames <- function(this, ind){
   }
   return(len)
 }
+#end

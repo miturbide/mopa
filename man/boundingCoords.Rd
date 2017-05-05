@@ -10,16 +10,13 @@ boundingCoords(xy)
 \item{xy}{Data frame or list of data frames with coordinates (each row is a point)}
 }
 \value{
-A vector or a list of vectors with bounding coordinates in the following form: c(x1, x2, y1, y2).
+A vector or a list of vectors with bounding coordinates 
+in the following form: c(x1, x2, y1, y2).
 }
 \description{
-Creates a vector or a list of vectors of bounding coordinates around point records (xy records)
-}
-\examples{
-\dontrun{
-data(Oak_phylo2)
-oak.bounds <- boundingCoords(xy = Oak_phylo2)
-}
+Creates a vector or a list of vectors of bounding coordinates around point records (xy records).
+This is an internal function used by function
+\code{\link{backgroundGrid}}.
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
@@ -29,3 +26,4 @@ Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 \author{
 M. Iturbide
 }
+\keyword{internal}

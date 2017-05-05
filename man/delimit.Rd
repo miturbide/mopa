@@ -10,7 +10,7 @@ delimit(bounding.coords, grid, names = NULL)
 \item{bounding.coords}{A vector or a list of vectors with bounding coordinates in the following form: c(x1, x2, y1, y2). 
 Also object returned by function \code{\link{boundingCoords}}.}
 
-\item{grid}{Projected SpatialPoints object}
+\item{grid}{SpatialPoints object}
 
 \item{names}{Character. Names or IDs to be given to each shape. If not specified names of the object passed to 
 bounding.coords will be given. In case this object has no names the background numbers will be used as names.}
@@ -18,13 +18,14 @@ bounding.coords will be given. In case this object has no names the background n
 \value{
 A list with two components: 
 \itemize{
- \item{bbs}{SpatialPolygons of the bounding boxes} 
- \item{bbs.grid}{list(s) of matrix(ces) of the background xy coordinates in columns}.
+ \item{polygons}{SpatialPolygons of the bounding boxes} 
+ \item{xy}{list(s) of matrix(ces) of the background xy coordinates in columns}.
 }
 }
 \description{
 Creation of polygon shapes from bounding coordinates and delimitation of 
-SpatialPoints data to the defined boundaries
+SpatialPoints data to the defined boundaries. This is an internal function used by function
+\code{\link{backgroundGrid}}.
 }
 \details{
 This function is aimed at restricting the study area inside the bounding boxes 
@@ -36,36 +37,6 @@ to be used for modelling, see \code{\link[raster]{xyFromCell}},
 \code{\link[raster]{extract}} and example below. bbs.grid is the background inside 
 bbs shapes.
 }
-\examples{
-\dontrun{
-data(Oak_phylo2)
-data(biostackENSEMBLES)
-presences <- Oak_phylo2
-
-##creation of point grid from raster object
-sp_grid <- background(biostackENSEMBLES$baseline$bio2)
-
-##delimit study area to the whole study domain for both species
-bc <- rep(list(boundingCoords(coordinates(sp_grid))), length(presences))
-del <- delimit(bounding.coords = bc, grid = sp_grid)
-## Plot presences and bounding boxes
-plot(del$bbs, asp = 1)
-for (i in 1:length(presences)){
-  points(presences[[i]], col = colors()[i*50])
-}
-
-##delimit study area to the bounding coordinates of each species
-bc <- boundingCoords(presences)
-del <- delimit(bounding.coords = bc, grid = sp_grid)
-
-## Plot presences and bounding boxes
-plot(del$bbs, asp = 1)
-for (i in 1:length(presences)){
-  points(presences[[i]], col = colors()[i*50])
-  }
-}
-
-}
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
@@ -74,3 +45,4 @@ Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 \author{
 M. Iturbide
 }
+\keyword{internal}

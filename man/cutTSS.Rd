@@ -12,8 +12,9 @@ cutTSS(Obs, Fit)
 \item{Fit}{fitted values}
 }
 \value{
-threshold that of the max TSS
+threshold of the max TSS
 }
 \description{
 Cut value of the max TSS
 }
+\keyword{internal}

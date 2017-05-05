@@ -15,15 +15,14 @@ OCSVMprofiling(xy, varstack, background = NULL, nu = 0.5)
 the background is extracted from varstack.
 Matrix or list of matrixes of the background xy coordinates in columns.}
 
-\item{nu}{parameter needed for one-classification \code{\link[e1071]{svm}}. 
+\item{nu}{Parameter needed for one-classification \code{\link[e1071]{svm}}. 
 Default is 0.5}
 }
 \value{
 A list with two components:
   \item{absence }{Matrix or list of matrixes with xy coordinates predicted 
-as absence, each matrix correspond to a different background extent}
-\item{presence }{Matrix or list of matrixes with xy coordinates predicted as presence, 
-each matrix correspond to a different background extent}
+as absence}
+\item{presence }{Matrix or list of matrixes with xy coordinates predicted as presence}
 }
 \description{
 Presence-only modeling and classification of coordinates predicted as 
@@ -33,7 +32,7 @@ presence and absence
 This function constitutes the 
 first step from a three-step proccess to generate pseudo-absences, and is aimed at 
 excluding the suitable areas for the species (xy records) from the background 
-for pseudo-absences generation.
+from which pseudo-absences are sampled.
 }
 \examples{
 data(Oak_phylo2)

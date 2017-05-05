@@ -21,5 +21,6 @@ Each matrix correspond to a different background extent
 Binds presence and absence data for each background extension
 }
 \author{
-M. Iturbide \email{maibide@gmail.com}
+M. Iturbide
 }
+\keyword{internal}

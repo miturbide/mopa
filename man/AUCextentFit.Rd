@@ -7,9 +7,9 @@
 AUCextentFit(testmat, extents, diagrams = FALSE)
 }
 \arguments{
-\item{testmat}{matrix. Data in each row is fitted separatelly.}
+\item{testmat}{Matrix. Data in each row is fitted separatelly.}
 
-\item{extents}{vector of increasing values that is fitted to each row in \code{testmat}.}
+\item{extents}{Vector of increasing values that is fitted to each row in \code{testmat}.}
 
 \item{diagrams}{Logical (default is FALSE). If TRUE diagrams of the fitted models are returned.}
 }
@@ -38,3 +38,4 @@ Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 \author{
 M. Iturbide
 }
+\keyword{internal}
