@@ -29,7 +29,7 @@
 #' # plot(bg$xy)
 #' # plot(bg.subdomain$xy)
 #' # plot(bg.species$xy$H11)
-#' # plot(bg.species$xy$H01)
+#' plot(bg.species$xy$H01)
 
 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 

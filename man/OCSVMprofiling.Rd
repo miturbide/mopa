@@ -39,14 +39,12 @@ data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 r <- biostack$baseline[[1]]
-# Background of the whole study area
 bg <- backgroundGrid(r)
-## environmental profiling
 bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline, 
-background = bg$xy)
+                              background = bg$xy)
 ##plot
 plot(bg.profiled$absence$H11, pch="*")
-points(bg.profiled$presence$H11, pch="*", col= "pink4")
+points(bg.profiled$presence$H11, pch="*", col= "pink")
 
 }
 \references{

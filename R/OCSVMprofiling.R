@@ -32,14 +32,14 @@
 #' data(biostack)
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 #' r <- biostack$baseline[[1]]
-#' # Background of the whole study area
+# Background of the whole study area
 #' bg <- backgroundGrid(r)
-#' ## environmental profiling
+## environmental profiling
 #' bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline, 
-#' background = bg$xy)
+#'                               background = bg$xy)
 #' ##plot
 #' plot(bg.profiled$absence$H11, pch="*")
-#' points(bg.profiled$presence$H11, pch="*", col= "pink4")
+#' points(bg.profiled$presence$H11, pch="*", col= "pink")
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

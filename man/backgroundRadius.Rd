@@ -52,12 +52,7 @@ projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 r <- biostack$baseline[[1]]
 # Background of the whole study area
 bg <- backgroundGrid(r)
-## environmental profiling
-bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline, 
-background = bg$xy)
 bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
-start = 0.166, by = 0.083*10, unit = "decimal degrees")
-bg.extents2 <- backgroundRadius(xy = Oak_phylo2, background = bg.profiled$absence, 
 start = 0.166, by = 0.083*10, unit = "decimal degrees")
 
 }

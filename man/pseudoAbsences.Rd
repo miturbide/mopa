@@ -51,27 +51,32 @@ bg <- backgroundGrid(r)
 
 ## environmental profiling
 bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline, 
-background = bg$xy)
-
-## different background extents
-bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
-start = 0.166, by = 0.083*10, unit = "decimal degrees")
-bg.extents2 <- backgroundRadius(xy = Oak_phylo2, background = bg.profiled$absence, 
-start = 0.166, by = 0.083*10, unit = "decimal degrees")
-
-## inside different background extents
-TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents2, 
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+                              background = bg$xy)
 
 ## considering an unique background extent
 RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+                           exclusion.buffer = 0.083*5, 
+                           prevalence = -0.5, kmeans = FALSE)
 RSEP_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.profiled$absence, 
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+                             exclusion.buffer = 0.083*5, 
+                             prevalence = -0.5, kmeans = FALSE)
+
+## different background extents
+bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
+                               start = 0.166, by = 0.083*20, 
+                               unit = "decimal degrees")
+
+## inside different background extents
+TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
+                           exclusion.buffer = 0.083*10, 
+                           prevalence = -0.5, kmeans = FALSE)
+
 
 ## with k-means clustering
-TS_kmeans <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents2, 
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = TRUE, varstack = biostack$baseline)
+TS_kmeans <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
+                           exclusion.buffer = 0.083*5, 
+                           prevalence = -0.5, kmeans = TRUE, 
+                           varstack = biostack$baseline)
 
 }
 \references{

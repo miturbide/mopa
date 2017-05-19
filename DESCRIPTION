@@ -39,3 +39,4 @@ URL: https://github.com/SantanderMetGroup/mopa/wiki
 License: file LICENSE
 LazyLoad: true
 RoxygenNote: 6.0.1
+Mantainer: Maialen Iturbide <miturbide@ifca.unican.es> 

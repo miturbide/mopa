@@ -13,25 +13,24 @@
 #' @examples
 #' data(Oak_phylo2)
 #' data(biostack)
-#' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 #' r <- biostack$baseline[[1]]
-#' 
-#' ## Background of the whole study area
+#' ## Create background grid
 #' bg <- backgroundGrid(r)
-#' 
-#' 
-#' ## considering an unique background extent
+#' ## Generate pseudo-absences
 #' RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
-#' realizations = 10,
-#' exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-#' fittingRS <- mopaTrain(y = RS_random, x = biostack$baseline, k = 10, 
-#' algorithm = "glm", weighting = TRUE)
+#'                            exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+#' ## Model training
+#' fittedRS <- mopaTrain(y = RS_random, x = biostack$baseline, 
+#'                       k = 10, algorithm = "glm", weighting = TRUE)
+#' ## Extract fitted models
+#' mods <- extractFromModel(models = fittedRS, value = "model")
+## Model prediction
+#' preds <- mopaPredict(models = mods, newClim = biostack$future)
 #' 
-#' modsRS <- extractFromModel(models = fittingRS, value = "model")
+#' ## Extract predictions for the MPI regional climate model
+#' predsMPI <- extractFromPrediction(predictions = preds, value = "MPI")
+#' spplot(predsMPI)
 #' 
-#' #MODEL PREDICTION
-#' prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
-#' prdRS.fut.sub <- extractFromPrediction(prdRS.fut, "PA01")
 #' 
 #' @export
 #' 

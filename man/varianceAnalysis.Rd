@@ -57,6 +57,7 @@ function \code{\link[mopa]{mopaPredict}} .
 }
 \examples{
 data(Oak_phylo2)
+presences <- Oak_phylo2$H11
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 r <- biostack$baseline[[1]]
@@ -64,21 +65,21 @@ r <- biostack$baseline[[1]]
 ## Background of the whole study area
 bg <- backgroundGrid(r)
 
-
-## considering an unique background extent
-RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
-realizations = 10,
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+## Considering an unique background extent
+RS_random <-pseudoAbsences(xy = presences, background = bg$xy, 
+                           realizations = 10,
+                           exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
 
 fittingRS <- mopaTrain(y = RS_random, x = biostack$baseline, k = 10, 
-algorithm = "glm", weighting = TRUE)
+                       algorithm = "glm", weighting = TRUE)
 
 modsRS <- extractFromModel(models = fittingRS, value = "model")
 
-#MODEL PREDICTION AND ANALYSIS OF THE VARIABILITY IN PROJECTIONS
+# MODEL PREDICTION AND ANALYSIS OF THE VARIABILITY IN PROJECTIONS
 prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
-result <- varianceAnalysis(prdRS.fut, "PA", "newClim", fixed = "H11")
+result <- varianceAnalysis(prdRS.fut, "PA", "newClim")
 spplot(result$variance, col.regions = rev(get_col_regions()))
+
 
 
 }

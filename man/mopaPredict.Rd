@@ -20,33 +20,19 @@ Model projection into a RasterStack
 \examples{
 data(Oak_phylo2)
 data(biostack)
-projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 r <- biostack$baseline[[1]]
-
-## Background of the whole study area
+## Create background grid
 bg <- backgroundGrid(r)
-
-## inside different background extents
-bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
-start = 0.166, by = 0.083*10, unit = "decimal degrees")
-TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, k = 10, 
-algorithm = "glm", weighting = TRUE, diagrams = TRUE)
-
-## considering an unique background extent
+## Generate pseudo-absences
 RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-fittingRS <- mopaTrain(y = RS_random, x = biostack$baseline, k = 10, 
-algorithm = "glm", weighting = TRUE)
+                           exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+## Model training
+fittedRS <- mopaTrain(y = RS_random, x = biostack$baseline, 
+                      k = 10, algorithm = "glm", weighting = TRUE)
+## Extract fitted models
+mods <- extractFromModel(models = fittedRS, value = "model")
+preds <- mopaPredict(models = mods, newClim = biostack$future)
 
-modsTS <- extractFromModel(models = fittingTS, value = "model")
-
-#MODEL PREDICTION
-prdTS <- mopaPredict(models = modsTS, newClim = biostack$baseline)
-spplot(stack(prdTS$H11$PA01$glm$baseClim01))
-prdTS.fut <- mopaPredict(models = modsTS, newClim = biostack$future)
-spplot(stack(prdTS.fut$H11$PA01$glm$baseClim01$MPI))
 
 }
 \references{
@@ -55,7 +41,7 @@ A framework for species distribution modelling with improved pseudo-absence gene
 Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.
 }
 \seealso{
-\code{\link[mopa]{mopaTrain}}
+\code{\link[mopa]{mopaTrain}}, \code{\link[mopa]{extractFromPrediction}}
 }
 \author{
 M. Iturbide

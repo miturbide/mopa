@@ -27,35 +27,24 @@ via operating the difference between two vectors of probability distributions.
 \examples{
 data(Oak_phylo2)
 data(biostack)
-projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 r <- biostack$baseline[[1]]
-
-## Background of the whole study area
+## Create background grid
 bg <- backgroundGrid(r)
-
-## inside different background extents
-bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
-start = 0.166, by = 0.083*10, unit = "decimal degrees")
-TS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents, 
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-fittingTS <- mopaTrain(y = TS_random, x = biostack$baseline, k = 10, 
-algorithm = "glm", weighting = TRUE, diagrams = TRUE)
-
-## considering an unique background extent
+## Generate pseudo-absences
 RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
-exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-fittingRS <- mopaTrain(y = RS_random, x = biostack$baseline, k = 10, 
-algorithm = "glm", weighting = TRUE)
+                           exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
+## Model training
+fittedRS <- mopaTrain(y = RS_random, x = biostack$baseline, 
+                      k = 10, algorithm = "glm", weighting = TRUE)
+## Extract fitted models
+mods <- extractFromModel(models = fittedRS, value = "model")
+preds <- mopaPredict(models = mods, newClim = biostack$future)
 
-modsTS <- extractFromModel(models = fittingTS, value = "model")
-modsRS <- extractFromModel(models = fittingRS, value = "model")
+## Extract predictions for species phylogeny H11
+predsH11 <- extractFromPrediction(predictions = preds, value = "H11")
 
-#MODEL PREDICTION
-prdTS <- mopaPredict(models = modsTS, newClim = biostack$baseline)
-prdRS <- mopaPredict(models = modsRS, newClim = biostack$future)
-
-#NICHE OVERLAP
-no <- nicheOver(stack(unlist(list("TS" = prdTS, "RS" = prdRS))), metric = "D")
+## Compute niche overlap
+no <- nicheOver(predsH11, metric = "D")
 library(lattice)
 levelplot(no, col.regions = rev(terrain.colors(16)))
 
