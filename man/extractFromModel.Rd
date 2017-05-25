@@ -28,6 +28,7 @@ Extract values returned by function \code{\link[mopa]{mopaTrain}}
 \code{ObsPred} allows to calculate further accuracy measures.
 }
 \examples{
+\donttest{
 data(Oak_phylo2)
 data(biostack)
 r <- biostack$baseline[[1]]
@@ -43,7 +44,7 @@ fittedRS <- mopaTrain(y = RS_random, x = biostack$baseline,
 mods <- extractFromModel(models = fittedRS, value = "model")
 ## Extract observed and predicted values
 ObsPred <- extractFromModel(models = fittedRS, value = "ObsPred")
-
+}
 
 }
 \author{

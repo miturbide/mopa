@@ -25,6 +25,7 @@ Suggests:
     loadeR (>= 1.0.9),
     downscaleR (>= 2.0-0),
     transformeR (>= 0.0.8)
+Additional_repositories: https://github.com/SantanderMetGroup/transformeR, https://github.com/SantanderMetGroup/loadeR, https://github.com/SantanderMetGroup/downscaleR
 Type: Package
 Title: Species Distribution MOdeling with Pseudo-Absences
 Version: 1.0.0

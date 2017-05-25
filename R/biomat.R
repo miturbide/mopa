@@ -13,6 +13,7 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
+#' \donttest{
 #' data(biostack)
 #' data(Oak_phylo2)
 #' dfp <-cbind(Oak_phylo2[[1]], "pa"= rep(1,nrow(Oak_phylo2[[1]])))
@@ -20,6 +21,7 @@
 #' df3 <-rbind(dfp, dfa)
 #' mat <-biomat(df3, biostack$baseline)
 #' str(mat)
+#' }
 #' 
 #' @keywords internal
 #' @import sp

@@ -11,6 +11,7 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
+#' \donttest{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' r <- biostack$baseline[[1]]
@@ -30,7 +31,7 @@
 #' ## Extract predictions for the MPI regional climate model
 #' predsMPI <- extractFromPrediction(predictions = preds, value = "MPI")
 #' spplot(predsMPI)
-#' 
+#' }
 #' 
 #' @export
 #' 

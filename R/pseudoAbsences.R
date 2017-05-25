@@ -31,6 +31,7 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
+#' \donttest{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -66,6 +67,7 @@
 #'                            exclusion.buffer = 0.083*5, 
 #'                            prevalence = -0.5, kmeans = TRUE, 
 #'                            varstack = biostack$baseline)
+#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

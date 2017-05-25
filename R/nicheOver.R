@@ -14,6 +14,7 @@
 #'  O: Pianka index (Pianka, 1973).
 #' 
 #' @examples
+#' \donttest{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' r <- biostack$baseline[[1]]
@@ -37,7 +38,7 @@
 #' no <- nicheOver(predsH11, metric = "D")
 #' library(lattice)
 #' levelplot(no, col.regions = rev(terrain.colors(16)))
-#' 
+#' }
 #' 
 #' @author M. Iturbide 
 #' 

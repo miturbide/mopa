@@ -18,6 +18,7 @@ RasterStack of the projected probabilities
 Model projection into a RasterStack
 }
 \examples{
+\donttest{
 data(Oak_phylo2)
 data(biostack)
 r <- biostack$baseline[[1]]
@@ -32,7 +33,7 @@ fittedRS <- mopaTrain(y = RS_random, x = biostack$baseline,
 ## Extract fitted models
 mods <- extractFromModel(models = fittedRS, value = "model")
 preds <- mopaPredict(models = mods, newClim = biostack$future)
-
+}
 
 }
 \references{

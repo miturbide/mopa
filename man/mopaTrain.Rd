@@ -88,6 +88,7 @@ For example, when appying "glm", further arguments from function \code{\link[sta
 passed to \code{mopaTrain} by using \code{algorithm.args}.
 }
 \examples{
+\donttest{
 data(Oak_phylo2)
 data(biostack)
 r <- biostack$baseline[[1]]
@@ -101,6 +102,7 @@ fittedRS <- mopaTrain(y = RS_random, x = biostack$baseline,
                       k = 10, algorithm = "glm", weighting = TRUE)
 ## Extract fitted models
 mods <- extractFromModel(models = fittedRS, value = "model")
+}
 
 }
 \references{

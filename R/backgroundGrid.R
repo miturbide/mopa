@@ -15,7 +15,8 @@
 #' 
 #' @importFrom abind abind
 #' 
-#' @examples 
+#' @examples
+#' \donttest{ 
 #' data(Oak_phylo2)
 #' data(biostack)
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -30,7 +31,7 @@
 #' # plot(bg.subdomain$xy)
 #' # plot(bg.species$xy$H11)
 #' plot(bg.species$xy$H01)
-
+#' }
 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

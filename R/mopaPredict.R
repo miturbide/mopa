@@ -11,6 +11,7 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
+#' \donttest{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' r <- biostack$baseline[[1]]
@@ -26,7 +27,7 @@
 #' mods <- extractFromModel(models = fittedRS, value = "model")
 ## Model prediction
 #' preds <- mopaPredict(models = mods, newClim = biostack$future)
-#' 
+#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

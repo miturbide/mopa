@@ -15,6 +15,7 @@ extractFromPrediction(predictions, value)
 Extrac objects from lists returned by function \code{\link[mopa]{mopaPredict}}.
 }
 \examples{
+\donttest{
 data(Oak_phylo2)
 data(biostack)
 r <- biostack$baseline[[1]]
@@ -33,7 +34,7 @@ preds <- mopaPredict(models = mods, newClim = biostack$future)
 ## Extract predictions for the MPI regional climate model
 predsMPI <- extractFromPrediction(predictions = preds, value = "MPI")
 spplot(predsMPI)
-
+}
 
 }
 \author{

@@ -24,6 +24,7 @@ If a data.frame, matrix or a list of the previous is passed to \code{spatial.sub
 are extracted to delimit the background. For example, to bound the study area to the spatial distribution of a species.
 }
 \examples{
+\donttest{ 
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -38,6 +39,7 @@ bg <- backgroundGrid(r)
 # plot(bg.subdomain$xy)
 # plot(bg.species$xy$H11)
 plot(bg.species$xy$H01)
+}
 }
 \references{
 Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 

@@ -73,6 +73,7 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
+#' \donttest{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' r <- biostack$baseline[[1]]
@@ -86,6 +87,7 @@
 #'                       k = 10, algorithm = "glm", weighting = TRUE)
 #' ## Extract fitted models
 #' mods <- extractFromModel(models = fittedRS, value = "model")
+#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

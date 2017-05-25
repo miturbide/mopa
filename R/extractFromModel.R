@@ -22,6 +22,7 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
+#' \donttest{
 #' data(Oak_phylo2)
 #' data(biostack)
 #' r <- biostack$baseline[[1]]
@@ -37,7 +38,7 @@
 #' mods <- extractFromModel(models = fittedRS, value = "model")
 #' ## Extract observed and predicted values
 #' ObsPred <- extractFromModel(models = fittedRS, value = "ObsPred")
-#' 
+#' }
 #' 
 #' @export
 

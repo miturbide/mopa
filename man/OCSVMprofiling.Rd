@@ -35,6 +35,7 @@ excluding the suitable areas for the species (xy records) from the background
 from which pseudo-absences are sampled.
 }
 \examples{
+\donttest{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -45,6 +46,7 @@ bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline,
 ##plot
 plot(bg.profiled$absence$H11, pch="*")
 points(bg.profiled$presence$H11, pch="*", col= "pink")
+}
 
 }
 \references{

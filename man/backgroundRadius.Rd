@@ -46,6 +46,7 @@ modeling for each of the extents here established, and will return the fitted mo
 the optimum background extent (see references).
 }
 \examples{
+\donttest{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -54,6 +55,7 @@ r <- biostack$baseline[[1]]
 bg <- backgroundGrid(r)
 bg.extents <- backgroundRadius(xy = Oak_phylo2, background = bg$xy, 
 start = 0.166, by = 0.083*10, unit = "decimal degrees")
+}
 
 }
 \references{

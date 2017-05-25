@@ -25,6 +25,7 @@ via operating the difference between two vectors of probability distributions.
  O: Pianka index (Pianka, 1973).
 }
 \examples{
+\donttest{
 data(Oak_phylo2)
 data(biostack)
 r <- biostack$baseline[[1]]
@@ -47,7 +48,7 @@ predsH11 <- extractFromPrediction(predictions = preds, value = "H11")
 no <- nicheOver(predsH11, metric = "D")
 library(lattice)
 levelplot(no, col.regions = rev(terrain.colors(16)))
-
+}
 
 }
 \references{

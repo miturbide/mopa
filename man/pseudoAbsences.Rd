@@ -42,6 +42,7 @@ of functions \code{\link[mopa]{OCSVMprofiling}} and/or \code{\link[mopa]{backgro
 in order to consider alternative methods for pseudo-absence data generation (see references).
 }
 \examples{
+\donttest{
 data(Oak_phylo2)
 data(biostack)
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
@@ -77,6 +78,7 @@ TS_kmeans <-pseudoAbsences(xy = Oak_phylo2, background = bg.extents,
                            exclusion.buffer = 0.083*5, 
                            prevalence = -0.5, kmeans = TRUE, 
                            varstack = biostack$baseline)
+}
 
 }
 \references{
