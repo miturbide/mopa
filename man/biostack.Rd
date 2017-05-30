@@ -3,7 +3,7 @@
 \docType{data}
 \name{biostack}
 \alias{biostack}
-\title{Bioclim RasterStack for baseline and future data}
+\title{Bioclim RasterStack for baseline and future data for Europe}
 \description{
 A \code{\link[raster]{stack}} dataset containing bioclimatic variables 
 (bio1, bio4, bio5, bio9, bio15, bio18, bio19) for the reference period 1971-2000 (E-OBS dataset, Haylock et al., 2008, v12)

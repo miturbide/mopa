@@ -22,7 +22,11 @@ Prepares matrix with variables for modeling
 }
 \examples{
 \donttest{
-data(biostack)
+destfile <- tempfile()
+data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
+download.file(data.url, destfile)
+load(destfile, verbose = TRUE)
+
 data(Oak_phylo2)
 dfp <-cbind(Oak_phylo2[[1]], "pa"= rep(1,nrow(Oak_phylo2[[1]])))
 dfa <-cbind(Oak_phylo2[[2]], "pa"= rep(0,nrow(Oak_phylo2[[2]])))
@@ -30,7 +34,6 @@ df3 <-rbind(dfp, dfa)
 mat <-biomat(df3, biostack$baseline)
 str(mat)
 }
-
 }
 \author{
 M. Iturbide

@@ -16,9 +16,14 @@
 #' @importFrom abind abind
 #' 
 #' @examples
-#' \donttest{ 
+#' \donttest{
 #' data(Oak_phylo2)
-#' data(biostack)
+#' 
+#' destfile <- tempfile()
+#' data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
+#' download.file(data.url, destfile)
+#' load(destfile, verbose = TRUE)
+#' 
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 #' r <- biostack$baseline[[1]]
 #' # Background around a set of coordinates
@@ -32,7 +37,7 @@
 #' # plot(bg.species$xy$H11)
 #' plot(bg.species$xy$H01)
 #' }
-
+#' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
 #' Modelling. DOI:10.1016/j.ecolmodel.2015.05.018.

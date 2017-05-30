@@ -55,7 +55,12 @@
 #' \donttest{
 #' data(Oak_phylo2)
 #' presences <- Oak_phylo2$H11
-#' data(biostack)
+#' 
+#' destfile <- tempfile()
+#' data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
+#' download.file(data.url, destfile)
+#' load(destfile, verbose = TRUE)
+#' 
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 #' r <- biostack$baseline[[1]]
 #' 
@@ -77,7 +82,6 @@
 #' result <- varianceAnalysis(prdRS.fut, "PA", "newClim")
 #' spplot(result$variance, col.regions = rev(get_col_regions()))
 #' }
-#' 
 #' 
 #' @export
 #' @importFrom stats sd

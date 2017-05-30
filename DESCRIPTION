@@ -25,15 +25,14 @@ Suggests:
     loadeR (>= 1.0.9),
     downscaleR (>= 2.0-0),
     transformeR (>= 0.0.8)
-Additional_repositories: https://github.com/SantanderMetGroup/transformeR, https://github.com/SantanderMetGroup/loadeR, https://github.com/SantanderMetGroup/downscaleR
+Additional_repositories: https://github.com/SantanderMetGroup/loadeR, https://github.com/SantanderMetGroup/downscaleR, https://github.com/SantanderMetGroup/transformeR
 Type: Package
 Title: Species Distribution MOdeling with Pseudo-Absences
 Version: 1.0.0
-Date: 2017-05-02
-Authors@R: as.person(c(
-    "Joaquin Bedia <bediaj@unican.es> [ctb]",
-    "Maialen Iturbide <miturbide@ifca.unican.es> [aut, cre]",
-    "Santander Meteorology Group <http://meteo.unican.es> [ctb]"))
+Date: 2017-05-30
+Authors@R: c(person("Maialen", "Iturbide", role = c("aut", "cre"), email = "miturbide@ifca.unican.es"),
+              person("Joaqu\'in", "Bedia", role = "ctb"),
+              person("SantanderMetGroup", "http://meteo.unican.es", role = "ctb"))
 Description: Transferable Species Distribution Modeling and Pseudo-absence data generation.
 BugReports: https://github.com/SantanderMetGroup/mopa/issues
 URL: https://github.com/SantanderMetGroup/mopa/wiki

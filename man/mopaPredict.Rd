@@ -20,7 +20,12 @@ Model projection into a RasterStack
 \examples{
 \donttest{
 data(Oak_phylo2)
-data(biostack)
+
+destfile <- tempfile()
+data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
+download.file(data.url, destfile)
+load(destfile, verbose = TRUE)
+
 r <- biostack$baseline[[1]]
 ## Create background grid
 bg <- backgroundGrid(r)

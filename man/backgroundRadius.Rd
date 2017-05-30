@@ -48,7 +48,12 @@ the optimum background extent (see references).
 \examples{
 \donttest{
 data(Oak_phylo2)
-data(biostack)
+
+destfile <- tempfile()
+data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
+download.file(data.url, destfile)
+load(destfile, verbose = TRUE)
+
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 r <- biostack$baseline[[1]]
 # Background of the whole study area

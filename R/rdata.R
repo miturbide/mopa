@@ -6,7 +6,8 @@
 #' @keywords map
 NULL
 
-#' @title Bioclim RasterStack for baseline and future data
+
+#' @title Bioclim RasterStack for baseline and future data for Europe
 #' @description A \code{\link[raster]{stack}} dataset containing bioclimatic variables 
 #' (bio1, bio4, bio5, bio9, bio15, bio18, bio19) for the reference period 1971-2000 (E-OBS dataset, Haylock et al., 2008, v12)
 #' and future period 2071-2100, given by 7 different regional climate models from the ENSEMBLES project 
@@ -78,6 +79,7 @@ NULL
 #' Jansson ,C., Kjellstrom, E., Nikulin, G. & Wyser, K. (2011) The Rossby Centre Regional Cliate model RCA3: model
 #' description and performance. Tellus A 63, 4-23.
 NULL
+
 
 #' @title Oak distribution
 #' @description A dataset consisting of a list with two

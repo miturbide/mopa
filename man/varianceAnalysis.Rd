@@ -59,7 +59,12 @@ function \code{\link[mopa]{mopaPredict}} .
 \donttest{
 data(Oak_phylo2)
 presences <- Oak_phylo2$H11
-data(biostack)
+
+destfile <- tempfile()
+data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
+download.file(data.url, destfile)
+load(destfile, verbose = TRUE)
+
 projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 r <- biostack$baseline[[1]]
 
@@ -81,7 +86,6 @@ prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
 result <- varianceAnalysis(prdRS.fut, "PA", "newClim")
 spplot(result$variance, col.regions = rev(get_col_regions()))
 }
-
 
 }
 \references{
