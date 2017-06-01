@@ -22,10 +22,8 @@ Imports:
 Suggests:
     rJava (>= 0.5-0),
     caret (>= 6.0-76),
-    loadeR (>= 1.0.9),
-    downscaleR (>= 2.0-0),
-    transformeR (>= 0.0.8)
-Additional_repositories: https://github.com/SantanderMetGroup/loadeR, https://github.com/SantanderMetGroup/downscaleR, https://github.com/SantanderMetGroup/transformeR
+    downscaleR (>= 2.0-0)
+Additional_repositories: http://miturbide.github.io/datarepo/src/contrib/
 Type: Package
 Title: Species Distribution MOdeling with Pseudo-Absences
 Version: 1.0.0
