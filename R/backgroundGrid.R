@@ -16,9 +16,10 @@
 #' @importFrom abind abind
 #' 
 #' @examples
-#' \donttest{
+#' ## Load presences
 #' data(Oak_phylo2)
 #' 
+#' ## Load rasters
 #' destfile <- tempfile()
 #' data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
 #' download.file(data.url, destfile)
@@ -26,17 +27,18 @@
 #' 
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 #' r <- biostack$baseline[[1]]
-#' # Background around a set of coordinates
+#' 
+#' ## Background around a set of coordinates
 #' bg.species <- backgroundGrid(r, Oak_phylo2)
-#' # Background of a subdomain of the study area
+#' ## Background of a subdomain of the study area
 #' bg.subdomain <- backgroundGrid(r, extent(c(-10, 30, 35, 65)))
-#' # Background of the whole study area
+#' ## Background of the whole study area
 #' bg <- backgroundGrid(r)
+#' 
 #' # plot(bg$xy)
 #' # plot(bg.subdomain$xy)
 #' # plot(bg.species$xy$H11)
 #' plot(bg.species$xy$H01)
-#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
@@ -56,15 +58,20 @@ backgroundGrid <- function(raster, spatial.subset = NULL){
   }
   ac <- xyFromCell(raster, 1:ncell(raster))
   ex <- extract(raster, ac)
+  naind <- which(is.na(ex))
   # Convert to a Spatial object and define projection
-  sp_grid <- SpatialPoints(ac[-which(is.na(ex)), ])
+  if(length(naind) > 0){
+    sp_grid <- SpatialPoints(ac[-naind, ])
+  }else{
+    sp_grid <- SpatialPoints(ac)
+  }
   projection(sp_grid) <- projection(raster)
   if(class(spatial.subset) != "Extent"){
       bcoord <- boundingCoords(spatial.subset)
   }else{
       bcoord <- boundingCoords(coordinates(sp_grid))
   }
-  del <-delimit(bounding.coords = bcoord, grid = sp_grid)
+  del <- delimit(bounding.coords = bcoord, grid = sp_grid)
   return(del)
 }
   
