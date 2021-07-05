@@ -4,8 +4,14 @@
 \alias{pseudoAbsences0}
 \title{Pseudo-absences internal}
 \usage{
-pseudoAbsences0(xy, background, exclusion.buffer = 0.0166, prevalence = 0.5,
-  kmeans = FALSE, varstack = NULL)
+pseudoAbsences0(
+  xy,
+  background,
+  exclusion.buffer = 0.0166,
+  prevalence = 0.5,
+  kmeans = FALSE,
+  varstack = NULL
+)
 }
 \arguments{
 \item{xy}{Data frame or list of data frames with coordinates (each row is a point), this is, 

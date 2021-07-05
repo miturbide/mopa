@@ -4,8 +4,13 @@
 \alias{backgroundRadius}
 \title{Background extent restriction for a sequence of distances}
 \usage{
-backgroundRadius(xy, background, start = 0.166, by = 0.083,
-  unit = c("decimal degrees", "utm"))
+backgroundRadius(
+  xy,
+  background,
+  start = 0.166,
+  by = 0.083,
+  unit = c("decimal degrees", "utm")
+)
 }
 \arguments{
 \item{xy}{Data frame or list of data frames with coordinates (each row is a point) 

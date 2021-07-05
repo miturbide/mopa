@@ -4,9 +4,15 @@
 \alias{modelo}
 \title{Species distribution modeling and cross validation}
 \usage{
-modelo(kdata, data, algorithm = c("glm", "svm", "maxent", "mars", "rf",
-  "cart.rpart", "cart.tree"), algorithm.args = NULL, weighting = FALSE,
-  threshold = NULL, tuneRF.args = NULL)
+modelo(
+  kdata,
+  data,
+  algorithm = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"),
+  algorithm.args = NULL,
+  weighting = FALSE,
+  threshold = NULL,
+  tuneRF.args = NULL
+)
 }
 \arguments{
 \item{kdata}{Object returned by function leaveOneOut}

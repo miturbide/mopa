@@ -4,8 +4,10 @@
 \alias{extractFromModel}
 \title{Extrac objects from lists returned by function \code{\link[mopa]{mopaTrain}}}
 \usage{
-extractFromModel(models, value = c("model", "auc", "kappa", "tss",
-  "fold.models", "ObsPred"))
+extractFromModel(
+  models,
+  value = c("model", "auc", "kappa", "tss", "fold.models", "ObsPred")
+)
 }
 \arguments{
 \item{models}{Object returned by \code{\link[mopa]{mopaTrain}}.}

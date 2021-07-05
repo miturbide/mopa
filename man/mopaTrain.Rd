@@ -4,9 +4,17 @@
 \alias{mopaTrain}
 \title{Easy species distribution modeling and cross validation}
 \usage{
-mopaTrain(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars", "rf",
-  "cart.rpart", "cart.tree"), algorithm.args = NULL, weighting = FALSE,
-  threshold = NULL, diagrams = FALSE, tuneRF.args = NULL)
+mopaTrain(
+  y,
+  x,
+  k = 10,
+  algorithm = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"),
+  algorithm.args = NULL,
+  weighting = FALSE,
+  threshold = NULL,
+  diagrams = FALSE,
+  tuneRF.args = NULL
+)
 }
 \arguments{
 \item{y}{Object returned by function \code{\link[mopa]{pseudoAbsences}} or data frame or list/s of data 

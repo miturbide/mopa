@@ -4,9 +4,16 @@
 \alias{varianceSummary}
 \title{Summary of the variance analysis results.}
 \usage{
-varianceSummary(..., component = 1L, drawBoxplot = TRUE, regions = c(6L,
-  6L), addWorld = TRUE, outline = FALSE, parMap = list(mar = c(0, 0, 0,
-  0)), parGraph = list(mar = c(2.5, 2.5, 3, 1)))
+varianceSummary(
+  ...,
+  component = 1L,
+  drawBoxplot = TRUE,
+  regions = c(6L, 6L),
+  addWorld = TRUE,
+  outline = FALSE,
+  parMap = list(mar = c(0, 0, 0, 0)),
+  parGraph = list(mar = c(2.5, 2.5, 3, 1))
+)
 }
 \arguments{
 \item{...}{A single or multiple objects returned by function \code{\link[mopa]{varianceAnalysis}}.}

@@ -21,9 +21,12 @@ Imports:
     gtools,
     ranger,
     abind,
+    transformeR
 Suggests:
     rJava (>= 0.5-0),
-    caret (>= 6.0-76)
+    caret (>= 6.0-76),
+    climate4R.datasets,
+    visualizeR
 Type: Package
 Title: Species Distribution MOdeling with Pseudo-Absences
 Version: 1.0.1
@@ -46,5 +49,5 @@ BugReports: https://github.com/SantanderMetGroup/mopa/issues
 URL: https://github.com/SantanderMetGroup/mopa/wiki
 License: GPL-3
 LazyLoad: true
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.0
 Maintainer: Maialen Iturbide <miturbide@ifca.unican.es> 

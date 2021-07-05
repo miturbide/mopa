@@ -4,10 +4,18 @@
 \alias{mopaTrain0}
 \title{Easy species distribution modeling and cross validation}
 \usage{
-mopaTrain0(y, x, k = 10, algorithm = c("glm", "svm", "maxent", "mars", "rf",
-  "cart.rpart", "cart.tree"), algorithm.args = NULL, weighting = FALSE,
-  threshold = NULL, diagrams = FALSE, tuneRF.args = NULL,
-  plotnames = "unnamed")
+mopaTrain0(
+  y,
+  x,
+  k = 10,
+  algorithm = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"),
+  algorithm.args = NULL,
+  weighting = FALSE,
+  threshold = NULL,
+  diagrams = FALSE,
+  tuneRF.args = NULL,
+  plotnames = "unnamed"
+)
 }
 \arguments{
 \item{y}{RasterStack of variables for modelling}

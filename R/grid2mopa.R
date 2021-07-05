@@ -30,11 +30,13 @@
 #' time dimension length is 12 (e.g. monthly data), a RasterStack of 12 rasters is obtained. Functions in \pkg{transformeR}
 #' allow to operate over the grids in order to obtain the desired temporal means (etc.) at the desired temporal resolution. 
 #' @importFrom raster raster flip stack
+#' @importFrom transformeR redim getDim getShape subsetGrid
 #' @author M. Iturbide
 #' @seealso \code{\link[transformeR]{climatology}}; \code{\link[loadeR]{loadGridData}}
 #' @export
 #' @examples \donttest{
 #' require(climate4R.datasets)
+#' require(transformeR)
 #' # A raster stack from a multigrid
 #' data("EOBS_Iberia_tas")
 #' data("EOBS_Iberia_pr")
@@ -82,11 +84,14 @@ grid2mopa <- function(grid, crs = NA){
 #' within -90 .. 90, "+proj=longlat +datum=WGS84" is used. Also see under Details if x is a character (filename).
 #' @return A raster for grid objects and a RasterStack for multigrids.
 #' @importFrom raster raster flip stack
+#' @importFrom transformeR redim getGrid getShape
 #' @author M. Iturbide
 #' @seealso \code{\link[transformeR]{climatology}}; \code{\link[loadeR]{loadGridData}}
 #' @export
 #' @examples 
-#' #' # Maximum July surface temp forecast climatology
+#' require(climate4R.datasets)
+#' require(transformeR)
+#' # Maximum July surface temp forecast climatology
 #' data("CFS_Iberia_tas")
 #' # Aggregate all members and compute climatology
 #' t.clim <- climatology(CFS_Iberia_tas, by.member = FALSE)
