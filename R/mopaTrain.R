@@ -27,12 +27,12 @@
 #' 
 #' @return A list of six components is returned for each species in \code{x}:
 #' \itemize{
-#'  \item{model }{fitted model using all data for training}
-#'  \item{auc }{AUC statistic in the cross validation}
-#'  \item{kappa }{kappa statistic in the cross validation}
-#'  \item{tss }{true skill statistic in the cross validation }
-#'  \item{fold.models }{fitted models of each data partition for cross validation}
-#'  \item{ObsPred }{cross model prediction (e.g. for further assessment of model accuracy)}
+#'  \item{\code{$model} }{fitted model using all data for training}
+#'  \item{\code{$auc} }{AUC statistic in the cross validation}
+#'  \item{\code{$kappa} }{kappa statistic in the cross validation}
+#'  \item{\code{$tss} }{true skill statistic in the cross validation }
+#'  \item{\code{$fold.models} }{fitted models of each data partition for cross validation}
+#'  \item{\code{$ObsPred} }{cross model prediction (e.g. for further assessment of model accuracy)}
 #'  }
 #' 
 #' @details This function calculates the AUC with the function \code{\link[PresenceAbsence]{auc}} from package 
@@ -73,17 +73,20 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
-#' \donttest{
+#' ## Load presence data
 #' data(Oak_phylo2)
 #' 
+#' ## Load climate data
 #' destfile <- tempfile()
 #' data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
 #' download.file(data.url, destfile)
 #' load(destfile, verbose = TRUE)
 #' 
+#' ## Spatial reference
 #' r <- biostack$baseline[[1]]
 #' ## Create background grid
 #' bg <- backgroundGrid(r)
+#' 
 #' ## Generate pseudo-absences
 #' RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
 #'                            exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
@@ -92,7 +95,6 @@
 #'                       k = 10, algorithm = "glm", weighting = TRUE)
 #' ## Extract fitted models
 #' mods <- extractFromModel(models = fittedRS, value = "model")
-#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 
@@ -136,7 +138,7 @@ mopaTrain <- function(y,
                               threshold = threshold,
                               diagrams = diagrams,
                               tuneRF.args = tuneRF.args,
-                              plotnames = paste0(names(y)[j], " PAralization ", i))
+                              plotnames = paste0(names(y)[j], " PArealization ", i))
           if(l < 10){
             nm[l] <- paste0("0", l)
           }else{

@@ -28,25 +28,27 @@
 #' @author M. Iturbide 
 #' 
 #' @examples
-#' \donttest{
+#' ## Load presence data
 #' data(Oak_phylo2)
 #' 
+#' ## Load climate data
 #' destfile <- tempfile()
 #' data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
 #' download.file(data.url, destfile)
 #' load(destfile, verbose = TRUE)
 #' 
+#' ## Spatial reference
 #' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
 #' r <- biostack$baseline[[1]]
-# Background of the whole study area
+#' ## Background of the whole study area
 #' bg <- backgroundGrid(r)
-## environmental profiling
+#' 
+#' ## Environmental profiling
 #' bg.profiled <- OCSVMprofiling(xy = Oak_phylo2, varstack = biostack$baseline, 
 #'                               background = bg$xy)
-#' ##plot
+#' ## Plot
 #' plot(bg.profiled$absence$H11, pch="*")
 #' points(bg.profiled$presence$H11, pch="*", col= "pink")
-#' }
 #' 
 #' @references Iturbide, M., Bedia, J., Herrera, S., del Hierro, O., Pinto, M., Gutierrez, J.M., 2015. 
 #' A framework for species distribution modelling with improved pseudo-absence generation. Ecological 

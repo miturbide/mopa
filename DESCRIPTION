@@ -16,25 +16,35 @@ Imports:
     randomForest,
     PresenceAbsence,
     lattice,
+    graphics,
+    grDevices,
     gtools,
     ranger,
     abind,
 Suggests:
     rJava (>= 0.5-0),
-    caret (>= 6.0-76),
-    downscaleR (>= 2.0-0)
-Additional_repositories: http://miturbide.github.io/datarepo/src/contrib/
+    caret (>= 6.0-76)
 Type: Package
 Title: Species Distribution MOdeling with Pseudo-Absences
-Version: 1.0.0
-Date: 2017-05-30
+Version: 1.0.1
+Date: 2018-02-12
 Authors@R: c(person("Maialen", "Iturbide", role = c("aut", "cre"), email = "miturbide@ifca.unican.es"),
-              person("Joaqu\'in", "Bedia", role = "ctb"),
+              person("Joaquin", "Bedia", role = "ctb"),
               person("SantanderMetGroup", "http://meteo.unican.es", role = "ctb"))
-Description: Transferable Species Distribution Modeling and Pseudo-absence data generation.
+Description: Tools for transferable species distribution modeling and pseudo-absence 
+    data generation allowing the straightforward design of relatively complex experiments 
+    with multiple factors affecting the uncertainty (variability) of SDM outputs 
+    (pseudo-absence sample, climate projection, modeling algorithm, etc.), and the 
+    quantification of the contribution of different factors to the final variability 
+    following the method described in Deque el al. (2010) <doi:10.1007/s00382-011-1053-x>. 
+    Multiple methods for pseudo-absence data generation can be applied, including the novel 
+    Three-step method as described in Iturbide et al. (2015) <doi:10.1016/j.ecolmodel.2015.05.018>.
+    Additionally, a function for niche overlap calculation is provided, considering the metrics 
+    described in Warren et al. (2008) <10.1111/j.1558-5646.2008.00482.x> and in
+    Pianka (1973) <10.1146/annurev.es.04.110173.000413>.
 BugReports: https://github.com/SantanderMetGroup/mopa/issues
 URL: https://github.com/SantanderMetGroup/mopa/wiki
-License: file LICENSE
+License: GPL-3
 LazyLoad: true
 RoxygenNote: 6.0.1
 Maintainer: Maialen Iturbide <miturbide@ifca.unican.es> 

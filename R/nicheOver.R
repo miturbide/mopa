@@ -14,33 +14,49 @@
 #'  O: Pianka index (Pianka, 1973).
 #' 
 #' @examples
-#' \donttest{
-#' data(Oak_phylo2)
 #' 
+#' # SHORT EXAMPLE
 #' destfile <- tempfile()
 #' data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
 #' download.file(data.url, destfile)
 #' load(destfile, verbose = TRUE)
 #' 
-#' r <- biostack$baseline[[1]]
-#' ## Create background grid
-#' bg <- backgroundGrid(r)
-#' ## Generate pseudo-absences
-#' RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
-#'                            exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-#' ## Model training
-#' fittedRS <- mopaTrain(y = RS_random, x = biostack$baseline, 
-#'                       k = 10, algorithm = "glm", weighting = TRUE)
-#' ## Extract fitted models
-#' mods <- extractFromModel(models = fittedRS, value = "model")
-## Model prediction
+#' ## Fitted models
+#' data(mods)
+#' ?mods
+#' 
+#' ## Model prediction
+#' newClim <- lapply(1:4, function(x){
+#' crop(biostack$future[[x]], extent(-10, 10, 35, 65))
+#' })
+#' names(newClim) <- names(biostack$future)[1:4]
+#' prdRS.fut <- mopaPredict(models = mods, newClim = newClim)
+#' 
+#' ## Extract predictions for pseudo-absence realizaion number 1
+#' predsPA01 <- extractFromPrediction(predictions = prdRS.fut, value = "PA01")
+#' no <- nicheOver(predsPA01, metric = "D")
+#' library(lattice)
+#' levelplot(no, col.regions = rev(terrain.colors(16)))
+#' 
+#' \donttest{
+#' # FULL WORKED EXAMPLE
+#' ## Load climate data
+#' destfile <- tempfile()
+#' data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
+#' download.file(data.url, destfile)
+#' load(destfile, verbose = TRUE)
+#' 
+#' ## Load fitted models
+#' data(mods)
+#' ?mods # see how it is generated
+#' ## Model prediction
 #' preds <- mopaPredict(models = mods, newClim = biostack$future)
 #' 
-#' ## Extract predictions for species phylogeny H11
-#' predsH11 <- extractFromPrediction(predictions = preds, value = "H11")
+#' ## Extract predictions for pseudo-absence realizaion number 1
+#' preds1 <- extractFromPrediction(predictions = preds, value = "PA01")
 #' 
 #' ## Compute niche overlap
-#' no <- nicheOver(predsH11, metric = "D")
+#' no <- nicheOver(preds1, metric = "D")
 #' library(lattice)
 #' levelplot(no, col.regions = rev(terrain.colors(16)))
 #' }
@@ -78,8 +94,8 @@ nicheOver<-function(stack, metric = c("D", "O")){
     #x1<-dp1$x   										# breaks on score gradient
     
     #x2<-dp2$x   										# breaks on score gradient
-    p1s<-(p1/sum(p1))
-    p2s<-(p2/sum(p2))
+    p1s <- (p1/sum(p1))
+    p2s <- (p2/sum(p2))
     #     dp1s<-(dp1$y/sum(dp1$y))
     #     dp2s<-(dp2$y/sum(dp2$y))
     if(metric == "D"){

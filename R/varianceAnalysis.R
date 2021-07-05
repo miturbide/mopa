@@ -25,7 +25,7 @@
 #' variance (V) can be decomposed as the summation of the variance explained by component1 (Vcomp1), 
 #' component2 (Vcomp2) and the combination of the previous two (Vcomp12):
 #' 
-#' \eqn{V = Vcomp1 + Vcomp2 + Vcomp2}.
+#' \eqn{V = Vcomp1 + Vcomp2 + Vcomp12}.
 #' 
 #' Description of the components:
 #' \itemize{
@@ -52,37 +52,26 @@
 #' 
 #' 
 #' @examples
-#' \donttest{
-#' data(Oak_phylo2)
-#' presences <- Oak_phylo2$H11
 #' 
+#' ## Load climate data
 #' destfile <- tempfile()
 #' data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
 #' download.file(data.url, destfile)
 #' load(destfile, verbose = TRUE)
 #' 
-#' projection(biostack$baseline) <- CRS("+proj=longlat +init=epsg:4326")
-#' r <- biostack$baseline[[1]]
+#' ## Fitted models
+#' data(mods)
+#' ?mods
 #' 
-#' ## Background of the whole study area
-#' bg <- backgroundGrid(r)
+#' ## Model prediction and analysis of the variability in projections
+#' newClim <- lapply(1:4, function(x){
+#' crop(biostack$future[[x]], extent(-10, 5, 35, 60))
+#' })
 #' 
-#' ## Considering an unique background extent
-#' RS_random <-pseudoAbsences(xy = presences, background = bg$xy, 
-#'                            realizations = 10,
-#'                            exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
-#' 
-#' fittingRS <- mopaTrain(y = RS_random, x = biostack$baseline, k = 10, 
-#'                        algorithm = "glm", weighting = TRUE)
-#' 
-#' modsRS <- extractFromModel(models = fittingRS, value = "model")
-#' 
-#' # MODEL PREDICTION AND ANALYSIS OF THE VARIABILITY IN PROJECTIONS
-#' prdRS.fut <- mopaPredict(models = modsRS, newClim = biostack$future)
+#' prdRS.fut <- mopaPredict(models = mods, newClim = newClim)
 #' result <- varianceAnalysis(prdRS.fut, "PA", "newClim")
 #' spplot(result$variance, col.regions = rev(get_col_regions()))
-#' }
-#' 
+#' @seealso \code{\link[mopa]{varianceSummary}}
 #' @export
 #' @importFrom stats sd
 

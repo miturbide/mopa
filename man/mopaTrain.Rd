@@ -39,12 +39,12 @@ AUC extent fitting be printed? default is FALSE.}
 \value{
 A list of six components is returned for each species in \code{x}:
 \itemize{
- \item{model }{fitted model using all data for training}
- \item{auc }{AUC statistic in the cross validation}
- \item{kappa }{kappa statistic in the cross validation}
- \item{tss }{true skill statistic in the cross validation }
- \item{fold.models }{fitted models of each data partition for cross validation}
- \item{ObsPred }{cross model prediction (e.g. for further assessment of model accuracy)}
+ \item{\code{$model} }{fitted model using all data for training}
+ \item{\code{$auc} }{AUC statistic in the cross validation}
+ \item{\code{$kappa} }{kappa statistic in the cross validation}
+ \item{\code{$tss} }{true skill statistic in the cross validation }
+ \item{\code{$fold.models} }{fitted models of each data partition for cross validation}
+ \item{\code{$ObsPred} }{cross model prediction (e.g. for further assessment of model accuracy)}
  }
 }
 \description{
@@ -88,17 +88,20 @@ For example, when appying "glm", further arguments from function \code{\link[sta
 passed to \code{mopaTrain} by using \code{algorithm.args}.
 }
 \examples{
-\donttest{
+## Load presence data
 data(Oak_phylo2)
 
+## Load climate data
 destfile <- tempfile()
 data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
 download.file(data.url, destfile)
 load(destfile, verbose = TRUE)
 
+## Spatial reference
 r <- biostack$baseline[[1]]
 ## Create background grid
 bg <- backgroundGrid(r)
+
 ## Generate pseudo-absences
 RS_random <-pseudoAbsences(xy = Oak_phylo2, background = bg$xy, 
                            exclusion.buffer = 0.083*5, prevalence = -0.5, kmeans = FALSE)
@@ -107,7 +110,6 @@ fittedRS <- mopaTrain(y = RS_random, x = biostack$baseline,
                       k = 10, algorithm = "glm", weighting = TRUE)
 ## Extract fitted models
 mods <- extractFromModel(models = fittedRS, value = "model")
-}
 
 }
 \references{

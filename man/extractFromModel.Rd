@@ -14,12 +14,12 @@ extractFromModel(models, value = c("model", "auc", "kappa", "tss",
 }
 \value{
 Depending on the specified value:
- \item{model }{fitted model using all data for training}
- \item{auc }{AUC statistic in the cross validation}
- \item{kappa }{kappa statistic in the cross validation}
- \item{tss }{true skill statistic in the cross validation }
- \item{fold.models }{fitted model with partitioned data}
- \item{ObsPred }{Observed and prediced (cross model prediction) values}
+ \item{"model" }{fitted model using all data for training}
+ \item{"auc" }{AUC statistic in the cross validation}
+ \item{"kappa" }{kappa statistic in the cross validation}
+ \item{"tss" }{true skill statistic in the cross validation }
+ \item{"fold.models" }{fitted model with partitioned data}
+ \item{"ObsPred" }{Observed and prediced (cross model prediction) values}
 }
 \description{
 Extract values returned by function \code{\link[mopa]{mopaTrain}}
@@ -28,15 +28,18 @@ Extract values returned by function \code{\link[mopa]{mopaTrain}}
 \code{ObsPred} allows to calculate further accuracy measures.
 }
 \examples{
-\donttest{
+## Load presence data
 data(Oak_phylo2)
 
+## Load Climate data
 destfile <- tempfile()
 data.url <- "https://raw.githubusercontent.com/SantanderMetGroup/mopa/master/data/biostack.rda"
 download.file(data.url, destfile)
 load(destfile, verbose = TRUE)
 
+## Spatial reference
 r <- biostack$baseline[[1]]
+
 ## Create background grid
 bg <- backgroundGrid(r)
 ## Generate pseudo-absences
@@ -49,7 +52,6 @@ fittedRS <- mopaTrain(y = RS_random, x = biostack$baseline,
 mods <- extractFromModel(models = fittedRS, value = "model")
 ## Extract observed and predicted values
 ObsPred <- extractFromModel(models = fittedRS, value = "ObsPred")
-}
 
 }
 \author{
