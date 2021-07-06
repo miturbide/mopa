@@ -29,8 +29,8 @@ Suggests:
     visualizeR
 Type: Package
 Title: Species Distribution MOdeling with Pseudo-Absences
-Version: 1.0.1
-Date: 2021-07-05
+Version: 1.0.2
+Date: 2021-07-06
 Authors@R: c(person("Maialen", "Iturbide", role = c("aut", "cre"), email = "miturbide@ifca.unican.es"),
               person("Joaquin", "Bedia", role = "ctb"),
               person("SantanderMetGroup", "http://meteo.unican.es", role = "ctb"))
