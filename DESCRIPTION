@@ -6,7 +6,7 @@ Depends:
 Imports:
     splancs,
     spam,
-    spatstat,
+    spatstat (== 1.64-1),
     sampling,
     dismo,
     rpart,
