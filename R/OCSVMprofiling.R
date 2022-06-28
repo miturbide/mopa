@@ -60,9 +60,9 @@
  
 
 OCSVMprofiling<-function(xy, varstack, background = NULL, nu=.5){
-  if (class(xy) != "list")  xy <- list(xy)
+  if (!"list" %in% class(xy))  xy <- list(xy)
   if(is.null(background)) background <- backgroundGrid(varstack[[1]])$xy
-  if (class(background) != "list")  background <- rep(list(background), length(xy))
+  if (!"list" %in% class(background))  background <- rep(list(background), length(xy))
   
   bioclim <-varstack
   absence <- list()    
