@@ -86,9 +86,9 @@
 backgroundRadius <- function(xy, background, start= 0.166, by= 0.083, 
                     unit = c("decimal degrees", "utm")){
   unit <- match.arg(unit, choices = c("decimal degrees", "utm"))
-  if(class(xy) == "matrix") xy <- as.data.frame(xy)
-  if(class(xy) == "data.frame") xy <- list(xy)
-  if(class(background) != "list") background <- rep(list(background),length(xy))
+  if("matrix" %in% class(xy)) xy <- as.data.frame(xy)
+  if("data.frame" %in% class(xy)) xy <- list(xy)
+  if(!"list" %in% class(background)) background <- rep(list(background),length(xy))
   bounding.coords <- boundingCoords(background)
   bg.rad <- function(xy, background, r){
     background[unique(nearest.dist(x = xy, 

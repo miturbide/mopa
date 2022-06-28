@@ -116,7 +116,7 @@ mopaTrain <- function(y,
                       threshold = NULL,
                       diagrams = FALSE,
                       tuneRF.args = NULL){
-  if(class(x) != "list") x <- list(x)
+  if(!"list" %in% class(x)) x <- list(x)
   smfit <- list()
   for(j in 1:length(y)){
     message("[", Sys.time(), "] Modeling species ", j)
