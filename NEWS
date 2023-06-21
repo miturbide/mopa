@@ -3,5 +3,10 @@
 ## v1.0.1 (05 Jul 2021)
  * Update documentation
  
- ## v1.0.2 (06 Jul 2021)
- * Specify the version of the dependency spatstat
+## v1.0.2 (06 Jul 2021)
+* Specify the version of the dependency spatstat
+
+## v1.1.0 (21 Jun 2021)
+ * Updates compatible with R version >= 4
+  
+ 

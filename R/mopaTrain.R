@@ -246,7 +246,7 @@ mopaTrain0 <- function(y,
     for(j in 1:length(sp_01)){
       #print(paste("running model for species", i, "considering pseudo-absences inside the extent of", names (sp_01)[j]))
       sp.bio <- biomat(sp_01[[j]], biostack)
-      x <- mopa:::kfold(k, df = sp.bio)
+      x <- mopa::kfold(k, df = sp.bio)
       xx <- leaveOneOut(x)
       # mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)},
       #                 error = function(err){xxx = list(rep(NA, k), NA, NA)})
@@ -261,7 +261,7 @@ mopaTrain0 <- function(y,
   for (i in 1:length(data)){
     sp_01 <- data[[i]]
     sp.bio <- biomat(sp_01[[ind[i]]], biostack)
-    x <- mopa:::kfold(k, df = sp.bio)
+    x <- mopa::kfold(k, df = sp.bio)
     xx <- leaveOneOut(x)
     # mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)},
     #                 error = function(err){xxx = list(rep(NA, k), NA, NA)})

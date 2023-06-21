@@ -7,7 +7,7 @@
 #' 
 #' 
 #' @author M. Iturbide 
-#' 
+#' @export
 #' 
 #' @keywords internal
 #' 

@@ -49,7 +49,7 @@
 backgroundGrid <- function(raster, spatial.subset = NULL){
   #if(is.na(projection(raster))) stop("raster has no projection arguments. Type ?raster::projection")
   if(is.null(spatial.subset)) spatial.subset <- extent(raster)
-  if(class(spatial.subset) == "Extent"){
+  if("Extent" %in% class(spatial.subset)){
       raster <- crop(raster, spatial.subset)
   }else{
     a <- abind(boundingCoords(spatial.subset), along = 2)

@@ -47,7 +47,7 @@ Description: Tools for transferable species distribution modeling and pseudo-abs
     Pianka (1973) <10.1146/annurev.es.04.110173.000413>.
 BugReports: https://github.com/SantanderMetGroup/mopa/issues
 URL: https://github.com/SantanderMetGroup/mopa/wiki
-License: GPL-3
+License: file LICENSE
 LazyLoad: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.2
 Maintainer: Maialen Iturbide <miturbide@ifca.unican.es> 
