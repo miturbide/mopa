@@ -102,8 +102,8 @@ backgroundGrid <- function(raster, spatial.subset = NULL){
 
 
 boundingCoords<-function(xy){
-  if ("matrix" %in% class(xy)) xy <- as.data.frame(xy)
-  if (class(xy) == "data.frame"){
+  if (is.matrix(xy)) xy <- as.data.frame(xy)
+  if (is.data.frame(xy)){
     pres.list<-list(xy)
   }else{pres.list<-xy}
   box <- numeric()
@@ -165,7 +165,7 @@ boundingCoords<-function(xy){
 #' @importFrom splancs bboxx
 
 delimit <- function(bounding.coords, grid, names = NULL){
-  if (class(bounding.coords) != "list") bounding.coords <- list(bounding.coords)
+  if (!is.list(bounding.coords)) bounding.coords <- list(bounding.coords)
   boundsmat <- lapply(1:length(bounding.coords), function(x){
     matrix(bounding.coords[[x]], ncol = 2, byrow = T)
   })

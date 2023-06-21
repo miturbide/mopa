@@ -64,7 +64,7 @@
 #' @export
 
 mopaPredict <- function(models, newClim){
-  if(!"list" %in% class(newClim)){
+  if(!is.list(newClim)){
     newClim <- list(newClim)
   }
   # ml <- depth(models)-1
@@ -138,7 +138,7 @@ mopaPredict <- function(models, newClim){
 #' 
 
 mopaPredict0 <- function(models, newClim){
-  suppressWarnings(if(!"list" %in% class(models)) models <- list(models))
+  suppressWarnings(if(!is.list(models)) models <- list(models))
   b1 <- cbind(coordinates(newClim), rep(1, nrow(coordinates(newClim))))
   projenviro <- biomat(data = b1, varstack = newClim)[,-1]
   pro <- rep(NA, nrow(projenviro))

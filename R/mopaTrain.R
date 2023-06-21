@@ -116,7 +116,7 @@ mopaTrain <- function(y,
                       threshold = NULL,
                       diagrams = FALSE,
                       tuneRF.args = NULL){
-  if(!"list" %in% class(x)) x <- list(x)
+  if(!is.list(x)) x <- list(x)
   smfit <- list()
   for(j in 1:length(y)){
     message("[", Sys.time(), "] Modeling species ", j)
@@ -125,30 +125,31 @@ mopaTrain <- function(y,
     for(i in 1:length(yy)){
       message(":::[", Sys.time(), "] realization ", i)
       fit <- list()
-        for(h in 1:length(algorithm)){
-          fitbase <- list()
-          nm <- character()
-          for(l in 1:length(x)){
+      for(h in 1:length(algorithm)){
+        message(":::[", Sys.time(), "] applying algorithm ", algorithm[h])
+        fitbase <- list()
+        nm <- character()
+        for(l in 1:length(x)){
           fitbase[[l]] <- mopaTrain0(y = yy[[i]], 
-                              x = x[[l]], 
-                              k = k, 
-                              algorithm = algorithm[h], 
-                              algorithm.args = algorithm.args,
-                              weighting = weighting,
-                              threshold = threshold,
-                              diagrams = diagrams,
-                              tuneRF.args = tuneRF.args,
-                              plotnames = paste0(names(y)[j], " PArealization ", i))
+                                     x = x[[l]], 
+                                     k = k, 
+                                     algorithm = algorithm[h], 
+                                     algorithm.args = algorithm.args,
+                                     weighting = weighting,
+                                     threshold = threshold,
+                                     diagrams = diagrams,
+                                     tuneRF.args = tuneRF.args,
+                                     plotnames = paste0(names(y)[j], " PArealization ", i))
           if(l < 10){
             nm[l] <- paste0("0", l)
           }else{
             nm[l] <- as.character(l)
           }
-          }
-          if(is.null(names(x))) names(x) <- paste0("baseClim", nm)
-          names(fitbase) <- names(x)
-          fit[[h]] <- fitbase
-    }
+        }
+        if(is.null(names(x))) names(x) <- paste0("baseClim", nm)
+        names(fitbase) <- names(x)
+        fit[[h]] <- fitbase
+      }
       names(fit) <- algorithm
       mfit[[i]] <- fit
     }
@@ -219,19 +220,19 @@ mopaTrain <- function(y,
 
 
 mopaTrain0 <- function(y, 
-                        x, 
-                        k = 10, 
-                        algorithm = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"), 
-                        algorithm.args = NULL,
-                        weighting = FALSE,
-                        threshold = NULL,
-                        diagrams = FALSE,
-                        tuneRF.args = NULL,
-                        plotnames = "unnamed"){
+                       x, 
+                       k = 10, 
+                       algorithm = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"), 
+                       algorithm.args = NULL,
+                       weighting = FALSE,
+                       threshold = NULL,
+                       diagrams = FALSE,
+                       tuneRF.args = NULL,
+                       plotnames = "unnamed"){
   algorithm <- match.arg(algorithm, choices = c("glm", "svm", "maxent", "mars", "rf", "cart.rpart", "cart.tree"))
   data <- y
   biostack <- x
-  if (class(data[[1]]) != "list"){
+  if (!is.list(data[[1]])){
     data <- list(data)
     names(data) <- plotnames
   }
@@ -245,7 +246,7 @@ mopaTrain0 <- function(y,
     for(j in 1:length(sp_01)){
       #print(paste("running model for species", i, "considering pseudo-absences inside the extent of", names (sp_01)[j]))
       sp.bio <- biomat(sp_01[[j]], biostack)
-      x <- kfold(k, df = sp.bio)
+      x <- mopa:::kfold(k, df = sp.bio)
       xx <- leaveOneOut(x)
       # mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)},
       #                 error = function(err){xxx = list(rep(NA, k), NA, NA)})
@@ -260,7 +261,7 @@ mopaTrain0 <- function(y,
   for (i in 1:length(data)){
     sp_01 <- data[[i]]
     sp.bio <- biomat(sp_01[[ind[i]]], biostack)
-    x <- kfold(k, df = sp.bio)
+    x <- mopa:::kfold(k, df = sp.bio)
     xx <- leaveOneOut(x)
     # mod <- tryCatch({modelo(kdata = xx, data=sp.bio, algorithm = algorithm, weighting = weighting, threshold = threshold)},
     #                 error = function(err){xxx = list(rep(NA, k), NA, NA)})

@@ -113,13 +113,13 @@
 pseudoAbsences <- function (xy, background, realizations = 1, exclusion.buffer = 0.0166, prevalence = 0.5, 
                             kmeans = FALSE, varstack = NULL){
   
-  if (any(c("data.frame", "matrix") == class(xy))) xy <- list(xy)
-  if (any(c("data.frame", "matrix") %in% class(background))){
+  if (is.data.frame(xy) | is.matrix(xy)) xy <- list(xy)
+  if (is.data.frame(background) | is.matrix(background)){
     background <- rep(list(background), length(xy))
     if(length(xy) > 1) message("The same background will be used for all presence datasets in xy")
   } 
   if(length(xy) != length(background)) stop("xy and background do not have the same length")
-  if(any(c("data.frame", "matrix") %in% class(background[[1]]))){
+  if(is.data.frame(background[[1]]) | is.matrix(background[[1]])){
     background <- lapply(seq(length(background)), function(x){list(background[[x]])})
   }
   spa <- list()
