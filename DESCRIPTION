@@ -1,6 +1,6 @@
 Package: mopa
 Depends:
-    R (>= 3.4.0),
+    R (>= 3.5.0),
     raster,
     sp
 Imports:
@@ -29,8 +29,8 @@ Suggests:
     visualizeR
 Type: Package
 Title: Species Distribution MOdeling with Pseudo-Absences
-Version: 1.0.2
-Date: 2021-07-06
+Version: 1.1.1
+Date: 2023-06-22
 Authors@R: c(person("Maialen", "Iturbide", role = c("aut", "cre"), email = "miturbide@ifca.unican.es"),
               person("Joaquin", "Bedia", role = "ctb"),
               person("SantanderMetGroup", "http://meteo.unican.es", role = "ctb"))
