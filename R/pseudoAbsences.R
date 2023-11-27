@@ -102,7 +102,7 @@
 #' @export
 #' 
 #' @import sp
-#' @importFrom spatstat disc
+#' @importFrom spatstat.geom disc
 #' @importFrom stats kmeans na.omit
 #' @importFrom gtools combinations
 #' 
@@ -178,7 +178,7 @@ pseudoAbsences <- function (xy, background, realizations = 1, exclusion.buffer =
 #' 
 #' @keywords internal
 #' @import sp
-#' @importFrom spatstat disc
+#' @importFrom spatstat.geom disc
 #' @importFrom stats kmeans na.omit
 #' 
 
